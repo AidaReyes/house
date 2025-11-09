@@ -1,40 +1,50 @@
-import React from 'react'
-import { BiHome, BiBookAlt, BiMessage, BiSolidReport, BiTask, BiHelpCircle } from 'react-icons/bi'
-import '../styles/Sidebar.css'
+import React, { useState } from 'react'
+import { NavLink } from 'react-router-dom'
+import { BiMenu, BiHome, BiMessageSquare, BiCheckSquare, BiHelpCircle } from 'react-icons/bi'
+import '../styles/sidebar.css'
 
 const Sidebar = () => {
-    return (
-        <div className='menu'>
-            <div className='logo'>
-                <BiBookAlt className='logo-icon'/>
-                <h2>Menu</h2>
-            </div>
-            <div className="menu--list">
-                <a href="#" className="item">
-                    <BiHome className='icon'/>
-                    Dashboard
-                </a>
-            </div>
-            <div className="menu--list">
-                <a href="#" className="item">
-                    <BiMessage className='icon'/>
-                    Messages
-                </a>
-            </div>
-            <div className="menu--list">
-                <a href="#" className="item">
-                    <BiTask className='icon'/>
-                    Tasks
-                </a>
-            </div>
-            <div className="menu--list">
-                <a href="#" className="item">
-                    <BiHelpCircle className='icon'/>
-                    Help
-                </a>
-            </div>
+  const [collapsed, setCollapsed] = useState(false)
+  return (
+    <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
+      <div className="sidebar-top">
+        <div className="sidebar-logo">
+          <span className="logo-icon"></span>
+          <span className="logo-text">Menu</span>
         </div>
-    )
+
+        <button
+          className="sidebar-toggle"
+          onClick={() => setCollapsed(v => !v)}
+          aria-label="Toggle sidebar"
+        >
+          <BiMenu />
+        </button>
+      </div>
+
+      <nav className="sidebar-nav">
+        <NavLink to="/" end className={({isActive}) => `nav-item ${isActive ? 'active' : ''}`}>
+          <BiHome className="nav-icon" /><span className="nav-text">Dashboard</span>
+        </NavLink>
+
+        <NavLink to="/messages" className={({isActive}) => `nav-item ${isActive ? 'active' : ''}`}>
+          <BiMessageSquare className="nav-icon" /><span className="nav-text">Messages</span>
+        </NavLink>
+
+        <NavLink to="/tasks" className={({isActive}) => `nav-item ${isActive ? 'active' : ''}`}>
+          <BiCheckSquare className="nav-icon" /><span className="nav-text">Tasks</span>
+        </NavLink>
+
+        <NavLink to="/help" className={({isActive}) => `nav-item ${isActive ? 'active' : ''}`}>
+          <BiHelpCircle className="nav-icon" /><span className="nav-text">Help</span>
+        </NavLink>
+      </nav>
+
+      <div className="sidebar-footer">
+        {/* footer / logout */}
+      </div>
+    </aside>
+  )
 }
 
 export default Sidebar

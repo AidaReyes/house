@@ -1,8 +1,9 @@
 .content {
-    width: 75%;
+    width: 100%;
 }
 
 .content--header {
+    background-color: #e1ffee;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -16,6 +17,7 @@
     display: flex;
     align-items: center;
     gap: 20px;
+    padding: 23px 0;
 }
 
 .search-box {
@@ -62,25 +64,146 @@
 }
 
 /* Card Styles */
+
 .card--container {
     display: flex;
-    gap: 20px;
-    align-items: center;
-    margin-top: 2rem;
-}
-.card {
-    flex: 1;
-    background: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 20px;
-    transition: 0.5s ease-in-out;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
 }
 
-.card:hover {
-    transform: scale(1.04);
+.card {
+  display: flex;
+  flex-direction: column; /* imagen arriba, info abajo */
+  align-items: stretch;
+  width: 320px;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  gap: 12px;
+}
+
+.card--left {
+  align-self: center;
+  margin-bottom: 10px;
+}
+
+
+
+.card--image {
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    background: #dff0ff;
+    /* fondo claro del ícono */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #2b6cb0;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.card--right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.card--header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card--title {
+    font-size: 16px;
+    margin: 0;
+    color: #222;
+}
+
+.card--price {
+    background: #ffd6f5;
+    /* bloque rosado pequeño */
+    color: #d9534f;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.card--desc {
+    margin: 0;
+    font-size: 13px;
+    color: #555;
+    min-height: 34px;
+}
+
+.card--info {
+  display: flex;
+  flex-direction: column; /* ahora las filas se apilan */
+  gap: 4px;
+  font-size: 12px;
+  color: #444;
+  word-break: break-word; /* evita que IDs o URLs rompan el diseño */
+}
+
+.card--stock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stock-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.stock-dot.in {
+    background: #2ecc71;
+}
+
+.stock-dot.low {
+    background: #f1c40f;
+}
+
+.stock-dot.out {
+    background: #e74c3c;
+}
+
+
+.card--dates {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+  word-break: break-word;
+}
+
+.card--actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.btn-icon {
+    border: 0;
+    background: transparent;
     cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-icon.edit {
+    color: #2b6cb0;
+}
+
+.btn-icon.del {
+    color: #e74c3c;
 }
