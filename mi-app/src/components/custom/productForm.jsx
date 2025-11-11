@@ -60,24 +60,56 @@ const ProductForm = ({ open = false, productoSeleccionado, onClose, onSaved }) =
       return alert("Nombre y precio son obligatorios");
     }
 
-    const payload = {
-      ...formData,
+    // validación mínima en cliente: comprobar campos que el backend marca como obligatorios
+    // El backend espera: nombre, descripcion, precio, fechacaducidad, fechadecompra, Imagen, stock, provedoor
+    const mappedPayload = {
+      // conservar nombres internos y mapear después
+      nombre: formData.nombre && formData.nombre.trim() ? formData.nombre.trim() : undefined,
+      descripcion: formData.descripcion && formData.descripcion.trim() ? formData.descripcion.trim() : undefined,
+      // números
       precio: formData.precio === "" ? undefined : parseFloat(formData.precio),
       stock: formData.stock === "" ? undefined : parseInt(formData.stock, 10),
+      // fechas: el backend espera campos en minúsculas sin camelCase
+      fechacaducidad: formData.fechaCaducidad || undefined,
+      fechadecompra: formData.fechaCompra || undefined,
+      // imagen y proveedor: mapear a los nombres que el backend valida
+      Imagen: formData.imagen || undefined,
+      provedoor: formData.proveedor || undefined,
     };
+
+    // Validar que no falten campos obligatorios antes de enviar
+    const required = ['nombre','descripcion','precio','fechacaducidad','fechadecompra','Imagen','stock','provedoor'];
+    const missing = required.filter(k => mappedPayload[k] === undefined || mappedPayload[k] === '' || Number.isNaN(mappedPayload[k]));
+    if (missing.length > 0) {
+      alert('Faltan campos obligatorios: ' + missing.join(', '));
+      console.warn('Validación cliente - campos faltantes:', missing, 'payload:', mappedPayload);
+      return;
+    }
+
+    // DEBUG: mostrar payload final que se enviará al backend
+    console.log('Enviando payload producto (mapeado a backend):', mappedPayload);
 
     setLoading(true);
     try {
       if (productoSeleccionado && productoSeleccionado._id) {
-        await productService.update(productoSeleccionado._id, payload);
+        // en actualización enviamos solo los campos mapeados permitidos
+        await productService.update(productoSeleccionado._id, mappedPayload);
       } else {
-        await productService.create(payload);
+        await productService.create(mappedPayload);
       }
       onSaved && onSaved();
       onClose && onClose();
     } catch (err) {
-      console.error(err);
-      alert("Error al guardar");
+      // Mostrar información útil del error devuelto por el servidor (si existe)
+      console.error('Error al guardar producto:', err);
+      if (err.response && err.response.data) {
+        console.error('Respuesta del servidor:', err.response.data);
+        // Si el backend envía { message } o similar, mostrarlo
+        const serverMessage = err.response.data.message || JSON.stringify(err.response.data);
+        alert('Error del servidor: ' + serverMessage);
+      } else {
+        alert('Error al guardar (sin respuesta del servidor). Revisa la consola.');
+      }
     } finally {
       setLoading(false);
     }
