@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { BiMenu, BiHome, BiMessageSquare, BiCheckSquare, BiHelpCircle } from 'react-icons/bi'
-import '../styles/sidebar.css'
+import './sidebar.css'
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false)

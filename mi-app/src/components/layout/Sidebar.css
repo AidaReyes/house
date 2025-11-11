@@ -2,33 +2,30 @@
   --sidebar-width: 240px;
   --sidebar-collapsed: 72px;
   --transition: 260ms cubic-bezier(.2, .9, .2, 1);
-  --bg: #f9f9f7; /* tono hueso */
+  --bg: #f9f9f7;
   --text: #2c2c2c;
   --shadow: rgba(0, 0, 0, 0.08);
-  --glass: rgba(255, 255, 255, 0.65);
 }
 
-/* 🎨 Fondo elegante y neutro */
+/* === CONTENEDOR PRINCIPAL === */
 .sidebar {
   width: var(--sidebar-width);
   min-width: var(--sidebar-width);
   height: 100vh;
-  background: linear-gradient(145deg, #f5f4f0, #eae7df);
+  background: linear-gradient(145deg, #f5f4f0, #ebe8df);
   padding: 1rem 0.8rem;
-  border-radius: 12px;
-  box-sizing: border-box;
+  border-radius: 0 12px 12px 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition: width var(--transition), background var(--transition);
   overflow: hidden;
   font-family: "Poppins", sans-serif;
-  box-shadow: 0 6px 20px var(--shadow);
-  animation: sidebarEnter 0.8s ease forwards;
+  box-shadow: 2px 0 10px var(--shadow);
   backdrop-filter: blur(8px);
 }
 
-/* ✨ Animación de entrada */
+/* === ANIMACIÓN DE ENTRADA === */
 @keyframes sidebarEnter {
   from {
     opacity: 0;
@@ -39,14 +36,17 @@
     transform: translateX(0);
   }
 }
+.sidebar {
+  animation: sidebarEnter 0.6s ease forwards;
+}
 
-/* 🔹 Colapsado */
+/* === COLAPSADO === */
 .sidebar.collapsed {
   width: var(--sidebar-collapsed);
   min-width: var(--sidebar-collapsed);
 }
 
-/* 🔹 Top */
+/* === CABECERA (LOGO Y BOTÓN) === */
 .sidebar-top {
   display: flex;
   align-items: center;
@@ -54,30 +54,6 @@
   margin-bottom: 1rem;
 }
 
-/* 🔘 Botón toggle */
-.sidebar-toggle {
-  background: #ffffff;
-  border: none;
-  font-size: 1.3rem;
-  width: 42px;
-  height: 42px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  cursor: pointer;
-  box-shadow: 0 3px 10px var(--shadow);
-  transition: transform var(--transition), background var(--transition), box-shadow var(--transition);
-}
-
-.sidebar-toggle:hover {
-  background: rgba(200, 185, 150, 0.15);
-}
-.sidebar-toggle:active {
-  transform: scale(0.92);
-}
-
-/* 🔹 Logo */
 .sidebar-logo {
   display: flex;
   align-items: center;
@@ -87,31 +63,87 @@
 }
 
 .logo-icon {
-  font-size: 1.6rem;
-  animation: pulseIcon 2.5s infinite ease-in-out;
-  color: #a67c52; /* dorado suave */
-}
-
-/* Sutil latido */
-@keyframes pulseIcon {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.9;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 1;
-  }
+  width: 28px;
+  height: 28px;
+  background: #a67c52;
+  border-radius: 8px;
 }
 
 .logo-text {
   font-weight: 700;
-  font-size: 1.2rem;
-  letter-spacing: 0.5px;
+  font-size: 1.1rem;
   color: #3b3b3b;
 }
 
-/* 🔹 Colapsado */
+/* === BOTÓN TOGGLE === */
+.sidebar-toggle {
+  background: #ffffff;
+  border: none;
+  font-size: 1.3rem;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 3px 10px var(--shadow);
+  transition: transform var(--transition), background var(--transition);
+}
+
+.sidebar-toggle:hover {
+  background: rgba(200, 185, 150, 0.15);
+}
+.sidebar-toggle:active {
+  transform: scale(0.9);
+}
+
+/* === NAV PRINCIPAL === */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+  padding: 0.5rem 0;
+}
+
+/* === LINK === */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--text);
+  transition: all var(--transition);
+}
+
+.nav-item:hover {
+  background: rgba(190, 175, 140, 0.15);
+  transform: translateX(4px);
+}
+
+/* === ACTIVO === */
+.nav-item.active {
+  background: linear-gradient(90deg, #c7b299, #a67c52);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(166, 124, 82, 0.35);
+}
+
+.nav-item.active .nav-icon {
+  color: #fff;
+}
+
+/* === ICONO === */
+.nav-icon {
+  font-size: 1.3rem;
+  color: #6e6e6e;
+  transition: color var(--transition);
+}
+
+/* === COLAPSADO === */
 .sidebar.collapsed .logo-text,
 .sidebar.collapsed .nav-text {
   opacity: 0;
@@ -120,66 +152,12 @@
   pointer-events: none;
 }
 
-/* 🔹 Navegación */
-.sidebar-nav {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start; 
-  gap: 1rem; 
-  flex: 1;
-  padding: 0.5rem 0 0 0.5rem; 
-}
-
-/* 🔹 Ítems */
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  padding: 0.65rem 0.9rem;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all var(--transition);
-  position: relative;
-  color: var(--text);
-}
-
-.nav-item:hover {
-  background: rgba(190, 175, 140, 0.15);
-  transform: translateX(4px);
-  box-shadow: inset 0 0 0 1px rgba(166, 124, 82, 0.2);
-}
-
-/* 🔹 Activo */
-.nav-item.active {
-  background: linear-gradient(90deg, #c7b299, #a67c52);
-  color: #fff;
-  box-shadow: 0 2px 10px rgba(166, 124, 82, 0.35);
-}
-.nav-item.active .nav-icon {
-  color: #fff;
-}
-
-/* 🔹 Iconos */
-.nav-icon {
-  font-size: 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #6e6e6e;
-}
-
-/* Colapsado: centrar iconos */
 .sidebar.collapsed .nav-item {
   justify-content: center;
-  padding: 0.6rem 0;
-}
-.sidebar.collapsed .nav-text {
-  display: inline-block;
+  padding: 0.7rem 0;
 }
 
-/* 🔹 Footer */
+/* === FOOTER === */
 .sidebar-footer {
   border-top: 1px solid rgba(0, 0, 0, 0.05);
   padding-top: 1rem;
@@ -196,7 +174,7 @@
   background: rgba(185, 28, 28, 0.08);
 }
 
-/* 🔹 Fade */
+/* === ANIMACIONES === */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -208,12 +186,15 @@
   }
 }
 
-/* 🔹 Responsive */
+/* === RESPONSIVE === */
 @media (max-width: 700px) {
   .sidebar {
     position: fixed;
     z-index: 1000;
     height: 100%;
+    left: 0;
+    top: 0;
+    border-radius: 0;
     background: linear-gradient(160deg, #f3f0ea, #e9e5dc);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   }
