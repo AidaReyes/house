@@ -1,5 +1,7 @@
+//POR SI SE PIERDEN, ESTO ES DE EDITAR Y ELIMINAR 
 import React from 'react';
 import { BiEdit, BiTrash } from "react-icons/bi";
+import "../styles/Card.css"
 
 const Card = ({ productos, onEdit, onDelete }) => {
   return (

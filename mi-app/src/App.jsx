@@ -8,12 +8,13 @@ import DashboardPage from './pages/DashboardPage'
 import './styles/sidebar.css'
 import './styles/content.css'
 
-function App(){
+function App() {
   return (
     <BrowserRouter>
-      <div className="dashboard" style={{display:'flex', minHeight:'100vh'}}>
+      <div className="dashboard" style={{ display: 'flex', minHeight: '100vh' }}>
         <Sidebar />
-        <div className="dashboard--content" style={{flex:1}}>
+
+        <div className="dashboard--content" style={{ flex: 1 }}>
           <Routes>
             <Route path="/" element={<DashboardPage />} />
             {/* <Route path="/messages" element={<MessagesPage />} />

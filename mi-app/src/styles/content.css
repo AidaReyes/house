@@ -1,209 +1,126 @@
 .content {
-    width: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
+/* ✨ Encabezado moderno y elegante */
 .content--header {
-    background-color: #e1ffee;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  background: linear-gradient(120deg, #f5f4f0, #eae7df);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 14px;
+  padding: 18px 40px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(8px);
+  transition: background 0.4s ease;
 }
 
+/* 🪶 Título centrado con animación */
 .header--title {
-    color: darkgoldenrod;
+  flex: 1;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: #3b3b3b;
+  animation: bounceFade 3s infinite ease-in-out;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: default;
 }
 
+/* 🎯 Barra de búsqueda elegante */
 .header--activity {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 23px 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 0;
 }
 
 .search-box {
-    background: #ffff;
-    padding: 8px 10px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 40px;
+  padding: 8px 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .search-box input {
-    border: none;
-    outline: none;
-    background: transparent;
-    padding: 5px;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 6px 10px;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  color: #2c2c2c;
+  width: 160px;
 }
 
 .search-box .icon {
-    color: red;
-    font-size: 22px;
-    cursor: pointer;
-    transition: 0.5s ease-in-out;
+  color: #a67c52;
+  font-size: 22px;
 }
 
+/* 🔔 Notificaciones minimalistas */
 .notify {
-    background: rosybrown;
-    padding: 12px;
-    border-radius: 10px;
-    color: aqua;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.5s ease-in-out;
+  background: linear-gradient(135deg, #ede9e3, #e3ded6);
+  padding: 12px;
+  border-radius: 12px;
+  color: #5c5c5c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .notify .icon {
-    font-size: 20px;
-    transition: 0.5s ease-in-out;
+  font-size: 20px;
+  color: #a67c52;
 }
 
-.icon:hover {
-    transform: scale(1.3);
-    cursor: pointer;
+/* 🔹 Animación bounce + fade elegante */
+@keyframes bounceFade {
+  0% {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-6px);
+  }
+  60% {
+    transform: translateY(0);
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
 }
 
-/* Card Styles */
-
-.card--container {
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-    align-items: flex-start;
-}
-
-.card {
-  display: flex;
-  flex-direction: column; /* imagen arriba, info abajo */
-  align-items: stretch;
-  width: 320px;
-  background: #ffffff;
-  border-radius: 10px;
-  padding: 16px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-  gap: 12px;
-}
-
-.card--left {
-  align-self: center;
-  margin-bottom: 10px;
-}
-
-
-
-.card--image {
-    width: 64px;
-    height: 64px;
-    border-radius: 12px;
-    background: #dff0ff;
-    /* fondo claro del ícono */
-    display: flex;
+/* 📱 Responsive */
+@media (max-width: 700px) {
+  .content--header {
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    color: #2b6cb0;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
-}
-.card--right {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+    padding: 16px 24px;
+    gap: 10px;
+  }
 
-.card--header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+  .search-box input {
+    width: 120px;
+  }
 
-.card--title {
-    font-size: 16px;
-    margin: 0;
-    color: #222;
-}
-
-.card--price {
-    background: #ffd6f5;
-    /* bloque rosado pequeño */
-    color: #d9534f;
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 14px;
-}
-
-.card--desc {
-    margin: 0;
-    font-size: 13px;
-    color: #555;
-    min-height: 34px;
-}
-
-.card--info {
-  display: flex;
-  flex-direction: column; /* ahora las filas se apilan */
-  gap: 4px;
-  font-size: 12px;
-  color: #444;
-  word-break: break-word; /* evita que IDs o URLs rompan el diseño */
-}
-
-.card--stock {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.stock-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    display: inline-block;
-}
-
-.stock-dot.in {
-    background: #2ecc71;
-}
-
-.stock-dot.low {
-    background: #f1c40f;
-}
-
-.stock-dot.out {
-    background: #e74c3c;
-}
-
-
-.card--dates {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  text-align: left;
-  word-break: break-word;
-}
-
-.card--actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 6px;
-}
-
-.btn-icon {
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    padding: 6px;
-    border-radius: 6px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.btn-icon.edit {
-    color: #2b6cb0;
-}
-
-.btn-icon.del {
-    color: #e74c3c;
+  .header--title {
+    font-size: 1.4rem;
+  }
 }

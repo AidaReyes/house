@@ -1,5 +1,7 @@
+//FORMULARIO EN SI, DE CREAR
 import { useEffect, useState } from "react";
 import { createProducto, updateProducto } from "../apis/productosApi";
+
 
 const ProductoForm = ({ productoSeleccionado, onClose, onSaved }) => {
   const [formData, setFormData] = useState({
