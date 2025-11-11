@@ -8,8 +8,8 @@ export default function Layout({ children }) {
 
   // Mapear rutas a títulos legibles
   const routeTitleMap = {
-    '/': 'Dashboard',
-    '/messages': 'Messages',
+    '/': 'Main',
+    '/productos': 'Productos',
     '/tasks': 'Tasks',
     '/help': 'Help',
     // añade aquí más rutas según tu AppRouter

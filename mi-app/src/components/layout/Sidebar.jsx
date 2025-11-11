@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { BiMenu, BiHome, BiMessageSquare, BiCheckSquare, BiHelpCircle } from 'react-icons/bi'
+import { BiMenu, BiHome, BiPurchaseTag, BiGroup, BiHelpCircle } from 'react-icons/bi'
 import './sidebar.css'
 
 const Sidebar = () => {
@@ -24,19 +24,15 @@ const Sidebar = () => {
 
       <nav className="sidebar-nav">
         <NavLink to="/" end className={({isActive}) => `nav-item ${isActive ? 'active' : ''}`}>
-          <BiHome className="nav-icon" /><span className="nav-text">Dashboard</span>
+          <BiHome className="nav-icon" /><span className="nav-text">Principal</span>
         </NavLink>
 
-        <NavLink to="/messages" className={({isActive}) => `nav-item ${isActive ? 'active' : ''}`}>
-          <BiMessageSquare className="nav-icon" /><span className="nav-text">Messages</span>
+        <NavLink to="/productos" className={({isActive}) => `nav-item ${isActive ? 'active' : ''}`}>
+          <BiPurchaseTag className="nav-icon" /><span className="nav-text">Productos</span>
         </NavLink>
 
-        <NavLink to="/tasks" className={({isActive}) => `nav-item ${isActive ? 'active' : ''}`}>
-          <BiCheckSquare className="nav-icon" /><span className="nav-text">Tasks</span>
-        </NavLink>
-
-        <NavLink to="/help" className={({isActive}) => `nav-item ${isActive ? 'active' : ''}`}>
-          <BiHelpCircle className="nav-icon" /><span className="nav-text">Help</span>
+        <NavLink to="/proveedores" className={({isActive}) => `nav-item ${isActive ? 'active' : ''}`}>
+          <BiGroup className="nav-icon" /><span className="nav-text">Proveedores</span>
         </NavLink>
       </nav>
 

@@ -1,141 +1,61 @@
 import React, { useEffect, useState } from 'react'
-import Card from '../../components/ui/Card'
-import ProductoForm from '../../components/custom/productForm'
+import { Link } from 'react-router-dom'
 import { productService } from '../../api/services/productService'
-import { BiPlus } from 'react-icons/bi'
-
+import { providerService } from '../../api/services/providerService'
 import './dashboardStyle.css'
 
 const DashboardPage = () => {
-  const [productos, setProductos] = useState([])
+  const [stats, setStats] = useState({ products: 0, providers: 0 })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [mostrandoForm, setMostrandoForm] = useState(false)
-  const [productoSeleccionado, setProductoSeleccionado] = useState(null)
-  const [idAEliminar, setIdAEliminar] = useState(null)
-  const [queryId, setQueryId] = useState('')
-  const [filteredProductos, setFilteredProductos] = useState(null)
-
-  // 🔹 Cargar productos
-  const cargarProductos = async () => {
-    try {
-      const data = await productService.getAll()
-      setProductos(data)
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
-    }
-  }
 
   useEffect(() => {
-    cargarProductos()
+    const load = async () => {
+      setLoading(true)
+      setError(null)
+      try {
+        const [products, providers] = await Promise.all([
+          productService.getAll(),
+          providerService.getAll(),
+        ])
+        setStats({ products: (products || []).length, providers: (providers || []).length })
+      } catch (err) {
+        console.error('Error cargando estadísticas:', err)
+        setError(err.message || 'Error al cargar datos')
+      } finally {
+        setLoading(false)
+      }
+    }
+    load()
   }, [])
-
-  // 🔹 Handlers CRUD
-  const handleNuevo = () => {
-    setProductoSeleccionado(null)
-    setMostrandoForm(true)
-  }
-
-  const handleEditar = (producto) => {
-    setProductoSeleccionado(producto)
-    setMostrandoForm(true)
-  }
-
-  // Buscador por ID (local sobre productos cargados)
-  const handleSearchChange = (e) => {
-    setQueryId(e.target.value)
-    if (!e.target.value) setFilteredProductos(null)
-  }
-
-  const handleSearch = (e) => {
-    e && e.preventDefault()
-    const q = queryId.trim()
-    if (!q) {
-      setFilteredProductos(null)
-      return
-    }
-    const found = productos.filter(p => String(p._id || p.id || '').includes(q))
-    if (found.length === 0) {
-      alert('No se encontró producto con ese id')
-      setFilteredProductos([])
-      return
-    }
-    setFilteredProductos(found)
-  }
-
-  const handleGuardado = () => {
-    cargarProductos()
-    setMostrandoForm(false)
-    setProductoSeleccionado(null)
-  }
-
-  const handleCerrarForm = () => {
-    setMostrandoForm(false)
-    setProductoSeleccionado(null)
-  }
-
-  const handleEliminarClick = (id) => {
-    setIdAEliminar(id)
-  }
-
-  const confirmarEliminar = async () => {
-    try {
-      await productService.delete(idAEliminar) // ✅ usamos el método delete
-      setIdAEliminar(null)
-      cargarProductos()
-    } catch {
-      alert('No se pudo eliminar el producto')
-    }
-  }
-
-  // 🔹 Renderizado condicional
-  if (loading) return <p>Cargando productos...</p>
-  if (error) return <p>Error: {error}</p>
 
   return (
     <div className="dashboard-page">
       <div className="dashboard-actions">
-        <form className="search-form" onSubmit={handleSearch}>
-          <input
-            placeholder="Buscar por id..."
-            value={queryId}
-            onChange={handleSearchChange}
-            className="search-input"
-          />
-          <button type="submit" className="search-btn">Buscar</button>
-          <button type="button" className="search-clear" onClick={() => { setQueryId(''); setFilteredProductos(null); }}>Limpiar</button>
-        </form>
-
-        <button onClick={handleNuevo} className="btn-primary btn-add">
-          <BiPlus style={{ marginRight: 8 }} /> Nuevo producto
-        </button>
+        <h2>Inicio</h2>
       </div>
 
-      <Card
-        productos={filteredProductos ?? productos}
-        onEdit={handleEditar}
-        onDelete={handleEliminarClick}
-      />
+      {loading && <p className="muted">Cargando datos de inicio...</p>}
+      {error && <p className="error">{error}</p>}
 
-      {/* 🔹 Formulario de producto: ProductForm maneja su propio overlay cuando `open` es true */}
-      <ProductoForm
-        open={mostrandoForm}
-        productoSeleccionado={productoSeleccionado}
-        onClose={handleCerrarForm}
-        onSaved={handleGuardado}
-      />
+      {!loading && !error && (
+        <div className="card--container">
+          <div className="stat-card">
+            <div className="stat-title">Productos</div>
+            <div className="stat-value">{stats.products}</div>
+            <Link to="/productos" className="stat-link">Ver productos</Link>
+          </div>
 
-      {/* 🔹 Confirmación de eliminación */}
-      {idAEliminar && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <p>¿Seguro que quieres eliminar este producto?</p>
-            <div className="modal-actions">
-              <button onClick={confirmarEliminar}>Sí, eliminar</button>
-              <button onClick={() => setIdAEliminar(null)}>Cancelar</button>
-            </div>
+          <div className="stat-card">
+            <div className="stat-title">Proveedores</div>
+            <div className="stat-value">{stats.providers}</div>
+            <Link to="/proveedores" className="stat-link">Ver proveedores</Link>
+          </div>
+
+          <div className="stat-card">
+            <div className="stat-title">Bienvenido</div>
+            <div className="stat-value">Panel de inicio</div>
+            <div className="stat-link muted">Resumen rápido</div>
           </div>
         </div>
       )}

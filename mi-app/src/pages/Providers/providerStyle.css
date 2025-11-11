@@ -1,0 +1,72 @@
+/* Simple styles for Providers page */
+.providers-page {
+  padding: 18px;
+}
+
+.providers-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.providers-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.btn-refresh {
+  background: var(--primary, #2b6cb0);
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-refresh:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border-radius: 6px;
+  background: #fff;
+  padding: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.providers-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.providers-table th,
+.providers-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.providers-table thead th {
+  background: #fafafa;
+  font-weight: 600;
+}
+
+.providers-table tbody tr:hover {
+  background: #fafafa;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
+  font-size: 0.85rem;
+  color: #444;
+}
+
+.muted { color: #666; }
+.error { color: #b00020; }
+
+@media (max-width: 600px) {
+  .providers-header { flex-direction: column; align-items: flex-start; gap: 8px }
+}
