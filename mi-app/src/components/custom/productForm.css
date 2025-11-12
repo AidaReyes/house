@@ -52,6 +52,30 @@ label input, label textarea{
   font-size:14px;
 }
 
+/* make select look visually consistent with inputs */
+label select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  padding: 0.58rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  background: linear-gradient(#faf9f8, #faf9f8);
+  font-size: 14px;
+  color: #222;
+  background-image: linear-gradient(45deg, transparent 50%, #666 50%), linear-gradient(135deg, #666 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(1.05rem), calc(100% - 13px) calc(1.05rem);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+label select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(43,108,176,0.08);
+  border-color: #cfd8e3;
+}
+
 /* image preview */
 .pf-preview{ display:flex; justify-content:center; margin:0.4rem 0; }
 .pf-preview img{ width:72px; height:72px; object-fit:cover; border-radius:10px; }
@@ -71,4 +95,90 @@ label input, label textarea{
 @media (max-width: 760px){
   .pf-modal{ width: 92%; padding:1rem; border-radius:12px; }
   .pf-row{ flex-direction:column; }
+}
+/* === DatePicker integrado con el estilo del modal === */
+.custom-date-input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  background: #faf9f8;
+  font-size: 14px;
+  color: #222;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.custom-date-input:hover {
+  background: #f1efed;
+}
+
+.custom-date-input:focus {
+  outline: none;
+  border-color: #b87f5a;
+  box-shadow: 0 0 0 3px rgba(184, 127, 90, 0.12);
+}
+
+/* === Popup del calendario === */
+.react-datepicker {
+  font-family: inherit;
+  background: #fffdfc;
+  border: 1px solid #e8e5e3;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(10, 10, 10, 0.15);
+  overflow: hidden;
+  color: #3a2d25;
+}
+
+/* Encabezado del calendario */
+.react-datepicker__header {
+  background-color: #faf6f3;
+  border-bottom: 1px solid #e8e5e3;
+  padding-top: 0.6rem;
+}
+
+.react-datepicker__current-month {
+  font-weight: 600;
+  color: #3a2d25;
+}
+
+/* Días */
+.react-datepicker__day {
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.react-datepicker__day:hover {
+  background-color: #f3e2d8;
+  color: #3a2d25;
+}
+
+/* Día seleccionado */
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: #b87f5a !important;
+  color: #fff !important;
+  border-radius: 50%;
+}
+
+/* Navegación (flechas) */
+.react-datepicker__navigation-icon::before {
+  border-color: #b87f5a;
+}
+
+/* Días del fin de semana */
+.react-datepicker__day--weekend {
+  color: #9a6d4d;
+}
+
+/* Hover en mes o año (en selector de navegación) */
+.react-datepicker__month-text:hover,
+.react-datepicker__year-text:hover {
+  background-color: #f3e2d8;
+  color: #3a2d25;
+}
+
+/* Input placeholder */
+.custom-date-input::placeholder {
+  color: #8a8a8a;
 }

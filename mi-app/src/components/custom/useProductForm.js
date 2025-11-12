@@ -15,6 +15,7 @@ export function useProductForm({ productoSeleccionado, open, onClose, onSaved, s
     nombre: "",
     descripcion: "",
     precio: "",
+    precioDeCompra: "",
     fechaCaducidad: "",
     fechaCompra: "",
     imagen: "",
@@ -30,18 +31,26 @@ export function useProductForm({ productoSeleccionado, open, onClose, onSaved, s
         nombre: productoSeleccionado.nombre || "",
         descripcion: productoSeleccionado.descripcion || "",
         precio: productoSeleccionado.precio ?? "",
+        precioDeCompra: productoSeleccionado.precioDeCompra ?? productoSeleccionado.precioCompra ?? "",
         // convertir fecha ISO a YYYY-MM-DD para input[type=date]
         fechaCaducidad: toDateInputValue(productoSeleccionado.fechacaducidad || ""),
         fechaCompra: toDateInputValue(productoSeleccionado.fechadecompra || ""),
         imagen: productoSeleccionado.imagen || productoSeleccionado.Imagen || "",
         stock: productoSeleccionado.stock ?? "",
-        proveedor: productoSeleccionado.proveedor || productoSeleccionado.provedoor || "",
+        // productoSeleccionado.proveedor puede ser un string (id) o un objeto anidado { _id, nombre }
+        proveedor: (() => {
+          const p = productoSeleccionado.proveedor ?? productoSeleccionado.provedoor ?? ''
+          if (!p) return ''
+          if (typeof p === 'object') return p._id || p.id || p.nombre || ''
+          return p
+        })(),
       });
     } else {
       setFormData({
         nombre: "",
         descripcion: "",
         precio: "",
+        precioDeCompra: "",
         fechaCaducidad: "",
         fechaCompra: "",
         imagen: "",
@@ -72,6 +81,7 @@ export function useProductForm({ productoSeleccionado, open, onClose, onSaved, s
       nombre: formData.nombre?.trim(),
       descripcion: formData.descripcion?.trim(),
       precio: formData.precio ? parseFloat(formData.precio) : undefined,
+      precioDeCompra: formData.precioDeCompra ? parseFloat(formData.precioDeCompra) : undefined,
       stock: formData.stock ? parseInt(formData.stock, 10) : undefined,
       // convertir YYYY-MM-DD -> ISO antes de enviar
       fechacaducidad: formData.fechaCaducidad ? new Date(formData.fechaCaducidad).toISOString() : undefined,
