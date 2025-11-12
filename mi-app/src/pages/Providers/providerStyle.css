@@ -70,3 +70,15 @@
 @media (max-width: 600px) {
   .providers-header { flex-direction: column; align-items: flex-start; gap: 8px }
 }
+
+/* Form styles inside modal */
+.provider-form .field{ display:flex; flex-direction:column; gap:6px; margin-bottom:10px }
+.provider-form label{ font-size:0.9rem; color:#333 }
+.provider-form input, .provider-form textarea{ padding:8px 10px; border-radius:6px; border:1px solid #e6e6e6 }
+
+.btn { padding:6px 10px; border-radius:6px; border:0; cursor:pointer }
+.btn.small{ padding:6px 8px; font-size:0.9rem }
+.btn.primary{ background: #2b6cb0; color:#fff }
+.btn.ghost{ background:transparent; border:1px solid #ddd }
+.btn.danger{ background:#c53030; color:#fff }
+
