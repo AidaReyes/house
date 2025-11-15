@@ -77,13 +77,15 @@ const ProductForm = ({ open = false, productoSeleccionado, onClose, onSaved }) =
               <input name="precioDeCompra" type="number" step="0.01" value={formData.precioDeCompra} onChange={handleChange} />
             </label>
           </div>
-
-          <label>
-            Descripción
-            <textarea name="descripcion" value={formData.descripcion} onChange={handleChange} rows={3} />
-          </label>
+          <div class="col-md-12">
+            <label>
+              Descripción
+              <textarea name="descripcion" value={formData.descripcion} onChange={handleChange} rows={3} />
+            </label>
+          </div>
 
           <div className="pf-row">
+              <div className="pf-row">
             <label>
               Fecha compra
               <DatePicker
@@ -95,6 +97,8 @@ const ProductForm = ({ open = false, productoSeleccionado, onClose, onSaved }) =
                 placeholderText="Selecciona una fecha"
               />
             </label>
+            </div>
+            <div className="pf-row">
             <label>
               Fecha caducidad
               <DatePicker
@@ -106,6 +110,7 @@ const ProductForm = ({ open = false, productoSeleccionado, onClose, onSaved }) =
                 placeholderText="Selecciona una fecha"
               />
             </label>
+            </div>
           </div>
 
 

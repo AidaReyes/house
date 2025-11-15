@@ -82,3 +82,39 @@
 .btn.ghost{ background:transparent; border:1px solid #ddd }
 .btn.danger{ background:#c53030; color:#fff }
 
+/* Search input styles */
+.provider-search-input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #d0d7de;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.provider-search-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.18);
+  background-color: #f9fbff;
+}
+
+/* Estilo del botón "Limpiar" que está al lado del input */
+.provider-search-input + button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+}
+
+.provider-search-input + button:hover {
+  background: #eef2ff;
+  border-color: #2563eb;
+}
+
+.provider-search-input + button:active {
+  transform: scale(0.97);
+}
