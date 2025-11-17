@@ -1,67 +1,144 @@
-/* Dashboard actions: buscador y botón agregar */
-.dashboard-page{
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
+/* 🌟 CONTENEDOR PRINCIPAL */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 20px;
+  background: #f7f6f4;
 }
 
-.dashboard-actions{
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 1rem;
+/* 🌐 HEADER PRINCIPAL */
+.dashboard-header-box {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  padding: 32px 40px;
+  border-radius: 22px;
+  border: 1px solid rgba(210,210,210,0.55);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.07);
+  animation: fadeIn 0.6s ease;
 }
 
-.search-form{
-	display:flex;
-	gap:0.5rem;
-	align-items:center;
+.dashboard-header-box h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1b1b1b;
 }
 
-.search-input{
-	padding:0.5rem 0.75rem;
-	border-radius:8px;
-	border:1px solid #e6e6e6;
-	background:#faf9f8;
-	min-width:220px;
+.dashboard-header-box p {
+  margin-top: 6px;
+  color: #555;
+  font-size: 1.05rem;
 }
 
-.search-btn{
-	padding:0.5rem 0.75rem;
-	border-radius:8px;
-	border:0;
-	background:#c9b29a;
-	color:#fff;
-	cursor:pointer;
+/* 🔍 Barra de acciones */
+.dashboard__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  padding: 22px 26px;
+
+  border-radius: 20px;
+  border: 1px solid rgba(210,210,210,0.55);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+
+  animation: fadeIn 0.6s ease;
 }
 
-.search-clear{
-	padding:0.45rem 0.6rem;
-	border-radius:8px;
-	border:1px solid #e6e6e6;
-	background:#fff;
-	cursor:pointer;
+.search {
+  display: flex;
+  gap: .7rem;
+  align-items: center;
 }
 
-.btn-primary{
-	background: linear-gradient(90deg,#c7b299,#a67c52);
-	color:#fff;
-	border:0;
-	padding:0.6rem 0.9rem;
-	border-radius:10px;
-	cursor:pointer;
-	font-weight:600;
+.search input {
+  padding: .75rem 1.1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(180,180,180,0.35);
+  min-width: 240px;
+  font-size: .95rem;
+  background: rgba(255,255,255,0.85);
+  transition: box-shadow .25s ease, transform .25s ease;
 }
 
-.btn-add{
-	display:inline-flex;
-	align-items:center;
+.search input:hover,
+.search input:focus {
+  box-shadow: 0 0 14px rgba(0,0,0,0.10);
+  transform: scale(1.02);
+  outline: none;
 }
 
-/* Cards container spacing */
-.card--container{ /* if your Card component uses this class */
-	display:flex;
-	gap:1.5rem;
-	flex-wrap:wrap;
+.search button {
+  padding: .7rem 1rem;
+  border-radius: 14px;
+  border: 0;
+  cursor: pointer;
+  font-weight: 600;
+  background: #f4f4f4;
+  transition: transform .25s ease, box-shadow .25s ease;
+  border: 1px solid rgba(170,170,170,0.35);
 }
 
+.search button:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+}
+
+/* ⭐ Botón primario */
+.btn-primary {
+  background: linear-gradient(120deg, #d9c7b3, #bfa384);
+  color: white;
+  border: 0;
+  padding: .85rem 1.25rem;
+  border-radius: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.12);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.18);
+}
+
+/* ⭐ CARDS DEL LISTADO */
+.card-list-container {
+  background: rgba(255,255,255,0.78);
+  border-radius: 22px;
+  padding: 24px 32px;
+  border: 1px solid rgba(220,220,220,0.55);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  animation: fadeIn 0.7s ease;
+}
+
+/* ✨ Animación */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 📱 Responsive */
+@media(max-width: 900px) {
+  .dashboard__actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.3rem;
+  }
+
+  .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .search input {
+    width: 100%;
+  }
+}

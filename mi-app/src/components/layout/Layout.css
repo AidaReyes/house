@@ -1,58 +1,97 @@
-/* 🌐 Estructura general del layout */
-.app-layout {
-  display: flex;
+.app-frame {
   height: 100vh;
-  background: #f9f8f6;
-  overflow: hidden;
-  font-family: 'Poppins', sans-serif;
+  padding: 14px;
+  box-sizing: border-box;
 }
 
-/* 🧭 Contenedor principal (contenido sin sidebar) */
+/* ✨ Marco general con brillo sutil */
+.app-layout {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 18px;
+  backdrop-filter: blur(6px);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.1);
+
+  transition: all 0.35s ease;
+}
+
+.app-layout:hover {
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.18),
+              inset 0 0 14px rgba(255, 255, 255, 0.05);
+}
+
+/* ----------------------- */
+
 .main-container {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: #faf9f7;
+  background: linear-gradient(135deg, #000000, #111111);
   overflow-y: auto;
   transition: all 0.3s ease;
+  position: relative;
 }
 
-/* 📄 Contenido del dashboard, debajo del header */
+/* ✨ Línea brillante tipo espejo a la derecha */
+.main-container::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.25), transparent);
+}
+
+/* ----------------------- */
+
 .main-content {
   flex: 1;
-  padding: 30px 40px;
+  margin: 10px;
+  padding: 32px 40px;
+  background-color: rgb(247, 246, 246);
+  border: 2px solid rgba(0,0,0,0.75);
+  border-radius: 16px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #b9b6b1 transparent;
+
+  animation: fadeIn 0.45s ease, glossyEnter 0.6s ease forwards;
+  position: relative;
 }
 
-/* 🎨 Scrollbar elegante */
+/* ✨ Brillo superior tipo espejo */
+.main-content::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+  opacity: 0;
+  animation: shineBar 1.2s ease 0.4s forwards;
+}
+
 .main-content::-webkit-scrollbar {
   width: 8px;
 }
 
 .main-content::-webkit-scrollbar-thumb {
-  background-color: #c3bfb8;
+  background-color: #d0ccc5;
   border-radius: 4px;
+  transition: background 0.2s;
 }
 
 .main-content::-webkit-scrollbar-thumb:hover {
-  background-color: #a6a197;
+  background-color: #b8b3a9;
 }
 
-/* 💎 Sombras sutiles entre secciones */
-.main-container::before {
-  content: '';
-  display: block;
-  height: 8px;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.05), transparent);
-}
-
-/* 🧩 Animación de aparición del contenido */
-.main-content {
-  animation: fadeIn 0.4s ease;
-}
-
+/* ✨ Animación fadeIn original */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -64,18 +103,37 @@
   }
 }
 
+/* ✨ Nuevo efecto glossy */
+@keyframes glossyEnter {
+  from {
+    box-shadow: 0 0 0 rgba(255,255,255,0);
+  }
+  to {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15),
+                inset 0 0 14px rgba(255,255,255,0.35);
+  }
+}
+
+/* ✨ Efecto barra de brillo */
+@keyframes shineBar {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 /* 📱 Responsive */
 @media (max-width: 900px) {
   .app-layout {
     flex-direction: column;
+    border-radius: 0;
   }
 
   .main-container {
     width: 100%;
-    padding-top: 60px; /* espacio para header si sidebar se oculta */
+    padding-top: 60px;
   }
 
   .main-content {
+    margin: 14px;
     padding: 20px;
   }
 }

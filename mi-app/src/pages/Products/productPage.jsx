@@ -4,20 +4,23 @@ import ProductoForm from '../../components/custom/productForm'
 import { productService } from '../../api/services/productService'
 import Modal from '../../components/ui/Modal'
 import { BiPlus } from 'react-icons/bi'
-
 import './productStyle.css'
 
 const DashboardPage = () => {
   const [productos, setProductos] = useState([])
+  const [filteredProductos, setFilteredProductos] = useState(null)
+  const [queryId, setQueryId] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+
   const [mostrandoForm, setMostrandoForm] = useState(false)
   const [productoSeleccionado, setProductoSeleccionado] = useState(null)
-  const [idAEliminar, setIdAEliminar] = useState(null)
-  const [queryId, setQueryId] = useState('')
-  const [filteredProductos, setFilteredProductos] = useState(null)
 
-  // 🔹 Cargar productos
+  const [idAEliminar, setIdAEliminar] = useState(null)
+
+  // ---------------------------------------------
+  // Cargar productos
+  // ---------------------------------------------
   const cargarProductos = async () => {
     try {
       const data = await productService.getAll()
@@ -33,37 +36,17 @@ const DashboardPage = () => {
     cargarProductos()
   }, [])
 
-  // 🔹 Handlers CRUD
+  // ---------------------------------------------
+  // CRUD
+  // ---------------------------------------------
   const handleNuevo = () => {
     setProductoSeleccionado(null)
     setMostrandoForm(true)
   }
 
-  const handleEditar = (producto) => {
-    setProductoSeleccionado(producto)
+  const handleEditar = (prod) => {
+    setProductoSeleccionado(prod)
     setMostrandoForm(true)
-  }
-
-  // Buscador por ID (local sobre productos cargados)
-  const handleSearchChange = (e) => {
-    setQueryId(e.target.value)
-    if (!e.target.value) setFilteredProductos(null)
-  }
-
-  const handleSearch = (e) => {
-    e && e.preventDefault()
-    const q = queryId.trim()
-    if (!q) {
-      setFilteredProductos(null)
-      return
-    }
-    const found = productos.filter(p => String(p._id || p.id || '').includes(q))
-    if (found.length === 0) {
-      alert('No se encontró producto con ese id')
-      setFilteredProductos([])
-      return
-    }
-    setFilteredProductos(found)
   }
 
   const handleGuardado = () => {
@@ -77,50 +60,79 @@ const DashboardPage = () => {
     setProductoSeleccionado(null)
   }
 
-  const handleEliminarClick = (id) => {
-    setIdAEliminar(id)
+  // ---------------------------------------------
+  // BUSCADOR
+  // ---------------------------------------------
+  const handleSearchChange = (e) => {
+    setQueryId(e.target.value)
+    if (!e.target.value) setFilteredProductos(null)
   }
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+
+    if (!queryId.trim()) return setFilteredProductos(null)
+
+    const result = productos.filter(p =>
+      String(p._id || p.id)?.includes(queryId.trim())
+    )
+
+    setFilteredProductos(result.length ? result : [])
+  }
+
+  const limpiarBusqueda = () => {
+    setQueryId('')
+    setFilteredProductos(null)
+  }
+
+  // ---------------------------------------------
+  // ELIMINAR
+  // ---------------------------------------------
+  const handleEliminarClick = (id) => setIdAEliminar(id)
 
   const confirmarEliminar = async () => {
     try {
-      await productService.delete(idAEliminar) // ✅ usamos el método delete
-      setIdAEliminar(null)
+      await productService.delete(idAEliminar)
       cargarProductos()
     } catch {
-      alert('No se pudo eliminar el producto')
+      alert("Error al eliminar")
+    } finally {
+      setIdAEliminar(null)
     }
   }
 
-  // 🔹 Renderizado condicional
-  if (loading) return <p>Cargando productos...</p>
+  if (loading) return <p>Cargando productos…</p>
   if (error) return <p>Error: {error}</p>
 
   return (
-    <div className="dashboard-page">
-      <div className="dashboard-actions">
-        <form className="search-form" onSubmit={handleSearch}>
+    <div className="dashboard">
+
+      {/* === Top actions === */}
+      <div className="dashboard__actions">
+
+        <form className="search" onSubmit={handleSearch}>
           <input
-            placeholder="Buscar por id..."
+            placeholder="Buscar por ID"
             value={queryId}
             onChange={handleSearchChange}
-            className="search-input"
           />
-          <button type="submit" className="search-btn">Buscar</button>
-          <button type="button" className="search-clear" onClick={() => { setQueryId(''); setFilteredProductos(null); }}>Limpiar</button>
+          <button type="submit">Buscar</button>
+          <button type="button" onClick={limpiarBusqueda}>Limpiar</button>
         </form>
 
-        <button onClick={handleNuevo} className="btn-primary btn-add">
-          <BiPlus style={{ marginRight: 8 }} /> Nuevo producto
+        <button className="btn-primary" onClick={handleNuevo}>
+          <BiPlus size={20} /> Nuevo producto
         </button>
       </div>
 
+      {/* === Product list === */}
       <Card
         productos={filteredProductos ?? productos}
         onEdit={handleEditar}
         onDelete={handleEliminarClick}
       />
 
-      {/* 🔹 Formulario de producto: ProductForm maneja su propio overlay cuando `open` es true */}
+      {/* === Form === */}
       <ProductoForm
         open={mostrandoForm}
         productoSeleccionado={productoSeleccionado}
@@ -128,18 +140,16 @@ const DashboardPage = () => {
         onSaved={handleGuardado}
       />
 
-      {/* 🔹 Confirmación de eliminación usando Modal reutilizable */}
+      {/* === Modal === */}
       <Modal
         open={!!idAEliminar}
         title="Confirmar eliminación"
         onClose={() => setIdAEliminar(null)}
         onConfirm={confirmarEliminar}
-        confirmText="Sí, eliminar"
-        showCancel={true}
+        confirmText="Eliminar"
+        showCancel
       >
-        <div>
-          <p>¿Seguro que quieres eliminar este producto?</p>
-        </div>
+        <p>¿Seguro que deseas eliminar este producto?</p>
       </Modal>
     </div>
   )

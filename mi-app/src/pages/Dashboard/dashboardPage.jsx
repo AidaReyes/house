@@ -31,12 +31,22 @@ const DashboardPage = () => {
 
   return (
     <div className="dashboard-page">
+
+      <div className="dashboard-header-box">
+        <h1 className="dashboard-header-title">Hi, Welcome to page 404 Not Found</h1>
+        <p className="dashboard-header-sub">System overview</p>
+      </div>
+
       <div className="dashboard-actions">
-        <h2>Inicio</h2>
       </div>
 
       {loading && <p className="muted">Cargando datos de inicio...</p>}
       {error && <p className="error">{error}</p>}
+
+      <div className="welcome-card">
+        <h2 className="welcome-title">¡WELCOME!</h2>
+        <p className="welcome-desc">Quickly view products, suppliers, and quick access options.</p>
+      </div>
 
       {!loading && !error && (
         <div className="card--container">
@@ -52,11 +62,6 @@ const DashboardPage = () => {
             <Link to="/proveedores" className="stat-link">Ver proveedores</Link>
           </div>
 
-          <div className="stat-card">
-            <div className="stat-title">Bienvenido</div>
-            <div className="stat-value">Panel de inicio</div>
-            <div className="stat-link muted">Resumen rápido</div>
-          </div>
         </div>
       )}
     </div>

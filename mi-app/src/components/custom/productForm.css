@@ -1,145 +1,231 @@
-/* Overlay */
+
 .pf-modal-overlay{
   position: fixed;
   inset: 0;
-  background: rgba(16,18,20,0.45);
+  background: rgba(20, 18, 17, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2000;
   padding: 2rem;
+  backdrop-filter: blur(2px);
 }
 
-/* Modal */
 .pf-modal{
-  width: 920px;
+  width: 880px;
   max-width: 100%;
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 20px 50px rgba(10,10,10,0.12);
-  padding: 1.25rem;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 18px 45px rgba(0,0,0,0.12);
+  padding: 1.4rem 1.6rem;
   animation: pfScale .18s ease;
 }
 
-/* header */
 .pf-header{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  margin-bottom:0.5rem;
+  margin-bottom:1rem;
 }
+
 .pf-close{
   background: #fff;
   border: none;
-  font-size: 1.6rem;
-  line-height: 1;
-  width:36px;
-  height:36px;
-  border-radius:8px;
+  font-size: 1.5rem;
+  width:38px;
+  height:38px;
+  border-radius:10px;
   cursor:pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#6b6058;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
 }
 
-/* form layout */
-.pf-form{ display:flex; flex-direction:column; gap:0.9rem; }
-.pf-row{ display:flex; gap:0.8rem; }
-.pf-row label{ flex:1; display:flex; flex-direction:column; gap:0.4rem; }
-label input, label textarea{
-  padding:0.6rem 0.75rem;
-  border-radius:8px;
-  border:1px solid #eee;
-  background:#faf9f8;
+.pf-close:hover{
+  background:#f3efed;
+}
+
+.pf-form{ 
+  display:flex; 
+  flex-direction:column; 
+  gap:1rem; 
+}
+
+.pf-row{ 
+  display:flex; 
+  gap:1rem; 
+  margin-left: 1rem;
+}
+
+.pf-row label{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  font-weight: 500;
+  color:#3a2d25;
+  gap:0.45rem;
+}
+
+/* Inputs / Textareas */
+label input,
+label textarea{
+  padding:0.65rem 0.8rem;
+  border-radius:10px;
+  border:1px solid #e8e5e3;
+  background:#fbfaf8;
   font-size:14px;
+  color:#3a2d25;
+  transition: all 0.18s ease;
 }
 
-/* make select look visually consistent with inputs */
-label select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  width: 100%;
-  padding: 0.58rem 0.9rem;
-  border-radius: 8px;
-  border: 1px solid #eee;
-  background: linear-gradient(#faf9f8, #faf9f8);
-  font-size: 14px;
-  color: #222;
-  background-image: linear-gradient(45deg, transparent 50%, #666 50%), linear-gradient(135deg, #666 50%, transparent 50%);
-  background-position: calc(100% - 18px) calc(1.05rem), calc(100% - 13px) calc(1.05rem);
-  background-size: 6px 6px, 6px 6px;
-  background-repeat: no-repeat;
+label input:focus,
+label textarea:focus{
+  outline:none;
+  border-color:#b87f5a;
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(184,127,90,0.15);
 }
 
-label select:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(43,108,176,0.08);
-  border-color: #cfd8e3;
+/* ===========================================
+   🔳 SELECT (estilo uniforme)
+=========================================== */
+label select{
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  appearance:none;
+  width:100%;
+  padding:0.65rem 0.9rem;
+  border-radius:10px;
+  border:1px solid #e8e5e3;
+  background:#fbfaf8;
+  font-size:14px;
+  color:#3a2d25;
+  transition:.18s ease;
+  background-image:
+      linear-gradient(45deg, transparent 50%, #7a5b44 50%),
+      linear-gradient(135deg, #7a5b44 50%, transparent 50%);
+  background-position:
+      calc(100% - 18px) calc(50% - 3px),
+      calc(100% - 13px) calc(50% - 3px);
+  background-size:6px 6px, 6px 6px;
+  background-repeat:no-repeat;
 }
 
-/* image preview */
-.pf-preview{ display:flex; justify-content:center; margin:0.4rem 0; }
-.pf-preview img{ width:72px; height:72px; object-fit:cover; border-radius:10px; }
+label select:focus{
+  outline:none;
+  background:#fff;
+  border-color:#b87f5a;
+  box-shadow:0 0 0 3px rgba(184,127,90,0.14);
+}
 
-/* actions */
-.pf-actions{ display:flex; justify-content:flex-end; gap:0.6rem; margin-top:0.5rem; }
-.btn{ padding:0.6rem 0.9rem; border-radius:8px; border:0; cursor:pointer; }
-.btn.ghost{ background:#f3f3f3; color:#333; }
-.btn.primary{ background:#b87f5a; color:#fff; box-shadow: 0 6px 18px rgba(184,127,90,0.14); }
+
+.pf-preview{
+  display:flex;
+  justify-content:center;
+  margin:0.5rem 0;
+}
+
+.pf-preview img{
+  width:80px;
+  height:80px;
+  object-fit:cover;
+  border-radius:14px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+.pf-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:0.7rem;
+  margin-top:0.8rem;
+}
+
+.btn{
+  padding:0.7rem 1rem;
+  border-radius:10px;
+  border:0;
+  cursor:pointer;
+  font-weight:500;
+  font-size:14px;
+  transition:all 0.18s ease;
+}
+
+/* Botón cancelar */
+.btn.ghost{
+  background:#f2f1f0;
+  color:#3d332b;
+}
+
+.btn.ghost:hover{
+  background:#e8e5e3;
+}
+
+/* Botón guardar */
+.btn.primary{
+  background:#b87f5a;
+  color:#fff;
+  box-shadow:0 6px 20px rgba(184,127,90,0.22);
+}
+
+.btn.primary:hover{
+  background:#a57150;
+}
+
 
 @keyframes pfScale{
-  from{ transform: translateY(8px) scale(.995); opacity:0 }
+  from{ transform: translateY(8px) scale(.97); opacity:0 }
   to{ transform: translateY(0) scale(1); opacity:1 }
 }
 
-/* Responsive */
-@media (max-width: 760px){
-  .pf-modal{ width: 92%; padding:1rem; border-radius:12px; }
+
+@media (max-width:760px){
+  .pf-modal{ width:92%; padding:1.1rem; }
   .pf-row{ flex-direction:column; }
 }
-/* === DatePicker integrado con el estilo del modal === */
+
 .custom-date-input {
   width: 100%;
-  padding: 0.6rem 0.75rem;
-  border-radius: 8px;
-  border: 1px solid #eee;
-  background: #faf9f8;
+  padding: 0.65rem 0.8rem;
+  border-radius: 10px;
+  border: 1px solid #e8e5e3;
+  background: #fbfaf8;
   font-size: 14px;
-  color: #222;
+  color: #3a2d25;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.18s ease;
 }
 
 .custom-date-input:hover {
-  background: #f1efed;
+  background: #f3efed;
 }
 
 .custom-date-input:focus {
   outline: none;
   border-color: #b87f5a;
-  box-shadow: 0 0 0 3px rgba(184, 127, 90, 0.12);
+  box-shadow: 0 0 0 3px rgba(184,127,90,0.15);
 }
 
-/* === Popup del calendario === */
+/* Calendario */
 .react-datepicker {
   font-family: inherit;
-  background: #fffdfc;
+  background: #ffffff;
   border: 1px solid #e8e5e3;
-  border-radius: 12px;
-  box-shadow: 0 10px 28px rgba(10, 10, 10, 0.15);
+  border-radius: 14px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
   overflow: hidden;
   color: #3a2d25;
 }
 
-/* Encabezado del calendario */
 .react-datepicker__header {
   background-color: #faf6f3;
   border-bottom: 1px solid #e8e5e3;
-  padding-top: 0.6rem;
 }
 
 .react-datepicker__current-month {
   font-weight: 600;
-  color: #3a2d25;
 }
 
 /* Días */
@@ -150,35 +236,11 @@ label select:focus {
 
 .react-datepicker__day:hover {
   background-color: #f3e2d8;
-  color: #3a2d25;
 }
 
-/* Día seleccionado */
+/* Seleccionado */
 .react-datepicker__day--selected,
 .react-datepicker__day--keyboard-selected {
   background-color: #b87f5a !important;
   color: #fff !important;
-  border-radius: 50%;
-}
-
-/* Navegación (flechas) */
-.react-datepicker__navigation-icon::before {
-  border-color: #b87f5a;
-}
-
-/* Días del fin de semana */
-.react-datepicker__day--weekend {
-  color: #9a6d4d;
-}
-
-/* Hover en mes o año (en selector de navegación) */
-.react-datepicker__month-text:hover,
-.react-datepicker__year-text:hover {
-  background-color: #f3e2d8;
-  color: #3a2d25;
-}
-
-/* Input placeholder */
-.custom-date-input::placeholder {
-  color: #8a8a8a;
 }
