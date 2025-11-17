@@ -1,7 +1,7 @@
 // src/components/custom/ProductForm.jsx
 import React, { useState, useEffect } from 'react';
 import './productForm.css';
-import { useProductForm } from './useProductForm';
+import { useProductForm } from '../../hook/useProductForm';
 import Modal from '../ui/Modal';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";

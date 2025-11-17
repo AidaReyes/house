@@ -21,6 +21,19 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
   if (!Array.isArray(productos) || productos.length === 0) {
     return <p style={{ textAlign: "center", marginTop: "20px" }}>No hay productos disponibles</p>;
   }
+  const formatDate = (date) => {
+    if (!date) return "";
+    const d = new Date(date);
+    if (isNaN(d)) return date; // si no es fecha válida, deja el texto original
+
+    return d.toLocaleDateString("es-MX", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
+
+
 
   return (
     <>
@@ -59,8 +72,8 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
 
                 <div className="card--info">
                   <span>{stock} en stock</span>
-                  {fechaCompra && <div><strong>Compra:</strong> {fechaCompra}</div>}
-                  {fechaCaducidad && <div><strong>Caduca:</strong> {fechaCaducidad}</div>}
+                  {fechaCompra && <div><strong>Compra:</strong> {formatDate(fechaCompra)}</div>}
+                  {fechaCaducidad && <div><strong>Caduca:</strong> {formatDate(fechaCaducidad)}</div>}
                   {precioCompra != null && (
                     <div><strong>Precio compra:</strong> ${Number(precioCompra).toFixed(2)}</div>
                   )}
