@@ -4,13 +4,14 @@ import ProductoForm from '../../components/custom/productForm'
 import { productService } from '../../api/services/productService'
 import Modal from '../../components/ui/Modal'
 import { BiPlus } from 'react-icons/bi'
-
 import './productStyle.css'
+
+import { useSearch } from "../../hook/useSearch";
 
 const DashboardPage = () => {
   const [productos, setProductos] = useState([])
   const [filteredProductos, setFilteredProductos] = useState(null)
-  const [queryId, setQueryId] = useState('')
+  // const [queryId, setQueryId] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -18,10 +19,33 @@ const DashboardPage = () => {
   const [productoSeleccionado, setProductoSeleccionado] = useState(null)
 
   const [idAEliminar, setIdAEliminar] = useState(null)
-  const [queryId, setQueryId] = useState('')
-  const [filteredProductos, setFilteredProductos] = useState(null)
 
-  // 🔹 Cargar productos
+  //  Hook de búsqueda reutilizable (id + nombre + descripción)
+  const {
+    query: queryId,
+    filteredItems: productosFiltrados,
+    onChange: onSearchChange,
+    clear: clearSearch,
+  } = useSearch(productos, (p, q) => {
+    const query = q.toLowerCase();
+
+    const id = String(p._id ?? p.id ?? "").toLowerCase();
+    const nombre = String(p.nombre ?? p.name ?? "").toLowerCase();
+    const descripcion = String(p.descripcion ?? p.description ?? "").toLowerCase();
+
+    // Busca por ID O por nombre O por descripción
+    return (
+      id.includes(query) ||
+      nombre.includes(query) ||
+      descripcion.includes(query)
+    );
+  });
+  //fin de hook useSearch
+
+
+  // ---------------------------------------------
+  // Cargar productos
+  // ---------------------------------------------
   const cargarProductos = async () => {
     try {
       const data = await productService.getAll()
@@ -106,26 +130,37 @@ const DashboardPage = () => {
   if (error) return <p>Error: {error}</p>
 
   return (
-    <div className="dashboard-page">
-      <div className="dashboard-actions">
-        <form className="search-form" onSubmit={handleSearch}>
+    <div className="dashboard">
+
+      {/* === Top actions === */}
+      <div className="dashboard__actions">
+
+        <form
+          className="search"
+          onSubmit={(e) => e.preventDefault()} // búsqueda en tiempo real
+        >
           <input
-            placeholder="Buscar por ID"
+            placeholder="Buscar productos..."
             value={queryId}
-            onChange={handleSearchChange}
+            onChange={onSearchChange}
+            className="search-input"
           />
-          <button type="submit">Buscar</button>
-          <button type="button" onClick={limpiarBusqueda}>Limpiar</button>
+          <button
+            type="button"
+            className="search-clear"
+            onClick={clearSearch}
+          >
+            Limpiar
+          </button>
         </form>
 
         <button className="btn-primary" onClick={handleNuevo}>
           <BiPlus size={20} /> Nuevo producto
         </button>
-      </div>*/}
+      </div>
 
       {/* === Product list === */}
       <Card
-    //     productos={filteredProductos ?? productos}
         productos={productosFiltrados}
         onEdit={handleEditar}
         onDelete={handleEliminarClick}
