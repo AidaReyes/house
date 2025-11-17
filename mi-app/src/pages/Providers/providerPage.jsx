@@ -1,7 +1,9 @@
+// src/pages/ProvidersPage.jsx (o la ruta que tengas)
 import React, { useEffect, useState } from 'react'
 import { providerService } from '../../api/services/providerService'
 import Modal from '../../components/ui/Modal'
 import './providerStyle.css'
+import { useSearch } from '../../hook/useSearch'
 
 const ProvidersPage = () => {
   const [proveedores, setProveedores] = useState([])
@@ -14,6 +16,28 @@ const ProvidersPage = () => {
   const [formError, setFormError] = useState(null)
   const [editing, setEditing] = useState(null) // proveedor being edited or null
   const [formData, setFormData] = useState({ nombre: '', descripcion: '' })
+
+  // Hook de búsqueda reutilizable (id + nombre + descripción)
+  const {
+    query,
+    filteredItems: proveedoresFiltrados,
+    onChange: onSearchChange,
+    clear: clearSearch,
+  } = useSearch(proveedores, (p, q) => {
+    const queryLower = q.toLowerCase()
+
+    const id = String(p._id ?? p.id ?? '').toLowerCase()
+    const nombre = String(p.nombre ?? p.name ?? '').toLowerCase()
+    const descripcion = String(p.descripcion ?? p.description ?? '').toLowerCase()
+
+    // Busca por ID O por nombre O por descripción
+    return (
+      id.includes(queryLower) ||
+      nombre.includes(queryLower) ||
+      descripcion.includes(queryLower)
+    )
+  })
+  // fin useSearch
 
   // Delete confirmation
   const [deleteId, setDeleteId] = useState(null)
@@ -67,9 +91,15 @@ const ProvidersPage = () => {
     setFormLoading(true)
     try {
       if (editing?._id) {
-        await providerService.update(editing._id, { nombre: formData.nombre.trim(), descripcion: formData.descripcion.trim() })
+        await providerService.update(editing._id, {
+          nombre: formData.nombre.trim(),
+          descripcion: formData.descripcion.trim(),
+        })
       } else {
-        await providerService.create({ nombre: formData.nombre.trim(), descripcion: formData.descripcion.trim() })
+        await providerService.create({
+          nombre: formData.nombre.trim(),
+          descripcion: formData.descripcion.trim(),
+        })
       }
       setShowForm(false)
       cargarProveedores()
@@ -99,6 +129,21 @@ const ProvidersPage = () => {
 
   return (
     <div className="providers-page">
+      {/* Buscador */}
+      <div style={{ margin: '12px 0', display: 'flex', gap: 8 }}>
+        <input
+        
+          type="text"
+          placeholder="Buscar proveedor..."
+          value={query}
+          onChange={onSearchChange}
+          className="provider-search-input"
+        />
+        <button type="button" onClick={clearSearch}>
+          Limpiar
+        </button>
+      </div>
+
       <div className="providers-header">
         <h2>Proveedores</h2>
         <div style={{ display: 'flex', gap: 8 }}>
@@ -114,8 +159,8 @@ const ProvidersPage = () => {
 
       {!loading && !error && (
         <div className="table-wrap">
-          {proveedores.length === 0 ? (
-            <p className="muted">No hay proveedores registrados.</p>
+          {proveedoresFiltrados.length === 0 ? (
+            <p className="muted">No hay proveedores que coincidan con la búsqueda.</p>
           ) : (
             <table className="providers-table">
               <thead>
@@ -127,14 +172,20 @@ const ProvidersPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {proveedores.map((p) => (
+                {proveedoresFiltrados.map((p) => (
                   <tr key={p._id || p.id}>
                     <td className="mono">{p._id || p.id}</td>
                     <td>{p.nombre}</td>
                     <td>{p.descripcion}</td>
                     <td>
                       <button className="btn small" onClick={() => handleEditar(p)}>Editar</button>
-                      <button className="btn danger small" onClick={() => handleDeleteClick(p._id || p.id)} style={{ marginLeft: 8 }}>Eliminar</button>
+                      <button
+                        className="btn danger small"
+                        onClick={() => handleDeleteClick(p._id || p.id)}
+                        style={{ marginLeft: 8 }}
+                      >
+                        Eliminar
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -145,7 +196,14 @@ const ProvidersPage = () => {
       )}
 
       {/* Form modal for create/edit */}
-      <Modal open={showForm} title={editing ? 'Editar proveedor' : 'Crear proveedor'} onClose={() => setShowForm(false)} showCancel={true} onConfirm={handleFormSubmit} confirmText={formLoading ? 'Guardando...' : 'Guardar'}>
+      <Modal
+        open={showForm}
+        title={editing ? 'Editar proveedor' : 'Crear proveedor'}
+        onClose={() => setShowForm(false)}
+        showCancel={true}
+        onConfirm={handleFormSubmit}
+        confirmText={formLoading ? 'Guardando...' : 'Guardar'}
+      >
         <div className="provider-form">
           {formError && <p className="error">{formError}</p>}
           <div className="field">
@@ -154,13 +212,25 @@ const ProvidersPage = () => {
           </div>
           <div className="field">
             <label>Descripción</label>
-            <textarea name="descripcion" value={formData.descripcion} onChange={handleFormChange} rows={3} />
+            <textarea
+              name="descripcion"
+              value={formData.descripcion}
+              onChange={handleFormChange}
+              rows={3}
+            />
           </div>
         </div>
       </Modal>
 
       {/* Delete confirmation modal */}
-      <Modal open={!!deleteId} title="Confirmar eliminación" onClose={() => setDeleteId(null)} onConfirm={confirmDelete} confirmText="Sí, eliminar" showCancel={true}>
+      <Modal
+        open={!!deleteId}
+        title="Confirmar eliminación"
+        onClose={() => setDeleteId(null)}
+        onConfirm={confirmDelete}
+        confirmText="Sí, eliminar"
+        showCancel={true}
+      >
         <div>
           <p>¿Seguro que quieres eliminar este proveedor?</p>
         </div>

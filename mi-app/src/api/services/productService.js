@@ -10,7 +10,7 @@ export const productService = {
 
   // Crear nuevo producto
   async create(producto) {
-    const { data } = await api.post('/productos', producto);
+    const { data } = await api.post('/productos/guardarRegistro', producto);
     return data;
   },
 

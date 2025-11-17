@@ -4,6 +4,7 @@ import ProductoForm from '../../components/custom/productForm'
 import { productService } from '../../api/services/productService'
 import Modal from '../../components/ui/Modal'
 import { BiPlus } from 'react-icons/bi'
+
 import './productStyle.css'
 
 const DashboardPage = () => {
@@ -17,10 +18,10 @@ const DashboardPage = () => {
   const [productoSeleccionado, setProductoSeleccionado] = useState(null)
 
   const [idAEliminar, setIdAEliminar] = useState(null)
+  const [queryId, setQueryId] = useState('')
+  const [filteredProductos, setFilteredProductos] = useState(null)
 
-  // ---------------------------------------------
-  // Cargar productos
-  // ---------------------------------------------
+  // 🔹 Cargar productos
   const cargarProductos = async () => {
     try {
       const data = await productService.getAll()
@@ -105,12 +106,9 @@ const DashboardPage = () => {
   if (error) return <p>Error: {error}</p>
 
   return (
-    <div className="dashboard">
-
-      {/* === Top actions === */}
-      <div className="dashboard__actions">
-
-        <form className="search" onSubmit={handleSearch}>
+    <div className="dashboard-page">
+      <div className="dashboard-actions">
+        <form className="search-form" onSubmit={handleSearch}>
           <input
             placeholder="Buscar por ID"
             value={queryId}
@@ -123,11 +121,12 @@ const DashboardPage = () => {
         <button className="btn-primary" onClick={handleNuevo}>
           <BiPlus size={20} /> Nuevo producto
         </button>
-      </div>
+      </div>*/}
 
       {/* === Product list === */}
       <Card
-        productos={filteredProductos ?? productos}
+    //     productos={filteredProductos ?? productos}
+        productos={productosFiltrados}
         onEdit={handleEditar}
         onDelete={handleEliminarClick}
       />
