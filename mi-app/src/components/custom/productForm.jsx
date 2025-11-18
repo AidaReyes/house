@@ -52,6 +52,14 @@ const ProductForm = ({ open = false, productoSeleccionado, onClose, onSaved }) =
     }
   }, [productoSeleccionado, providers])
 
+  // When this modal is open, prevent background (body) from scrolling on mobile
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; }
+  }, [open])
+
   if (!open) return null;
 
   return (
@@ -77,7 +85,7 @@ const ProductForm = ({ open = false, productoSeleccionado, onClose, onSaved }) =
               <input name="precioDeCompra" type="number" step="0.01" value={formData.precioDeCompra} onChange={handleChange} />
             </label>
           </div>
-          <div class="col-md-12">
+          <div className="col-md-12">
             <label>
               Descripción
               <textarea name="descripcion" value={formData.descripcion} onChange={handleChange} rows={3} />

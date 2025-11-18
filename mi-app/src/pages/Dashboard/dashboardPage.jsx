@@ -33,8 +33,8 @@ const DashboardPage = () => {
     <div className="dashboard-page">
 
       <div className="dashboard-header-box">
-        <h1 className="dashboard-header-title">Hi, Welcome to page 404 Not Found</h1>
-        <p className="dashboard-header-sub">System overview</p>
+        <h1 className="dashboard-header-title">Hola, bienvenido a la pagina 404 NOT FOUND</h1>
+        <p className="dashboard-header-sub">Resumen del sistema</p>
       </div>
 
       <div className="dashboard-actions">
@@ -44,8 +44,8 @@ const DashboardPage = () => {
       {error && <p className="error">{error}</p>}
 
       <div className="welcome-card">
-        <h2 className="welcome-title">¡WELCOME!</h2>
-        <p className="welcome-desc">Quickly view products, suppliers, and quick access options.</p>
+        <h2 className="welcome-title">¡BIENVENIDO!</h2>
+        <p className="welcome-desc">Visualiza rápidamente productos, proveedores y opciones de acceso rápido.</p>
       </div>
 
       {!loading && !error && (

@@ -1,20 +1,16 @@
+/*::::Componente principal del layout::::*/
 .app-frame {
   height: 100vh;
   box-sizing: border-box;
 }
 
-/* ✨ Marco general con brillo sutil */
+/*::::Contenedor de sidebar y contenido principal::::*/
 .app-layout {
   display: flex;
   height: 100%;
   overflow: hidden;
   font-family: 'Poppins', sans-serif;
-  /* border: 2px solid rgba(255, 255, 255, 0.2); */
-  /* border-radius: 18px; */
-  /* backdrop-filter: blur(6px); */
   background: rgba(255, 255, 255, 0.05);
-  /* box-shadow: 0 0 18px rgba(255, 255, 255, 0.1); */
-  /* transition: all 0.35s ease; */
 }
 
 .app-layout:hover {
@@ -22,8 +18,7 @@
     inset 0 0 14px rgba(255, 255, 255, 0.05);
 }
 
-/* ----------------------- */
-
+/*::::Contenedor del contenido principal::::*/
 .main-container {
   flex: 1;
   display: flex;
@@ -34,7 +29,6 @@
   position: relative;
 }
 
-/* ✨ Línea brillante tipo espejo a la derecha */
 .main-container::before {
   content: "";
   position: absolute;
@@ -45,8 +39,7 @@
   background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.25), transparent);
 }
 
-/* ----------------------- */
-
+/*::::Contenido principal::::*/
 .main-content {
   flex: 1;
   margin: 10px;
@@ -57,12 +50,10 @@
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #b9b6b1 transparent;
-
   animation: fadeIn 0.45s ease, glossyEnter 0.6s ease forwards;
   position: relative;
 }
 
-/* ✨ Brillo superior tipo espejo */
 .main-content::before {
   content: "";
   position: absolute;
@@ -89,7 +80,6 @@
   background-color: #b8b3a9;
 }
 
-/* ✨ Animación fadeIn original */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -102,7 +92,6 @@
   }
 }
 
-/* ✨ Nuevo efecto glossy */
 @keyframes glossyEnter {
   from {
     box-shadow: 0 0 0 rgba(255, 255, 255, 0);
@@ -114,7 +103,6 @@
   }
 }
 
-/* ✨ Efecto barra de brillo */
 @keyframes shineBar {
   0% {
     opacity: 0;
@@ -125,20 +113,18 @@
   }
 }
 
-/* 📱 Responsive */
 @media (max-width: 900px) {
   .app-layout {
-    flex-direction: column;
     border-radius: 0;
   }
 
   .main-container {
     width: 100%;
-    padding-top: 60px;
+    padding-top: 0;
   }
 
   .main-content {
-    margin: 14px;
-    padding: 20px;
+    margin: 10px;
+    padding: 18px 20px;
   }
 }

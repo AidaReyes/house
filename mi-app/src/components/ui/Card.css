@@ -25,7 +25,8 @@
   position: relative; /* NECESARIO para que el menú se quede dentro */
 
 
-  /* 🤝 MISMA ALTURA EXACTA */
+  /* altura automática para ser responsiva; usar min-height en lugar de fixed height */
+  min-height: 420px;
   height: 420px;
 }
 .card:hover {
@@ -38,18 +39,20 @@
 /* ===== IMAGEN ===== */
 .card--image {
   width: 100%;
-  height: 170px;
+  height: 180px;
   background: linear-gradient(to bottom, #fafafa, #f1f1f1);
   border-bottom: 1px solid #e8e8e8;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .card--image img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover; /* cover asegura mejor llenado responsivo */
+  display: block;
 }
 
 .placeholder-icon {
@@ -63,7 +66,40 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  flex: 1;
+  flex: 1 1 auto;
+  overflow: auto; /* permite scroll interno si el contenido excede la altura fija */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 700px) {
+  .card--container {
+    grid-template-columns: 1fr; /* una tarjeta por fila */
+    padding: 12px;
+    gap: 16px;
+  }
+
+    .card {
+      min-height: 320px;
+      height: auto; /* permitir altura natural en móviles */
+    }
+
+  .card--image {
+    height: 140px;
+  }
+
+  .card--right {
+    padding: 12px;
+  }
+
+  .card--header h3 { font-size: 0.98rem; }
+  .card--header div { font-size: 0.8rem; padding: 4px 10px; }
+  .card--right p { font-size: 0.9rem; }
+}
+
+@media (max-width: 420px) {
+  .card--image { height: 120px; }
+  .card--right p { font-size: 0.85rem; }
 }
 
 .card--header {

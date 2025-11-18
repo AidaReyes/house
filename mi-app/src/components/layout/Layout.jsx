@@ -8,8 +8,7 @@ export default function Layout({ children }) {
   const routeTitleMap = {
     '/': 'Main',
     '/productos': 'Productos',
-    '/tasks': 'Tasks',
-    '/help': 'Help',
+    '/proveedores': 'Proveedores',
   }
 
   const title = routeTitleMap[location.pathname] || 'App'
@@ -18,7 +17,6 @@ export default function Layout({ children }) {
     <div className="app-frame">  
       <div className="app-layout">
         <Sidebar />
-
         <div className="main-container">
           <main className="main-content">{children}</main>
         </div>

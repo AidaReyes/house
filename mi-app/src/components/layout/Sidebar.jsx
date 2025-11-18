@@ -5,7 +5,8 @@ import logo from '../../assets/logo404.png'
 import './sidebar.css'
 
 const Sidebar = () => {
-  const [collapsed, setCollapsed] = useState(false)
+  // por defecto en pantallas pequeñas mantener colapsado
+  const [collapsed, setCollapsed] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 900 ? true : false)
 
   return (
     <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`}>

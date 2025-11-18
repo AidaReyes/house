@@ -186,3 +186,105 @@
   justify-content: center;
   padding: 0.75rem 0;
 }
+
+/* MODO MÓVIL: que el sidebar sea overlay y por defecto pequeño (solo el ícono) */
+@media (max-width: 900px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 2200;
+    /* por defecto en móvil mostrará el ancho colapsado */
+    width: var(--sidebar-collapsed);
+    min-width: var(--sidebar-collapsed);
+    border-radius: 0 12px 12px 0;
+    box-shadow: none;
+    padding: 0.6rem 0.5rem;
+    transition: width var(--transition), box-shadow 260ms ease;
+    backdrop-filter: blur(6px) brightness(1.12);
+  }
+
+  /* cuando no tiene la clase .collapsed se considera expandido → overlay ancho */
+  .sidebar:not(.collapsed) {
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    box-shadow: 8px 0 30px rgba(0,0,0,0.6);
+  }
+
+  /* ocultar el toggle adicional en móvil si quería un comportamiento distinto */
+  .sidebar .sidebar-toggle { display: block; }
+
+  /* Asegurarse que los textos estén ocultos cuando está colapsado */
+  .sidebar.collapsed .nav-text { display: none; }
+
+  /* El contenido no debe reacomodarse en columna; se deja en background */
+  .app-layout { /* no cambiar flex-direction */ }
+}
+
+/* En móvil, cuando está colapsado escondemos el sidebar fuera de la pantalla
+   y fijamos el botón toggle para que flote en la esquina (solo se vea el botón). */
+@media (max-width: 900px) {
+  /* Mantener el sidebar en el borde pero reducido; no sacarlo del DOM. */
+  .sidebar.collapsed {
+    left: 0;
+    width: var(--sidebar-collapsed) !important;
+    min-width: var(--sidebar-collapsed) !important;
+    padding: 6px 6px !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    overflow: visible;
+    /* quitar filtros y efectos detrás para evitar barras borrosas */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Mostrar únicamente el botón toggle como flotante y claramente visible */
+  .sidebar.collapsed .sidebar-toggle {
+    position: fixed !important;
+    left: 12px;
+    top: 12px;
+    z-index: 3000;
+    width: 52px;
+    height: 52px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    /* Botón opaco y con contraste fuerte para que no se vea lo de atrás */
+    background: #0b0b0b !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255,255,255,0.06) !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6) !important;
+    border-radius: 12px !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Asegurar que el resto de elementos dentro del sidebar no sean interactivos/visibles */
+  .sidebar.collapsed .sidebar-header,
+  .sidebar.collapsed .sidebar-nav,
+  .sidebar.collapsed .logo-icon {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
+/* Cuando esté colapsado en móvil, ocultar logo y navegación (dejando solo el toggle) */
+@media (max-width: 900px) {
+  .sidebar.collapsed .sidebar-header,
+  .sidebar.collapsed .sidebar-nav {
+    display: none;
+  }
+
+  .sidebar.collapsed {
+    padding: 6px 6px;
+  }
+
+  .sidebar.collapsed .sidebar-toggle-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 6px;
+  }
+
+  .sidebar.collapsed .sidebar-toggle { display: inline-flex; }
+}

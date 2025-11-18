@@ -3,8 +3,6 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import "./Card.css";
 
 const Card = ({ productos = [], onEdit, onDelete }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [deleteId, setDeleteId] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
 
   useEffect(() => {
@@ -26,10 +24,7 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
     return String(v);
   };
 
-  const confirmDelete = () => {
-    onDelete?.(deleteId);
-    setShowModal(false);
-  };
+  // Defer deletion confirmation to parent via onDelete(id)
 
   if (!Array.isArray(productos) || productos.length === 0) {
     return <p style={{ textAlign: "center", marginTop: "20px" }}>No hay productos disponibles</p>;
@@ -130,9 +125,8 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
                       <button
                         className="menu-item delete"
                         onClick={() => {
-                          setDeleteId(id);
-                          setShowModal(true);
                           setOpenMenu(null);
+                          onDelete?.(id);
                         }}
                       >
                         🗑️ Eliminar
@@ -146,28 +140,7 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
         })}
       </div>
 
-      {/* === MODAL === */}
-      {showModal && (
-        <div className="modal-overlay active">
-          <div className="modal-box">
-            <div className="modal-title">¿Eliminar producto?</div>
-            <div className="modal-text">Esta acción no se puede deshacer.</div>
-
-            <div className="modal-buttons">
-              <button
-                className="btn-modal btn-cancel"
-                onClick={() => setShowModal(false)}
-              >
-                Cancelar
-              </button>
-
-              <button className="btn-modal btn-delete" onClick={confirmDelete}>
-                Eliminar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Deletion confirmation handled by parent via props.onDelete */}
     </>
   );
 };

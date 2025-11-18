@@ -77,17 +77,18 @@
   grid-column: 2 / -1;
   grid-row: 2 / 3;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 22px;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: stretch;
   padding-left: 20px;
 }
 
 
 .stat-card {
-  width: 340px;
-  max-width: 90%;
+  flex: 1 1 280px; /* allow cards to grow/shrink and wrap */
+  max-width: 340px;
   border-radius: 16px;
   padding: 24px 26px;
   background: rgba(255, 255, 255, 0.82); /* más brillo */
@@ -101,6 +102,13 @@
   text-align: center;
 
   transition: transform .28s ease, box-shadow .28s ease;
+}
+
+/* Ajustes para pantallas grandes: centrar y limitar el número de columnas */
+@media (min-width: 1200px) {
+  .card--container {
+    justify-content: flex-start;
+  }
 }
 
 /* Textos */
@@ -159,6 +167,11 @@
     align-items: stretch;
     padding-left: 0;
   }
+
+  /* Asegurar que el contenedor y las tarjetas ocupen todo el ancho disponible */
+  .card--container { width: 100%; }
+
+  .dashboard-page { justify-items: stretch; }
 
   .stat-card {
     width: 100%;

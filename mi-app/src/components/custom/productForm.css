@@ -21,6 +21,11 @@
   animation: pfScale .18s ease;
 }
 
+/* Make modal content scrollable on small screens and provide touch-friendly scrolling */
+.pf-modal{ max-height: calc(100vh - 40px); overflow:auto; -webkit-overflow-scrolling: touch }
+
+.pf-modal-overlay{ overscroll-behavior: contain }
+
 .pf-header{
   display:flex;
   align-items:center;
