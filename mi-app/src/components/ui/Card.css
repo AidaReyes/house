@@ -22,6 +22,8 @@
   display: flex;
   flex-direction: column;
   transition: 0.22s ease;
+  position: relative; /* NECESARIO para que el menú se quede dentro */
+
 
   /* 🤝 MISMA ALTURA EXACTA */
   height: 420px;
@@ -266,3 +268,6 @@
   right: 10px;
 }
 
+.card--container > .menu-dropdown {
+  display: none !important;
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import "./Card.css";
 
@@ -7,11 +7,10 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
   const [deleteId, setDeleteId] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
 
-  const menuRef = useRef(null);
-
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
+      // Cierra menú si haces click FUERA de cualquier menú
+      if (!e.target.closest(".menu-dropdown") && !e.target.closest(".btn-icon")) {
         setOpenMenu(null);
       }
     };
@@ -63,7 +62,7 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
           const precioCompra = item.precioDeCompra ?? item.precioCompra ?? null;
 
           return (
-            <div className="card" key={id} ref={menuRef}>
+            <div className="card" key={id}>
 
               {/* IMAGEN */}
               <div className="card--image">
@@ -75,7 +74,6 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
               </div>
 
               <div className="card--right">
-
                 <div className="card--header">
                   <h3>{titulo}</h3>
                   <div>${precio.toFixed(2)}</div>
@@ -85,14 +83,30 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
 
                 <div className="card--info">
                   <span>{stock} en stock</span>
-                  {fechaCompra && <div><strong>Compra:</strong> {formatDate(fechaCompra)}</div>}
-                  {fechaCaducidad && <div><strong>Caduca:</strong> {formatDate(fechaCaducidad)}</div>}
-                  {precioCompra != null && (
-                    <div><strong>Precio compra:</strong> ${Number(precioCompra).toFixed(2)}</div>
+                  {fechaCompra && (
+                    <div>
+                      <strong>Compra:</strong> {formatDate(fechaCompra)}
+                    </div>
                   )}
-                  {proveedor && <div><strong>Proveedor:</strong> {proveedor}</div>}
+                  {fechaCaducidad && (
+                    <div>
+                      <strong>Caduca:</strong> {formatDate(fechaCaducidad)}
+                    </div>
+                  )}
+                  {precioCompra != null && (
+                    <div>
+                      <strong>Precio compra:</strong> $
+                      {Number(precioCompra).toFixed(2)}
+                    </div>
+                  )}
+                  {proveedor && (
+                    <div>
+                      <strong>Proveedor:</strong> {proveedor}
+                    </div>
+                  )}
                 </div>
 
+                {/* === ACCIONES === */}
                 <div className="card--actions">
                   <button
                     className="btn-icon"
@@ -103,7 +117,6 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
 
                   {openMenu === id && (
                     <div className="menu-dropdown">
-
                       <button
                         className="menu-item"
                         onClick={() => {
@@ -124,7 +137,6 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
                       >
                         🗑️ Eliminar
                       </button>
-
                     </div>
                   )}
                 </div>
@@ -134,7 +146,7 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
         })}
       </div>
 
-      {/* MODAL */}
+      {/* === MODAL === */}
       {showModal && (
         <div className="modal-overlay active">
           <div className="modal-box">
@@ -142,9 +154,13 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
             <div className="modal-text">Esta acción no se puede deshacer.</div>
 
             <div className="modal-buttons">
-              <button className="btn-modal btn-cancel" onClick={() => setShowModal(false)}>
+              <button
+                className="btn-modal btn-cancel"
+                onClick={() => setShowModal(false)}
+              >
                 Cancelar
               </button>
+
               <button className="btn-modal btn-delete" onClick={confirmDelete}>
                 Eliminar
               </button>
