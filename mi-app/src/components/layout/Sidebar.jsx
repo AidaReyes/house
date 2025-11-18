@@ -28,17 +28,17 @@ const Sidebar = () => {
 
         <NavLink to="/" end className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
           <BiHome className="nav-icon" />
-          {!collapsed && <span className="nav-text">Main</span>}
+          {!collapsed && <span className="nav-text">Home</span>}
         </NavLink>
 
         <NavLink to="/productos" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
           <BiPurchaseTag className="nav-icon" />
-          {!collapsed && <span className="nav-text">Products</span>}
+          {!collapsed && <span className="nav-text">Productos</span>}
         </NavLink>
 
         <NavLink to="/proveedores" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
           <BiGroup className="nav-icon" />
-          {!collapsed && <span className="nav-text">Suppliers</span>}
+          {!collapsed && <span className="nav-text">Proveedores</span>}
         </NavLink>
 
       </nav>
