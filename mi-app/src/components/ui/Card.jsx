@@ -1,10 +1,24 @@
-import React, { useState } from "react";
-import { BiEdit, BiTrash } from "react-icons/bi";
+import React, { useState, useEffect, useRef } from "react";
+import { BiDotsVerticalRounded } from "react-icons/bi";
 import "./Card.css";
 
 const Card = ({ productos = [], onEdit, onDelete }) => {
   const [showModal, setShowModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+  const [openMenu, setOpenMenu] = useState(null);
+
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setOpenMenu(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const safe = (v) => {
     if (v == null) return "";
@@ -21,19 +35,17 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
   if (!Array.isArray(productos) || productos.length === 0) {
     return <p style={{ textAlign: "center", marginTop: "20px" }}>No hay productos disponibles</p>;
   }
+
   const formatDate = (date) => {
     if (!date) return "";
     const d = new Date(date);
-    if (isNaN(d)) return date; // si no es fecha válida, deja el texto original
-
+    if (isNaN(d)) return date;
     return d.toLocaleDateString("es-MX", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
     });
   };
-
-
 
   return (
     <>
@@ -51,8 +63,9 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
           const precioCompra = item.precioDeCompra ?? item.precioCompra ?? null;
 
           return (
-            <div className="card" key={id}>
-              {/* Imagen */}
+            <div className="card" key={id} ref={menuRef}>
+
+              {/* IMAGEN */}
               <div className="card--image">
                 {imagen && imagen.startsWith("http") ? (
                   <img src={imagen} alt={titulo} />
@@ -61,8 +74,8 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
                 )}
               </div>
 
-              {/* Contenido */}
               <div className="card--right">
+
                 <div className="card--header">
                   <h3>{titulo}</h3>
                   <div>${precio.toFixed(2)}</div>
@@ -80,20 +93,40 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
                   {proveedor && <div><strong>Proveedor:</strong> {proveedor}</div>}
                 </div>
 
-                {/* Acciones */}
                 <div className="card--actions">
-                  <button className="btn-icon edit" onClick={() => onEdit?.(item)}>
-                    <BiEdit />
-                  </button>
                   <button
-                    className="btn-icon del"
-                    onClick={() => {
-                      setDeleteId(id);
-                      setShowModal(true);
-                    }}
+                    className="btn-icon"
+                    onClick={() => setOpenMenu(openMenu === id ? null : id)}
                   >
-                    <BiTrash />
+                    <BiDotsVerticalRounded size={20} />
                   </button>
+
+                  {openMenu === id && (
+                    <div className="menu-dropdown">
+
+                      <button
+                        className="menu-item"
+                        onClick={() => {
+                          setOpenMenu(null);
+                          onEdit?.(item);
+                        }}
+                      >
+                        ✏️ Editar
+                      </button>
+
+                      <button
+                        className="menu-item delete"
+                        onClick={() => {
+                          setDeleteId(id);
+                          setShowModal(true);
+                          setOpenMenu(null);
+                        }}
+                      >
+                        🗑️ Eliminar
+                      </button>
+
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -112,7 +145,6 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
               <button className="btn-modal btn-cancel" onClick={() => setShowModal(false)}>
                 Cancelar
               </button>
-
               <button className="btn-modal btn-delete" onClick={confirmDelete}>
                 Eliminar
               </button>
