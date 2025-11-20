@@ -41,7 +41,6 @@
 .btn.primary{ background:linear-gradient(90deg,#c7b299,#a67c52); color:#fff }
 
 @media (max-width:560px){
-  /* bottom sheet style for small screens */
   .ui-modal-overlay{ align-items: flex-end; padding: 0; }
 
   .ui-modal{

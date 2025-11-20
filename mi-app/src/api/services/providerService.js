@@ -1,4 +1,3 @@
-// src/api/services/providerService.js
 import api from '../config';
 
 export const providerService = {

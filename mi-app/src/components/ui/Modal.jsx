@@ -3,7 +3,6 @@ import './modal.css'
 
 const Modal = ({ open, title, children, onClose, onConfirm, confirmText = 'OK', cancelText = 'Cerrar', showCancel = false }) => {
   if (!open) return null
-  // prevent background scrolling while modal is open
   useEffect(() => {
     const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'

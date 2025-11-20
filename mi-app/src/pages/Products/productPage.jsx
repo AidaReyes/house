@@ -40,12 +40,7 @@ const DashboardPage = () => {
       descripcion.includes(query)
     );
   });
-  //fin de hook useSearch
 
-
-  // ---------------------------------------------
-  // Cargar productos
-  // ---------------------------------------------
   const cargarProductos = async () => {
     try {
       const data = await productService.getAll()
@@ -61,9 +56,6 @@ const DashboardPage = () => {
     cargarProductos()
   }, [])
 
-  // ---------------------------------------------
-  // CRUD
-  // ---------------------------------------------
   const handleNuevo = () => {
     setProductoSeleccionado(null)
     setMostrandoForm(true)
@@ -85,9 +77,8 @@ const DashboardPage = () => {
     setProductoSeleccionado(null)
   }
 
-  // ---------------------------------------------
   // BUSCADOR
-  // ---------------------------------------------
+ 
   const handleSearchChange = (e) => {
     setQueryId(e.target.value)
     if (!e.target.value) setFilteredProductos(null)
@@ -110,9 +101,7 @@ const DashboardPage = () => {
     setFilteredProductos(null)
   }
 
-  // ---------------------------------------------
   // ELIMINAR
-  // ---------------------------------------------
   const handleEliminarClick = (id) => setIdAEliminar(id)
 
   const confirmarEliminar = async () => {
@@ -131,13 +120,11 @@ const DashboardPage = () => {
 
   return (
     <div className="dashboard">
-
-      {/* === Top actions === */}
       <div className="dashboard__actions">
 
         <form
           className="search"
-          onSubmit={(e) => e.preventDefault()} // búsqueda en tiempo real
+          onSubmit={(e) => e.preventDefault()} 
         >
           <input
             placeholder="Buscar productos..."
@@ -159,14 +146,12 @@ const DashboardPage = () => {
         </button>
       </div>
 
-      {/* === Product list === */}
       <Card
         productos={productosFiltrados}
         onEdit={handleEditar}
         onDelete={handleEliminarClick}
       />
 
-      {/* === Form === */}
       <ProductoForm
         open={mostrandoForm}
         productoSeleccionado={productoSeleccionado}
@@ -174,7 +159,6 @@ const DashboardPage = () => {
         onSaved={handleGuardado}
       />
 
-      {/* === Modal === */}
       <Modal
         open={!!idAEliminar}
         title="Confirmar eliminación"

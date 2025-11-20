@@ -7,7 +7,6 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      // Cierra menú si haces click FUERA de cualquier menú
       if (!e.target.closest(".menu-dropdown") && !e.target.closest(".btn-icon")) {
         setOpenMenu(null);
       }
@@ -24,7 +23,6 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
     return String(v);
   };
 
-  // Defer deletion confirmation to parent via onDelete(id)
 
   if (!Array.isArray(productos) || productos.length === 0) {
     return <p style={{ textAlign: "center", marginTop: "20px" }}>No hay productos disponibles</p>;
@@ -58,8 +56,6 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
 
           return (
             <div className="card" key={id}>
-
-              {/* IMAGEN */}
               <div className="card--image">
                 {imagen && imagen.startsWith("http") ? (
                   <img src={imagen} alt={titulo} />
@@ -101,7 +97,6 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
                   )}
                 </div>
 
-                {/* === ACCIONES === */}
                 <div className="card--actions">
                   <button
                     className="btn-icon"
@@ -139,8 +134,6 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
           );
         })}
       </div>
-
-      {/* Deletion confirmation handled by parent via props.onDelete */}
     </>
   );
 };

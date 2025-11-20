@@ -21,7 +21,6 @@
   animation: pfScale .18s ease;
 }
 
-/* Make modal content scrollable on small screens and provide touch-friendly scrolling */
 .pf-modal{ max-height: calc(100vh - 40px); overflow:auto; -webkit-overflow-scrolling: touch }
 
 .pf-modal-overlay{ overscroll-behavior: contain }
@@ -74,7 +73,6 @@
   gap:0.45rem;
 }
 
-/* Inputs / Textareas */
 label input,
 label textarea{
   padding:0.65rem 0.8rem;
@@ -94,9 +92,6 @@ label textarea:focus{
   box-shadow:0 0 0 3px rgba(184,127,90,0.15);
 }
 
-/* ===========================================
-   🔳 SELECT (estilo uniforme)
-=========================================== */
 label select{
   -webkit-appearance:none;
   -moz-appearance:none;
@@ -233,7 +228,6 @@ label select:focus{
   font-weight: 600;
 }
 
-/* Días */
 .react-datepicker__day {
   border-radius: 50%;
   transition: all 0.2s ease;
@@ -243,7 +237,6 @@ label select:focus{
   background-color: #f3e2d8;
 }
 
-/* Seleccionado */
 .react-datepicker__day--selected,
 .react-datepicker__day--keyboard-selected {
   background-color: #b87f5a !important;

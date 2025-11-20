@@ -1,4 +1,3 @@
-/* 🌟 CONTENEDOR PRINCIPAL */
 .dashboard {
   display: flex;
   flex-direction: column;
@@ -7,7 +6,6 @@
   background: #f7f6f4;
 }
 
-/* 🌐 HEADER PRINCIPAL */
 .dashboard-header-box {
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(14px) saturate(180%);
@@ -31,7 +29,6 @@
   font-size: 1.05rem;
 }
 
-/* 🔍 Barra de acciones */
 .dashboard__actions {
   display: flex;
   align-items: center;
@@ -59,8 +56,8 @@
   padding: .75rem 1.1rem;
   border-radius: 14px;
   border: 1px solid rgba(180,180,180,0.35);
-  min-width: 0; /* allow shrinking when space is limited */
-  flex: 1;     /* take remaining space but be able to shrink */
+  min-width: 0; 
+  flex: 1;    
   font-size: .95rem;
   background: rgba(255,255,255,0.85);
   transition: box-shadow .25s ease, transform .25s ease;
@@ -82,7 +79,7 @@
   background: #f4f4f4;
   transition: transform .25s ease, box-shadow .25s ease;
   border: 1px solid rgba(170,170,170,0.35);
-  flex: 0 0 auto; /* keep button size stable */
+  flex: 0 0 auto; 
 }
 
 .search button:hover {
@@ -90,7 +87,6 @@
   box-shadow: 0 10px 22px rgba(0,0,0,0.12);
 }
 
-/* ⭐ Botón primario */
 .btn-primary {
   background: linear-gradient(120deg, #d9c7b3, #bfa384);
   color: white;
@@ -111,7 +107,6 @@
   box-shadow: 0 15px 30px rgba(0,0,0,0.18);
 }
 
-/* ⭐ CARDS DEL LISTADO */
 .card-list-container {
   background: rgba(255,255,255,0.78);
   border-radius: 22px;
@@ -121,13 +116,11 @@
   animation: fadeIn 0.7s ease;
 }
 
-/* ✨ Animación */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* 📱 Responsive */
 @media(max-width: 900px) {
   .dashboard__actions {
     flex-direction: column;
@@ -139,6 +132,4 @@
     width: 100%;
     justify-content: center;
   }
-
-  /* keep search inline on mobile but allow it to shrink */
 }

@@ -1,4 +1,3 @@
-// src/api/services/productService.js
 import api from '../config';
 
 export const productService = {

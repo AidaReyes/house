@@ -1,4 +1,3 @@
-// src/components/custom/ProductForm.jsx
 import React, { useState, useEffect } from 'react';
 import './productForm.css';
 import { useProductForm } from '../../hook/useProductForm';
@@ -39,7 +38,6 @@ const ProductForm = ({ open = false, productoSeleccionado, onClose, onSaved }) =
     return () => { mounted = false }
   }, [])
 
-  // Si estamos editando y el proveedor del producto no está en la lista cargada, añádelo temporalmente
   useEffect(() => {
     if (!productoSeleccionado) return
     const p = productoSeleccionado.proveedor ?? productoSeleccionado.provedoor
@@ -52,7 +50,6 @@ const ProductForm = ({ open = false, productoSeleccionado, onClose, onSaved }) =
     }
   }, [productoSeleccionado, providers])
 
-  // When this modal is open, prevent background (body) from scrolling on mobile
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
@@ -168,7 +165,6 @@ const ProductForm = ({ open = false, productoSeleccionado, onClose, onSaved }) =
         confirmText={modalState.confirmText}
         showCancel={modalState.showCancel}
       >
-        {/* Renderizado inteligente del contenido recibido: puede ser array (missing fields) o string */}
         {Array.isArray(modalState.content) ? (
           <div>
             <p>Faltan los siguientes campos obligatorios:</p>

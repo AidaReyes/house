@@ -1,4 +1,3 @@
-// src/hook/useSearch.js
 import { useMemo, useState } from "react";
 
 export function useSearch(items, filterFn) {
@@ -6,7 +5,7 @@ export function useSearch(items, filterFn) {
 
   const filteredItems = useMemo(() => {
     const q = query.trim();
-    if (!q) return items; // si no hay búsqueda, regresa todo
+    if (!q) return items; 
     return items.filter((item) => filterFn(item, q));
   }, [items, query, filterFn]);
 

@@ -3,7 +3,6 @@
   --sidebar-collapsed: 72px;
   --transition: 260ms cubic-bezier(.2, .9, .2, 1);
 
-  /* 🔥 COLORES MÁS BRILLANTES Y ELEGANTES */
   --bg-sidebar: linear-gradient(145deg, #0c0c0c, #1b1b1b);
   --bg-sidebar-light: rgba(255, 255, 255, 0.06);
   --text: #f5f5f5;
@@ -13,7 +12,7 @@
   --shadow: rgba(0, 0, 0, 0.45);
 }
 
-/* 📌 CONTENEDOR DEL SIDEBAR */
+/* CONTENEDOR DEL SIDEBAR */
 .sidebar {
   width: var(--sidebar-width);
   min-width: var(--sidebar-width);
@@ -23,11 +22,9 @@
   flex-direction: column;
   transition: width var(--transition), backdrop-filter 0.4s ease;
 
-  /* ✨ Efecto brillante tipo cristal */
   background: var(--bg-sidebar);
   backdrop-filter: blur(8px) brightness(1.15);
 
-  /* ⭐ Sombras suaves tipo glossy */
   box-shadow:
     4px 0 25px rgba(0,0,0,0.6),
     inset 0 0 12px rgba(255,255,255,0.06);
@@ -36,7 +33,6 @@
   border-radius: 14px 0 0 14px;
   font-family: "Poppins", sans-serif;
 
-  /* Animación elegante al aparecer */
   animation: sidebarEnter 0.8s ease forwards;
 }
 
@@ -45,14 +41,12 @@
   to   { opacity: 1; transform: translateX(0) scale(1); }
 }
 
-/* 📌 MODO COLAPSADO */
 .sidebar.collapsed {
   width: var(--sidebar-collapsed) !important;
   min-width: var(--sidebar-collapsed) !important;
   backdrop-filter: blur(6px) brightness(1.12);
 }
 
-/* 🎨 LOGO */
 .sidebar-header {
   display: flex;
   justify-content: center;
@@ -65,7 +59,6 @@
   border-radius: 20px;
   object-fit: cover;
 
-  /* Efecto brillante */
   box-shadow: 0 0 18px rgba(255,255,255,0.18);
   transition: transform .4s ease;
 }
@@ -74,7 +67,6 @@
   transform: scale(1.07) rotate(1deg);
 }
 
-/* 🎛️ BOTÓN DE COLAPSO */
 .sidebar-toggle-container {
   margin-top: auto;
   display: flex;
@@ -102,7 +94,6 @@
   color: var(--icon);
   cursor: pointer;
 
-  /* Efecto más elegante */
   transition: 
      background .25s ease,
      transform .25s ease,
@@ -115,7 +106,6 @@
   transform: translateY(-3px);
 }
 
-/* ✨ NAVEGACIÓN */
 .sidebar-nav {
   display: flex;
   flex-direction: column;
@@ -124,7 +114,7 @@
   padding: 0.5rem 0;
 }
 
-/* 🔗 ITEMS */
+/* ITEMS */
 .nav-item {
   display: flex;
   align-items: center;
@@ -136,7 +126,6 @@
   font-weight: 500;
   color: var(--text);
 
-  /* Efecto glossy suave */
   backdrop-filter: blur(3px);
   transition:
     background .25s ease,
@@ -144,14 +133,12 @@
     box-shadow .25s ease;
 }
 
-/* Hover elegante */
 .nav-item:hover {
   background: var(--hover);
   transform: translateX(6px);
   box-shadow: 0 0 10px rgba(255,255,255,0.15);
 }
 
-/* Iconos con brillo */
 .nav-icon {
   font-size: 1.3rem;
   color: var(--icon);
@@ -162,7 +149,6 @@
   filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));
 }
 
-/* Activo */
 .nav-item.active {
   background: var(--active);
   color: #fff;
@@ -173,7 +159,6 @@
   color: #fff;
 }
 
-/* 🧊 COLAPSADO → Animación suave */
 .sidebar.collapsed .nav-text {
   opacity: 0;
   width: 0;
@@ -187,7 +172,6 @@
   padding: 0.75rem 0;
 }
 
-/* MODO MÓVIL: que el sidebar sea overlay y por defecto pequeño (solo el ícono) */
 @media (max-width: 900px) {
   .sidebar {
     position: fixed;
@@ -195,7 +179,6 @@
     top: 0;
     height: 100vh;
     z-index: 2200;
-    /* por defecto en móvil mostrará el ancho colapsado */
     width: var(--sidebar-collapsed);
     min-width: var(--sidebar-collapsed);
     border-radius: 0 12px 12px 0;
@@ -205,27 +188,20 @@
     backdrop-filter: blur(6px) brightness(1.12);
   }
 
-  /* cuando no tiene la clase .collapsed se considera expandido → overlay ancho */
   .sidebar:not(.collapsed) {
     width: var(--sidebar-width);
     min-width: var(--sidebar-width);
     box-shadow: 8px 0 30px rgba(0,0,0,0.6);
   }
 
-  /* ocultar el toggle adicional en móvil si quería un comportamiento distinto */
   .sidebar .sidebar-toggle { display: block; }
 
-  /* Asegurarse que los textos estén ocultos cuando está colapsado */
   .sidebar.collapsed .nav-text { display: none; }
 
-  /* El contenido no debe reacomodarse en columna; se deja en background */
   .app-layout { /* no cambiar flex-direction */ }
 }
 
-/* En móvil, cuando está colapsado escondemos el sidebar fuera de la pantalla
-   y fijamos el botón toggle para que flote en la esquina (solo se vea el botón). */
 @media (max-width: 900px) {
-  /* Mantener el sidebar en el borde pero reducido; no sacarlo del DOM. */
   .sidebar.collapsed {
     left: 0;
     width: var(--sidebar-collapsed) !important;
@@ -235,12 +211,10 @@
     box-shadow: none !important;
     background: transparent !important;
     overflow: visible;
-    /* quitar filtros y efectos detrás para evitar barras borrosas */
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
 
-  /* Mostrar únicamente el botón toggle como flotante y claramente visible */
   .sidebar.collapsed .sidebar-toggle {
     position: fixed !important;
     left: 12px;
@@ -251,7 +225,6 @@
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    /* Botón opaco y con contraste fuerte para que no se vea lo de atrás */
     background: #0b0b0b !important;
     color: #ffffff !important;
     border: 1px solid rgba(255,255,255,0.06) !important;
@@ -260,7 +233,6 @@
     backdrop-filter: none !important;
   }
 
-  /* Asegurar que el resto de elementos dentro del sidebar no sean interactivos/visibles */
   .sidebar.collapsed .sidebar-header,
   .sidebar.collapsed .sidebar-nav,
   .sidebar.collapsed .logo-icon {
@@ -269,7 +241,6 @@
   }
 }
 
-/* Cuando esté colapsado en móvil, ocultar logo y navegación (dejando solo el toggle) */
 @media (max-width: 900px) {
   .sidebar.collapsed .sidebar-header,
   .sidebar.collapsed .sidebar-nav {

@@ -1,10 +1,8 @@
-/*::::Componente principal del layout::::*/
 .app-frame {
   height: 100vh;
   box-sizing: border-box;
 }
 
-/*::::Contenedor de sidebar y contenido principal::::*/
 .app-layout {
   display: flex;
   height: 100%;
@@ -18,7 +16,6 @@
     inset 0 0 14px rgba(255, 255, 255, 0.05);
 }
 
-/*::::Contenedor del contenido principal::::*/
 .main-container {
   flex: 1;
   display: flex;
@@ -39,7 +36,6 @@
   background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.25), transparent);
 }
 
-/*::::Contenido principal::::*/
 .main-content {
   flex: 1;
   margin: 10px;

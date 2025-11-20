@@ -1,7 +1,5 @@
-// src/components/custom/useProductForm.js
 import { useEffect, useState } from "react";
 
-// Helper: convertir cadena ISO (o fecha) a valor aceptado por input[type=date] (YYYY-MM-DD)
 function toDateInputValue(d) {
   if (!d) return "";
   const date = new Date(d);
@@ -24,7 +22,6 @@ export function useProductForm({ productoSeleccionado, open, onClose, onSaved, s
   });
   const [loading, setLoading] = useState(false);
 
-  // Cargar producto seleccionado
   useEffect(() => {
     if (productoSeleccionado) {
       setFormData({
@@ -32,12 +29,10 @@ export function useProductForm({ productoSeleccionado, open, onClose, onSaved, s
         descripcion: productoSeleccionado.descripcion || "",
         precio: productoSeleccionado.precio ?? "",
         precioDeCompra: productoSeleccionado.precioDeCompra ?? productoSeleccionado.precioCompra ?? "",
-        // convertir fecha ISO a YYYY-MM-DD para input[type=date]
         fechaCaducidad: toDateInputValue(productoSeleccionado.fechacaducidad || ""),
         fechaCompra: toDateInputValue(productoSeleccionado.fechadecompra || ""),
         imagen: productoSeleccionado.imagen || productoSeleccionado.Imagen || "",
         stock: productoSeleccionado.stock ?? "",
-        // productoSeleccionado.proveedor puede ser un string (id) o un objeto anidado { _id, nombre }
         proveedor: (() => {
           const p = productoSeleccionado.proveedor ?? productoSeleccionado.provedoor ?? ''
           if (!p) return ''
@@ -125,7 +120,6 @@ export function useProductForm({ productoSeleccionado, open, onClose, onSaved, s
       console.error("Error al guardar:", err);
       const msg = err.response?.data?.message || "Error al guardar el producto.";
       if (typeof showModal === 'function') {
-        // enviar texto simple
         showModal({ title: 'Error', content: String(msg), showCancel: false, confirmText: 'Cerrar' })
       } else {
         alert(msg)
