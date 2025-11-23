@@ -7,6 +7,7 @@ import { BiPlus } from 'react-icons/bi'
 import './productStyle.css'
 
 import { useSearch } from "../hooks/useSearch";
+import { useAuth } from '../../../context/AuthContext';
 
 const DashboardPage = () => {
   const [productos, setProductos] = useState([])
@@ -40,6 +41,9 @@ const DashboardPage = () => {
       descripcion.includes(query)
     );
   });
+
+  const { user } = useAuth();
+  const role = user?.rol;
 
   const cargarProductos = async () => {
     try {
@@ -141,9 +145,11 @@ const DashboardPage = () => {
           </button>
         </form>
 
-        <button className="btn-primary" onClick={handleNuevo}>
-          <BiPlus size={20} /> Nuevo producto
-        </button>
+        {role !== 'cajero' && (
+          <button className="btn-primary" onClick={handleNuevo}>
+            <BiPlus size={20} /> Nuevo producto
+          </button>
+        )}
       </div>
 
       <Card

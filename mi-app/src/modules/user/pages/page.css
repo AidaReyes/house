@@ -1,0 +1,12 @@
+/* Page styles for Users page */
+.users-page{ padding:18px }
+.users-page h1{ margin:0 0 12px 0 }
+.users-table{ width:100%; border-collapse:collapse; margin-top:12px }
+.users-table th, .users-table td{ text-align:left; padding:8px 10px; border-bottom:1px solid #eee }
+.users-table thead th{ background:#fafafa }
+.users-table tr:hover{ background:#fafafa }
+
+.btn{ padding:0.45rem 0.8rem; border-radius:8px; cursor:pointer }
+.btn-primary{ background:#2b6cb0; color:#fff; border:0 }
+
+.actions button{ margin-right:8px }

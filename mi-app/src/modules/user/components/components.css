@@ -1,0 +1,57 @@
+/* Styles for user components (modals, forms) in src/modules/user/components */
+.user-modal-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:5000;
+  padding: 1rem;
+}
+
+.user-modal{
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+  max-width: 520px;
+  width: 100%;
+  padding: 1rem 1.2rem;
+}
+
+.user-modal h2{ margin:0 0 0.6rem 0 }
+.user-modal p{ margin:0 0 0.9rem 0; color:#444 }
+
+.user-modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:0.6rem;
+  margin-top:0.8rem;
+}
+
+.user-modal-actions .btn-cancel{
+  background: transparent;
+  border: 1px solid #ddd;
+  padding:0.45rem 0.75rem;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.user-modal-actions .btn-primary{
+  background: #2b6cb0;
+  color:#fff;
+  border:0;
+  padding:0.5rem 0.9rem;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.user-modal-actions .btn-danger{
+  background:#d9534f;color:#fff;border:0;padding:0.5rem 0.9rem;border-radius:8px;cursor:pointer
+}
+
+/* Form controls inside modal */
+.user-modal label{ display:block; font-size:0.9rem; margin:0.5rem 0 0.2rem }
+.user-modal input[type="text"], .user-modal input[type="password"], .user-modal select{
+  width:100%; padding:0.5rem; border-radius:8px; border:1px solid #e6e6e6; box-sizing:border-box;
+}

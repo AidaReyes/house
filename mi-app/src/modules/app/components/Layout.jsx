@@ -6,9 +6,10 @@ export default function Layout() {
   const location = useLocation();
 
   const routeTitleMap = {
-    '/': 'Main',
+    '/dashboard': 'Inicio',
     '/productos': 'Productos',
     '/proveedores': 'Proveedores',
+    '/usuarios': 'Usuarios',
   };
 
   const title = routeTitleMap[location.pathname] || 'App';

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useAuth } from '../../../context/AuthContext';
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import "./Card.css";
 
 const Card = ({ productos = [], onEdit, onDelete }) => {
   const [openMenu, setOpenMenu] = useState(null);
+  const { user } = useAuth();
+  const role = user?.rol;
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -98,35 +101,39 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
                 </div>
 
                 <div className="card--actions">
-                  <button
-                    className="btn-icon"
-                    onClick={() => setOpenMenu(openMenu === id ? null : id)}
-                  >
-                    <BiDotsVerticalRounded size={20} />
-                  </button>
-
-                  {openMenu === id && (
-                    <div className="menu-dropdown">
+                  {role === 'cajero' ? null : (
+                    <>
                       <button
-                        className="menu-item"
-                        onClick={() => {
-                          setOpenMenu(null);
-                          onEdit?.(item);
-                        }}
+                        className="btn-icon"
+                        onClick={() => setOpenMenu(openMenu === id ? null : id)}
                       >
-                        ✏️ Editar
+                        <BiDotsVerticalRounded size={20} />
                       </button>
 
-                      <button
-                        className="menu-item delete"
-                        onClick={() => {
-                          setOpenMenu(null);
-                          onDelete?.(id);
-                        }}
-                      >
-                        🗑️ Eliminar
-                      </button>
-                    </div>
+                      {openMenu === id && (
+                        <div className="menu-dropdown">
+                          <button
+                            className="menu-item"
+                            onClick={() => {
+                              setOpenMenu(null);
+                              onEdit?.(item);
+                            }}
+                          >
+                            ✏️ Editar
+                          </button>
+
+                          <button
+                            className="menu-item delete"
+                            onClick={() => {
+                              setOpenMenu(null);
+                              onDelete?.(id);
+                            }}
+                          >
+                            🗑️ Eliminar
+                          </button>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
