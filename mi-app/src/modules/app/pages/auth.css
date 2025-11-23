@@ -1,15 +1,30 @@
-/* Full screen center */
 .auth-container {
   height: 100vh;
   width: 100%;
-  background: url("https://images.unsplash.com/photo-1663970206579-c157cba7edda?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8d2FsbHBhcGVyJTIwZm9yJTIwcGN8ZW58MHx8MHx8fDA%3D")
-    center/cover no-repeat;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
-/* Glassmorphism card */
+.auth-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      rgba(255, 255, 255, 0.82),
+      rgba(230, 242, 255, 0.8)
+    ),
+    url("https://images.unsplash.com/photo-1663970206579-c157cba7edda?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8d2FsbHBhcGVyJTIwZm9yJTIwcGN8ZW58MHx8MHx8fDA%3D")
+    center/cover no-repeat;
+
+  filter: blur(3px) saturate(0.45) brightness(1.05);
+  z-index: -1;
+}
+
 .glass-card {
   width: 380px;
   padding: 2rem;
@@ -20,9 +35,10 @@
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
+/* Título */
 .auth-title {
   text-align: center;
-  color: white;
+  color: #111; 
   margin-bottom: 1.5rem;
   font-size: 1.8rem;
   font-weight: 600;
@@ -36,9 +52,10 @@
 }
 
 .input-group label {
-  color: #fff;
+  color: #222; 
   font-size: 0.9rem;
   margin-bottom: 5px;
+  font-weight: 600;
 }
 
 .input-group input {
@@ -47,37 +64,40 @@
   border: none;
   outline: none;
   background: rgba(255, 255, 255, 0.25);
-  color: white;
+  color: #111; 
   font-size: 1rem;
 }
 
-/* Button */
+.input-group input::placeholder {
+  color: #444;
+}
+
 .auth-btn {
   width: 100%;
   padding: 12px;
   margin-top: 10px;
   border-radius: 10px;
   border: none;
-  background: rgba(255, 255, 255, 0.35);
-  color: white;
+  background: rgba(255, 255, 255, 0.35); 
+  color: #111; 
   font-size: 1.1rem;
   cursor: pointer;
   transition: 0.3s;
+  font-weight: 600;
 }
 
 .auth-btn:hover {
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.55); 
 }
 
-/* Switch text */
 .auth-switch {
-  color: white;
+  color: #222; 
   margin-top: 1rem;
   text-align: center;
 }
 
 .auth-switch a {
-  color: #fff;
+  color: #111; 
   font-weight: bold;
   text-decoration: underline;
 }
