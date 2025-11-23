@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './productForm.css';
-import { useProductForm } from '../../hook/useProductForm';
-import Modal from '../ui/Modal';
+import { useProductForm } from '../hooks/useProductForm';
+import Modal from './Modal';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
@@ -31,7 +31,7 @@ const ProductForm = ({ open = false, productoSeleccionado, onClose, onSaved }) =
   const [providers, setProviders] = useState([])
   useEffect(() => {
     let mounted = true
-    import('../../api/services/providerService')
+    import('../../provider/service/providerService')
       .then((mod) => mod.providerService.getAll())
       .then((list) => { if (mounted) setProviders(list || []) })
       .catch((e) => console.error('No se pudo cargar lista de proveedores', e))

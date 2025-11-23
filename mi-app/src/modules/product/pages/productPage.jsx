@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import Card from '../../modules/product/components/Card'
-import ProductoForm from '../../modules/product/components/productForm'
-import { productService } from '../../api/services/productService'
-import Modal from '../../modules/product/components/Modal'
+import Card from '../components/Card'
+import ProductoForm from '../components/productForm'
+import { productService } from '../service/productService'
+import Modal from '../components/Modal'
 import { BiPlus } from 'react-icons/bi'
 import './productStyle.css'
 
-import { useSearch } from "../../modules/product/hooks/useSearch";
+import { useSearch } from "../hooks/useSearch";
 
 const DashboardPage = () => {
   const [productos, setProductos] = useState([])

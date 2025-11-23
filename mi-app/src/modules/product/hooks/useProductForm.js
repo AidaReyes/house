@@ -6,7 +6,7 @@ function toDateInputValue(d) {
   if (isNaN(date.getTime())) return "";
   return date.toISOString().slice(0, 10);
 }
-import { productService } from "../api/services/productService";
+import { productService } from "../service/productService";
 
 export function useProductForm({ productoSeleccionado, open, onClose, onSaved, showModal }) {
   const [formData, setFormData] = useState({

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { productService } from '../../api/services/productService'
-import { providerService } from '../../api/services/providerService'
+import { productService } from '../../product/service/productService'
+import { providerService } from '../../provider/service/providerService'
 import './dashboardStyle.css'
 
 const DashboardPage = () => {

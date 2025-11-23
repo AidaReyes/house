@@ -1,16 +1,13 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { BiMenu, BiHome, BiPurchaseTag, BiGroup } from 'react-icons/bi'
-import logo from '../../assets/logo404.png'
+import logo from '../../../assets/logo404.png'
 import './sidebar.css'
 
 const Sidebar = () => {
-  // por defecto en pantallas pequeñas mantener colapsado
   const [collapsed, setCollapsed] = useState(() => typeof window !== 'undefined' && window.innerWidth <= 900 ? true : false)
-
   return (
     <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
-
       <div className="sidebar-header">
         <img src={logo} alt="Logo" className="logo-icon" />
       </div>
@@ -27,7 +24,7 @@ const Sidebar = () => {
 
       <nav className="sidebar-nav">
 
-        <NavLink to="/" end className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+        <NavLink to="/dashboard" end className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
           <BiHome className="nav-icon" />
           {!collapsed && <span className="nav-text">Home</span>}
         </NavLink>

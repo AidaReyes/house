@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { providerService } from '../../api/services/providerService'
-import Modal from '../../modules/product/components/Modal'
+import { providerService } from '../service/providerService'
+import Modal from '../../product/components/Modal'
 import './providerStyle.css'
-import { useSearch } from '../../modules/product/hooks/useSearch'
+import { useSearch } from '../../product/hooks/useSearch'
 
 
 const ProvidersPage = () => {

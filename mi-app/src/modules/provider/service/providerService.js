@@ -1,4 +1,4 @@
-import api from '../config';
+import api from '../../../api/config';
 
 export const providerService = {
   //  Obtener todos los proveedores
