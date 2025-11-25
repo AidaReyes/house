@@ -1,34 +1,32 @@
+// src/modules/app/hooks/useLogin.js
 import { useState } from "react";
-import { authService } from "../service/auth.service";
+import { authService } from "../../service/auth.service";
 import { useAuth } from "../../../context/AuthContext";
 
 export const useLogin = () => {
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const { login: saveUser } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const { login: saveAuth } = useAuth(); // 👈 login del contexto
 
-    const login = async (usuario, password) => {
-        setLoading(true);
-        setError(null);
+  const login = async (usuario, password) => {
+    setLoading(true);
+    setError(null);
 
-        try {
-            const user = await authService.login(usuario, password);
+    try {
+      // authService.login debe devolver { user, token }
+      const { user, token } = await authService.login(usuario, password);
 
-        
-            // Guardar token
-            localStorage.setItem("token", user.token);
+      // delegamos todo al contexto
+      saveAuth({ user, token });
 
-            // Guardar usuario en el contexto
-            saveUser(user);
+      return { user, token };
+    } catch (err) {
+      setError(err.response?.data?.message || "Error al iniciar sesión");
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
 
-            return user;
-        } catch (err) {
-            setError(err.response?.data?.message || "Error al iniciar sesión");
-            return null;
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return { login, loading, error };
+  return { login, loading, error };
 };

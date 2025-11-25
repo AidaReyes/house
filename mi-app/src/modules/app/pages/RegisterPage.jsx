@@ -54,11 +54,11 @@ export default function RegisterPage() {
           </div>
 
           <div className="input-group">
-            <label>Usuario</label>
+            <label>Correo electrónico</label>
             <input
-              type="text"
+              type="email"
               name="usuario"
-              placeholder="usuario"
+              placeholder="Correo electrónico"
               onChange={handleChange}
             />
           </div>

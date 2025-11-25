@@ -3,6 +3,7 @@ import { providerService } from '../service/providerService'
 import Modal from '../../product/components/Modal'
 import './providerStyle.css'
 import { useSearch } from '../../product/hooks/useSearch'
+import Can from "../../../components/can";//para poder ocultar boton de acuerdo al permiso
 
 
 const ProvidersPage = () => {
@@ -102,7 +103,9 @@ const ProvidersPage = () => {
     <div className="providers-page professional">
       <div className="providers-header">
         <h2>Proveedores</h2>
+        <Can permiso="PROVEEDOR_CREATE">
         <button className="btn-primary" onClick={handleNuevo}>Nuevo proveedor</button>
+        </Can>
       </div>
 
 
@@ -141,8 +144,12 @@ const ProvidersPage = () => {
 
 
                 <div className="provider-card-actions">
+                  <Can permiso="PROVEEDOR_UPDATE">
                   <button className="btn edit" onClick={() => handleEditar(p)}>Editar</button>
+                  </Can>
+                  <Can permiso="PROVEEDOR_DELETE">
                   <button className="btn delete" onClick={() => setDeleteId(p._id)}>Eliminar</button>
+                  </Can>
                 </div>
               </div>
             ))

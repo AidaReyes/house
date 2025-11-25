@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route,Navigate } from 'react-router-dom';
 
 // Layout
 import Layout from '../modules/app/components/Layout.jsx';
@@ -7,12 +7,17 @@ import Layout from '../modules/app/components/Layout.jsx';
 import DashboardPage from '../modules/app/pages/dashboardPage.jsx';
 import ProductsPage from '../modules/product/pages/productPage.jsx';
 import ProvidersPage from '../modules/provider/pages/providerPage.jsx';
+
 import UsersPage from '../modules/user/pages/userPage.jsx';
+
+import RolePage from '../modules/role/pages/rolePage.jsx';
+import Permspage from '../modules/permits/page/permsPage.jsx';
 
 // Pages públicas
 import LoginPage from '../modules/app/pages/LoginPage.jsx';
 import RegisterPage from '../modules/app/pages/RegisterPage.jsx';
 
+import Can from '../components/can.jsx';
 // Protected route
 import ProtectedRoute from './ProtectedRoute';
 
@@ -39,9 +44,9 @@ export default function AppRouter() {
           <Route
             path="/productos"
             element={
-              <ProtectedRoute roles={["admin", "gerente", "cajero"]}>
+              <Can permiso="PRODUCTO_LIST" fellback={<Navigate to="/no-autorizado" replace />}>
                 <ProductsPage />
-              </ProtectedRoute>
+              </Can>
             }
           />
 
@@ -49,17 +54,34 @@ export default function AppRouter() {
           <Route
             path="/proveedores"
             element={
-              <ProtectedRoute roles={["admin", "gerente"]}>
+              <Can permiso="PROVEEDOR_LIST" fellback={<Navigate to="/no-autorizado" replace />}>
                 <ProvidersPage />
-              </ProtectedRoute>
+              </Can>
             }
           />
           <Route
             path="/usuarios"
             element={
-              <ProtectedRoute roles={["admin"]}>
+              <Can permiso="USER_LIST" fellback={<Navigate to="/no-autorizado" replace />}>
                 <UsersPage />
-              </ProtectedRoute>
+              </Can>
+            }
+          />
+          <Route
+            path="/roles"
+            element={
+              <Can permiso="ROL_LIST" fellback={<Navigate to="/no-autorizado" replace />}>
+                <RolePage />
+              </Can>
+            }
+          />
+          <Route
+            path="/perms"
+            
+            element={
+              <Can permiso="PERMISOS_LIST" fellback={<Navigate to="/no-autorizado" replace />}>
+                <Permspage />
+              </Can>
             }
           />
         </Route>

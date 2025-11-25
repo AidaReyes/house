@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from '../../../context/AuthContext';
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import "./Card.css";
+import Can from "../../../components/can";//para poder ocultar boton de acuerdo al permiso
 
 const Card = ({ productos = [], onEdit, onDelete }) => {
   const [openMenu, setOpenMenu] = useState(null);
@@ -101,7 +102,7 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
                 </div>
 
                 <div className="card--actions">
-                  {role === 'cajero' ? null : (
+                  <Can permisos={["PERMISOS_UPDATE", "PERMISOS_DELETE"]} mode="any">
                     <>
                       <button
                         className="btn-icon"
@@ -112,6 +113,7 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
 
                       {openMenu === id && (
                         <div className="menu-dropdown">
+                          <Can permiso="PRODUCTO_UPDATE">
                           <button
                             className="menu-item"
                             onClick={() => {
@@ -121,7 +123,8 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
                           >
                             ✏️ Editar
                           </button>
-
+                          </Can>
+                          <Can permiso="PRODUCTO_DELETE">
                           <button
                             className="menu-item delete"
                             onClick={() => {
@@ -131,10 +134,11 @@ const Card = ({ productos = [], onEdit, onDelete }) => {
                           >
                             🗑️ Eliminar
                           </button>
+                          </Can>
                         </div>
                       )}
                     </>
-                  )}
+                  </Can>
                 </div>
               </div>
             </div>

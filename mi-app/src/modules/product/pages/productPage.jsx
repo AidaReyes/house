@@ -5,6 +5,7 @@ import { productService } from '../service/productService'
 import Modal from '../components/Modal'
 import { BiPlus } from 'react-icons/bi'
 import './productStyle.css'
+import Can from "../../../components/can";//para poder ocultar boton de acuerdo al permiso
 
 import { useSearch } from "../hooks/useSearch";
 import { useAuth } from '../../../context/AuthContext';
@@ -144,12 +145,11 @@ const DashboardPage = () => {
             Limpiar
           </button>
         </form>
-
-        {role !== 'cajero' && (
+          <Can permiso="PRODUCTO_CREATE">
           <button className="btn-primary" onClick={handleNuevo}>
             <BiPlus size={20} /> Nuevo producto
           </button>
-        )}
+          </Can>
       </div>
 
       <Card

@@ -4,6 +4,7 @@ import { BiMenu, BiHome, BiPurchaseTag, BiGroup } from 'react-icons/bi'
 import logo from '../../../assets/logo404.png'
 import './sidebar.css'
 import { useAuth } from '../../../context/AuthContext'   // IMPORTANTE
+import Can from '../../../components/can.jsx';
 import UserProfileModal from '../../../modules/user/components/UserProfileModal.jsx';
 
 const Sidebar = () => {
@@ -42,30 +43,44 @@ const Sidebar = () => {
           <BiHome className="nav-icon" />
           {!collapsed && <span className="nav-text">Home</span>}
         </NavLink>
+        {/* ---- Roles ---- */}
+        <Can permiso="ROL_LIST">
+          <NavLink to="/roles" end className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+            <BiHome className="nav-icon" />
+            {!collapsed && <span className="nav-text">Roles</span>}
+          </NavLink>
+        </Can>
+        {/* ---- Permisos ---- */}
+        <Can permiso="PERMISOS_LIST">
+          <NavLink to="/perms" end className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+            <BiHome className="nav-icon" />
+            {!collapsed && <span className="nav-text">Permisos</span>}
+          </NavLink>
+        </Can>
 
         {/* ---- Productos (admin y gerente) ---- */}
-        {(role === "admin" || role === "gerente" || role === "cajero") && (
+        <Can permiso="PRODUCTO_LIST">
           <NavLink to="/productos" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
             <BiPurchaseTag className="nav-icon" />
             {!collapsed && <span className="nav-text">Productos</span>}
           </NavLink>
-        )}
+        </Can>
 
         {/* ---- Proveedores (admin y gerente) ---- */}
-        {(role === "admin" || role === "gerente") && (
+        <Can permiso="PROVEEDOR_LIST">
           <NavLink to="/proveedores" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
             <BiGroup className="nav-icon" />
             {!collapsed && <span className="nav-text">Proveedores</span>}
           </NavLink>
-        )}
+        </Can>
 
         {/* ---- Usuarios (solo admin) ---- */}
-        {role === "admin" && (
+        <Can permiso="USER_LIST">
           <NavLink to="/usuarios" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
             <BiGroup className="nav-icon" />
             {!collapsed && <span className="nav-text">Usuarios</span>}
           </NavLink>
-        )}
+        </Can>
 
       </nav>
 

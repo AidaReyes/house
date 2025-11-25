@@ -35,11 +35,11 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">
-            <label>Usuario</label>
+            <label>Correo electrónico</label>
             <input
-              type="text"
+              type="email"
               name="usuario"
-              placeholder="usuario"
+              placeholder="Ingresa tu correo"
               onChange={handleChange}
             />
           </div>

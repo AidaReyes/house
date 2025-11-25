@@ -10,6 +10,7 @@ export default function Layout() {
     '/productos': 'Productos',
     '/proveedores': 'Proveedores',
     '/usuarios': 'Usuarios',
+    '/roles': 'Roles',
   };
 
   const title = routeTitleMap[location.pathname] || 'App';

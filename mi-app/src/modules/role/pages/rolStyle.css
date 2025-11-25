@@ -1,0 +1,107 @@
+/* Ya tienes esto: */
+.providers-page.professional {
+  padding: 22px;
+  animation: fadeIn .35s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.providers-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.providers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.provider-card.pro {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  border: 1px solid #ececec;
+  transition: all .2s ease;
+}
+
+.provider-card.pro:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.09);
+}
+
+.provider-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .8rem;
+  color: #6b7280;
+  margin-bottom: 10px;
+}
+
+.provider-card-body h3 {
+  margin: 4px 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* --- NUEVO: estilos específicos para roles/permisos --- */
+
+.role-badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.role-badge-active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.role-badge-inactive {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.role-permisos {
+  margin-top: 10px;
+  font-size: 0.85rem;
+}
+
+.role-permisos-title {
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.role-permisos-tags {
+  margin-top: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.role-perm-tag {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 0.75rem;
+}
+
+.role-activo-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 0.85rem;
+}
