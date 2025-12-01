@@ -56,3 +56,33 @@ font-size: 1.15rem;
 font-weight: 600;
 color: #1f2937;
 }
+/* === Inputs del modal de proveedor */
+
+.provider-form input,
+.provider-form textarea,
+.provider-form select {
+  width: 100%;
+  background: #f7f7f7;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.95rem;
+  color: #333;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.provider-form textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+/* FOCUS */
+.provider-form input:focus,
+.provider-form textarea:focus,
+.provider-form select:focus {
+  border-color: #c9c9c9;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.03);
+}

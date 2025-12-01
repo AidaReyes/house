@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { BiMenu, BiHome, BiPurchaseTag, BiGroup } from 'react-icons/bi'
+import { BiMenu, BiHome, BiPurchaseTag, BiGroup, BiUser } from 'react-icons/bi'
 import logo from '../../../assets/logo404.png'
 import './sidebar.css'
-import { useAuth } from '../../../context/AuthContext'   // IMPORTANTE
+import { useAuth } from '../../../context/AuthContext'
 import Can from '../../../components/can.jsx';
 import UserProfileModal from '../../../modules/user/components/UserProfileModal.jsx';
 
@@ -21,9 +21,6 @@ const Sidebar = () => {
     <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
       <div className="sidebar-header">
         <img src={logo} alt="Logo" className="logo-icon" />
-        <div className="sidebar-profile"> 
-          {!collapsed && <small style={{display:'block', marginTop:6}}>{user?.nombre || user?.usuario}</small>}
-        </div>
       </div>
 
       <div className="sidebar-toggle-container">
@@ -43,6 +40,7 @@ const Sidebar = () => {
           <BiHome className="nav-icon" />
           {!collapsed && <span className="nav-text">Home</span>}
         </NavLink>
+
         {/* ---- Roles ---- */}
         <Can permiso="ROL_LIST">
           <NavLink to="/roles" end className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
@@ -50,6 +48,7 @@ const Sidebar = () => {
             {!collapsed && <span className="nav-text">Roles</span>}
           </NavLink>
         </Can>
+
         {/* ---- Permisos ---- */}
         <Can permiso="PERMISOS_LIST">
           <NavLink to="/perms" end className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
@@ -58,7 +57,7 @@ const Sidebar = () => {
           </NavLink>
         </Can>
 
-        {/* ---- Productos (admin y gerente) ---- */}
+        {/* ---- Productos ---- */}
         <Can permiso="PRODUCTO_LIST">
           <NavLink to="/productos" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
             <BiPurchaseTag className="nav-icon" />
@@ -66,7 +65,7 @@ const Sidebar = () => {
           </NavLink>
         </Can>
 
-        {/* ---- Proveedores (admin y gerente) ---- */}
+        {/* ---- Proveedores ---- */}
         <Can permiso="PROVEEDOR_LIST">
           <NavLink to="/proveedores" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
             <BiGroup className="nav-icon" />
@@ -74,20 +73,28 @@ const Sidebar = () => {
           </NavLink>
         </Can>
 
-        {/* ---- Usuarios (solo admin) ---- */}
+        {/* ---- Usuarios ---- */}
         <Can permiso="USER_LIST">
           <NavLink to="/usuarios" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
             <BiGroup className="nav-icon" />
             {!collapsed && <span className="nav-text">Usuarios</span>}
           </NavLink>
         </Can>
+        
+        {/* ---- Mi Perfil ---- */}
+        <button
+        type="button"
+        className="nav-item profile-link"
+        onClick={() => setShowProfile(true)}>
+          <BiUser className="nav-icon" />
+          {!collapsed && <span className="nav-text">Mi perfil</span>}
+          </button>
+
+
 
       </nav>
 
-      <div style={{marginTop:'auto', padding:'1rem'}}>
-        <button className="sidebar-profile-button" onClick={() => setShowProfile(true)} style={{width:'100%'}}>Mi perfil</button>
-      </div>
-
+      {/* Modal de perfil */}
       <UserProfileModal isOpen={showProfile} onClose={() => setShowProfile(false)} />
     </aside>
   )

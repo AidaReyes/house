@@ -63,7 +63,7 @@ export default function RegisterPage() {
             />
           </div>
 
-          {/* 🔥 Contraseña */}
+          {/* Contraseña */}
           <div className="input-group password-group">
             <label>Contraseña</label>
             <div className="password-wrapper">
@@ -82,7 +82,7 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          {/* 🔥 Confirmar contraseña */}
+          {/*Confirmar contraseña */}
           <div className="input-group password-group">
             <label>Confirmar Contraseña</label>
             <div className="password-wrapper">

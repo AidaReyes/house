@@ -61,17 +61,36 @@ const UserProfileModal = ({ isOpen, onClose }) => {
         <h2>Mi perfil</h2>
         <form onSubmit={handleSubmit}>
           <label>Nombre</label>
-          <input name="nombre" value={form.nombre} onChange={handleChange} />
+          {/* 👇 CAMBIO: se agregó type="text" */}
+          <input
+            type="text"
+            name="nombre"
+            value={form.nombre}
+            onChange={handleChange}
+          />
 
           <label>Usuario</label>
-          <input name="usuario" value={form.usuario} onChange={handleChange} />
+          {/* 👇 CAMBIO: se agregó type="email" (puede ser text si prefieres) */}
+          <input
+            type="email"
+            name="usuario"
+            value={form.usuario}
+            onChange={handleChange}
+          />
 
           <label>Contraseña (dejar vacío para no cambiar)</label>
-          <input type="password" name="password" value={form.password} onChange={handleChange} />
+          <input
+            type="password"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+          />
 
           <div className="user-modal-actions">
             <button type="button" className="btn-cancel" onClick={onClose}>Cerrar</button>
-            <button type="submit" className="btn-primary" disabled={saving}>{saving ? 'Guardando...' : 'Guardar perfil'}</button>
+            <button type="submit" className="btn-primary" disabled={saving}>
+              {saving ? 'Guardando...' : 'Guardar perfil'}
+            </button>
           </div>
 
           <hr style={{ margin: '1rem 0' }} />
