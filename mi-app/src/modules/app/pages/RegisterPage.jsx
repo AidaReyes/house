@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { BiUser, BiEnvelope, BiLock, BiShow, BiHide } from "react-icons/bi";
 import "./auth.css";
 import { useRegister } from "../hooks/useRegister";
 
@@ -38,66 +39,86 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card glass-card">
+    <div className="auth-wrapper">
+      <div className="auth-card glass">
         <h2 className="auth-title">Crear Cuenta</h2>
+        <p className="auth-subtitle">Regístrate para continuar</p>
 
         <form onSubmit={handleSubmit}>
+
+          {/* Nombre */}
           <div className="input-group">
             <label>Nombre</label>
-            <input
-              type="text"
-              name="nombre"
-              onChange={handleChange}
-            />
+            <div className="input-icon-box">
+              <BiUser className="input-icon" />
+              <input
+                type="text"
+                name="nombre"
+                onChange={handleChange}
+                required
+              />
+            </div>
           </div>
 
+          {/* Email */}
           <div className="input-group">
             <label>Correo electrónico</label>
-            <input
-              type="email"
-              name="usuario"
-              onChange={handleChange}
-            />
+            <div className="input-icon-box">
+              <BiEnvelope className="input-icon" />
+              <input
+                type="email"
+                name="usuario"
+                onChange={handleChange}
+                required
+              />
+            </div>
           </div>
 
           {/* Contraseña */}
-          <div className="input-group password-group">
+          <div className="input-group">
             <label>Contraseña</label>
-            <div className="password-wrapper">
+            <div className="input-icon-box">
+              <BiLock className="input-icon" />
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 onChange={handleChange}
+                required
               />
-              <span
-                className="password-toggle"
+
+              <button
+                type="button"
+                className="toggle-btn"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? "🙈" : "👁️"}
-              </span>
+                {showPassword ? <BiHide size={22} /> : <BiShow size={22} />}
+              </button>
             </div>
           </div>
 
-          {/*Confirmar contraseña */}
-          <div className="input-group password-group">
-            <label>Confirmar Contraseña</label>
-            <div className="password-wrapper">
+          {/* Confirmar */}
+          <div className="input-group">
+            <label>Confirmar contraseña</label>
+            <div className="input-icon-box">
+              <BiLock className="input-icon" />
               <input
                 type={showConfirm ? "text" : "password"}
                 name="confirm"
                 onChange={handleChange}
+                required
               />
-              <span
-                className="password-toggle"
+
+              <button
+                type="button"
+                className="toggle-btn"
                 onClick={() => setShowConfirm(!showConfirm)}
               >
-                {showConfirm ? "🙈" : "👁️"}
-              </span>
+                {showConfirm ? <BiHide size={22} /> : <BiShow size={22} />}
+              </button>
             </div>
           </div>
 
-          {error && <p className="error-message">{error}</p>}
+          {error && <p className="error-text">{error}</p>}
 
           <button className="auth-btn" disabled={loading}>
             {loading ? "Cargando..." : "Registrarse"}
