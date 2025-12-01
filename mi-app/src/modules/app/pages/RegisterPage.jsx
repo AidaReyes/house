@@ -48,7 +48,6 @@ export default function RegisterPage() {
             <input
               type="text"
               name="nombre"
-              placeholder="Juan Pérez"
               onChange={handleChange}
             />
           </div>
@@ -58,7 +57,6 @@ export default function RegisterPage() {
             <input
               type="email"
               name="usuario"
-              placeholder="Correo electrónico"
               onChange={handleChange}
             />
           </div>
@@ -70,7 +68,6 @@ export default function RegisterPage() {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder="••••••••"
                 onChange={handleChange}
               />
               <span
@@ -89,7 +86,6 @@ export default function RegisterPage() {
               <input
                 type={showConfirm ? "text" : "password"}
                 name="confirm"
-                placeholder="••••••••"
                 onChange={handleChange}
               />
               <span

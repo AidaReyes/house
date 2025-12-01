@@ -4,7 +4,7 @@ import { permisoService } from "../service/permsService";
 import Modal from "../../product/components/Modal";
 import "./permsStyle.css";
 import { useSearch } from "../../product/hooks/useSearch";
-import Can from "../../../components/can";//este es el link para que pueda leer los permisos
+import Can from "../../../components/can";
 const PermsPage = () => {
   const [permisos, setPermisos] = useState([]);
   const [loading, setLoading] = useState(true);

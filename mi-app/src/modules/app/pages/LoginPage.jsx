@@ -39,7 +39,6 @@ export default function LoginPage() {
             <input
               type="email"
               name="usuario"
-              placeholder="Ingresa tu correo"
               onChange={handleChange}
             />
           </div>
@@ -50,7 +49,6 @@ export default function LoginPage() {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder="••••••••"
                 onChange={handleChange}
               />
               <span
