@@ -12,10 +12,9 @@ export const authService = {
     // data = { status, message, data: { user, token } }
     const { user, token } = data.data;
 
-    // OJO: asegúrate que User.fromApi NO borre permisos ni roles
     const userModel = User.fromApi(user);
 
-    return { user: userModel, token }; // 👈 esto es lo que espera tu useLogin/AuthContext
+    return { user: userModel, token };
   },
 
   register: async (nombre, usuario, password) => {
@@ -25,6 +24,6 @@ export const authService = {
       password,
     });
 
-    return data.data; // aquí está bien así
+    return data.data; 
   },
 };

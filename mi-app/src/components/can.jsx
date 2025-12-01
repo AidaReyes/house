@@ -2,9 +2,9 @@
 import { useAuth } from "../context/AuthContext";
 
 export const Can = ({
-  permiso,          // string opcional
-  permisos,         // array opcional
-  mode = "any",     // "any" = con uno basta, "all" = debe tener todos
+  permiso,          
+  permisos,        
+  mode = "any",   
   children,
   fallback = null,
 }) => {
@@ -12,7 +12,6 @@ export const Can = ({
 
   if (loading) return null;
 
-  // Normalizamos a lista de permisos requeridos
   const required = permisos || (permiso ? [permiso] : []);
 
   if (!required.length) return fallback;
