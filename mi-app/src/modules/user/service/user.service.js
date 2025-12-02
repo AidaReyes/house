@@ -18,7 +18,7 @@ export const userService = {
   },
 
   update: async (id, usuario) => {
-    const { data } = await api.put(`/usuarios/actualizar/${id}`, usuario);
+    const { data } = await api.patch(`/usuarios/actualizar/${id}`, usuario);
     return User.fromApi(data.data);
   },
 

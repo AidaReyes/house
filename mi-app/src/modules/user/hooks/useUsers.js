@@ -25,6 +25,8 @@ export const useUsers = () => {
     try {
       const newUser = await userService.create(userData);
       setUsers(prev => [...prev, newUser]);
+      await fetchUsers(); // vuelve a cargar todos desde BD
+
     } catch (err) {
       console.error("Error creando usuario", err);
     }
@@ -35,6 +37,8 @@ export const useUsers = () => {
     try {
       const updated = await userService.update(id, userData);
       setUsers(prev => prev.map(u => (u.id === id ? updated : u)));
+      await fetchUsers(); // vuelve a cargar todos desde BD
+
     } catch (err) {
       console.error("Error actualizando usuario", err);
     }

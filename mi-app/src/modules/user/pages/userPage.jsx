@@ -94,7 +94,10 @@ export default function UsersPage() {
             <tr key={u.id ?? u._id}>
               <td>{u.nombre}</td>
               <td>{u.usuario}</td>
-              <td>{u.rol}</td>
+              <td>
+                {u.roles?.nombre || "Sin rol"}
+              </td>
+
               <Can permisos={["USER_UPDATE", "USER_DELETE"]}>
                 <td>
                   <Can permiso="USER_UPDATE">

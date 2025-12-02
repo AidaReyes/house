@@ -1,9 +1,9 @@
 export class User {
-  constructor({ id, nombre, usuario, rol }) {
+  constructor({ id, nombre, usuario, roles }) {
     this.id = id;
     this.nombre = nombre;
     this.usuario = usuario;
-    this.rol = rol;
+    this.roles = roles;
   }
 
   static fromApi(apiResponse) {
@@ -11,7 +11,7 @@ export class User {
       id: apiResponse._id,
       nombre: apiResponse.nombre,
       usuario: apiResponse.usuario,
-      rol: apiResponse.rol
+      roles: apiResponse.roles
     });
   }
 }

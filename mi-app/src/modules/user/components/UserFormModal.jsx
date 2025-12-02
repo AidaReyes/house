@@ -1,46 +1,66 @@
-// src/modules/users/components/UserFormModal.jsx
 import React, { useState, useEffect } from "react";
-import './components.css'
+import "./components.css";
+import { rolService } from "../../role/service/rolService";
 
 const UserFormModal = ({ isOpen, onClose, onSubmit, user }) => {
+
+  const [rolesList, setRolesList] = useState([]);
+
   const [form, setForm] = useState({
     nombre: "",
     usuario: "",
     password: "",
-    rol: "cajero",
+    roles: ""
   });
 
+  // 🔹 1) Cargar roles desde backend
   useEffect(() => {
+    rolService.getAll()
+      .then(list => setRolesList(list || []))
+      .catch(err => console.error("Error al cargar roles", err));
+  }, []);
+
+  // 🔹 2) Rellenar form cuando haya roles + user
+  useEffect(() => {
+    if (!rolesList.length) return;
+
     if (user) {
       setForm({
-        nombre: user.nombre,
-        usuario: user.usuario,
-        password: "", // no se muestra por seguridad
-        rol: user.rol,
+        nombre: user.nombre || "",
+        usuario: user.usuario || "",
+        password: "",
+        roles: user.roles?._id || user.roles || ""
       });
     } else {
-      // Limpia si es nuevo
       setForm({
         nombre: "",
         usuario: "",
         password: "",
-        rol: "cajero",
+        roles: ""
       });
     }
-  }, [user]);
+  }, [user, rolesList]);
 
+  // 🔹 Manejo de cambios
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // 🔹 Enviar datos limpios
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Si es edición, quitamos el password si está vacío
-    const payload = { ...form };
-    if (user && form.password.trim() === "") {
-      delete payload.password;
-    }
+    const payload = {};
+
+    // Solo enviar lo que backend acepta
+    if (form.nombre.trim() !== "") payload.nombre = form.nombre;
+    if (form.usuario.trim() !== "") payload.usuario = form.usuario;
+
+    // En edición NO mandar password vacío
+    if (form.password.trim() !== "") payload.password = form.password;
+
+    // Solo enviar el rol si hay uno seleccionado
+    if (form.roles.trim() !== "") payload.roles = form.roles;
 
     onSubmit(payload);
   };
@@ -62,29 +82,35 @@ const UserFormModal = ({ isOpen, onClose, onSubmit, user }) => {
             onChange={handleChange}
           />
 
-          <label>Usuario</label>
+          <label>Correo Electrónico</label>
           <input
-            type="text"
+            type="email"
             name="usuario"
             value={form.usuario}
             onChange={handleChange}
           />
 
-          {/* Password SOLO si crea o si lo quiere cambiar */}
           <label>Password</label>
           <input
             type="password"
             name="password"
-            placeholder={user ? "Dejar vacío para no cambiar" : ""}
+            placeholder={user ? "Dejar vacío si no deseas cambiarla" : ""}
             value={form.password}
             onChange={handleChange}
           />
 
-          <label>Rol</label>
-          <select name="rol" value={form.rol} onChange={handleChange}>
-            <option value="admin">Admin</option>
-            <option value="gerente">Gerente</option>
-            <option value="cajero">Cajero</option>
+          <label>Rol del sistema</label>
+          <select
+            name="roles"
+            value={form.roles}
+            onChange={handleChange}
+          >
+            <option value="">-- Seleccione un rol --</option>
+            {rolesList.map((r) => (
+              <option key={r._id} value={r._id}>
+                {r.nombre}
+              </option>
+            ))}
           </select>
 
           <div className="user-modal-actions">
@@ -103,3 +129,4 @@ const UserFormModal = ({ isOpen, onClose, onSubmit, user }) => {
 };
 
 export default UserFormModal;
+
