@@ -1,0 +1,108 @@
+.table-container {
+  margin-top: 20px;
+  width: 100%;
+  overflow-x: auto;
+  padding: 6px;
+}
+
+.perms-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  font-size: 0.92rem;
+  backdrop-filter: blur(5px);
+  transition: all .3s ease;
+  box-shadow: 0px 4px 14px rgba(0,0,0,.05);
+}
+
+.perms-table thead tr {
+  background: linear-gradient(135deg, #e3e7ed, #f5f7fa);
+}
+
+.perms-table th {
+  padding: 12px 14px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.perms-table td {
+  padding: 12px 14px;
+  color: #4b5563;
+  border-bottom: 1px solid #edf0f3;
+  transition: background .25s ease;
+}
+
+.perms-table tbody tr:hover {
+  background: #f7f9fb;
+  transform: scale(1.002);
+}
+
+.cell-id {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  max-width: 160px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.role-badge {
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.role-badge-active {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #7dd3fc10;
+}
+
+.role-badge-inactive {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca60;
+}
+
+.table-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn.btn-sm {
+  padding: 5px 10px;
+  font-size: 0.76rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: .22s ease;
+}
+
+/* Editar */
+.btn.btn-sm.edit {
+  background: #3b82f6;
+  color: white;
+}
+.btn.btn-sm.edit:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+/* Eliminar */
+.btn.btn-sm.delete {
+  background: #ef4444;
+  color: white;
+}
+.btn.btn-sm.delete:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
