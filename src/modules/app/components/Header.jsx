@@ -42,13 +42,7 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
       {/* LEFT */}
       <div className="header-left">
 
-        <button
-          className={`menu-btn ${sidebarOpen ? "active" : ""}`}
-          onClick={toggleSidebar}
-          aria-label="Toggle sidebar"
-        >
-          <FaBars />
-        </button>
+
 
         <div className="header-logo">
           <span className="logo-text">
