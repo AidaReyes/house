@@ -3,26 +3,20 @@ import { rentService } from "../service/rents.service";
 import Modal from "../../product/components/Modal";
 import "./rentStyle.css";
 import Can from "../../../components/can";
+import RentFormModal from "../components/RentFormModal";
 
 const RentPage = () => {
-
+  // useEffect(() => {
+  //   document.title = "Rents - Cozzy House";
+  // }, []);
   const [rentas, setRentas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [selectedrent, setSelectedrent] = useState(null);
   const [showForm, setShowForm] = useState(false);
-  const [editing, setEditing] = useState(null);
-  const [formError, setFormError] = useState(null);
 
   const [deleteId, setDeleteId] = useState(null);
-
-  const [formData, setFormData] = useState({
-    fechainicio: "",
-    fechafin: "",
-    usuario: "",
-    cuarto: "",
-    status: "activa"
-  });
 
   const cargarRentas = async () => {
     try {
@@ -40,69 +34,17 @@ const RentPage = () => {
     cargarRentas();
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((s) => ({
-      ...s,
-      [name]: value
-    }));
-  };
-
   const handleNuevo = () => {
-    setEditing(null);
-
-    setFormData({
-      fechainicio: "",
-      fechafin: "",
-      usuario: "",
-      cuarto: "",
-      status: "activa"
-    });
-
+    setSelectedrent(null);
     setShowForm(true);
   };
 
-  const handleEditar = (r) => {
-
-    setEditing(r);
-
-    setFormData({
-      fechainicio: r.fechainicio?.slice(0, 10),
-      fechafin: r.fechafin?.slice(0, 10),
-      usuario: r.usuario?._id || r.usuario,
-      cuarto: r.cuarto?._id || r.cuarto,
-      status: r.status
-    });
-
+  const openEditModal = (renta) => {
+    setSelectedrent(renta);
     setShowForm(true);
-  };
-
-  const handleSubmit = async () => {
-
-    if (!formData.fechainicio || !formData.fechafin || !formData.usuario || !formData.cuarto) {
-      setFormError("Todos los campos son obligatorios");
-      return;
-    }
-
-    try {
-
-      if (editing) {
-        await rentService.update(editing._id, formData);
-      } else {
-        await rentService.create(formData);
-      }
-
-      setShowForm(false);
-      cargarRentas();
-
-    } catch (err) {
-      setFormError("Error al guardar renta");
-    }
-
   };
 
   const eliminar = async () => {
-
     try {
       await rentService.delete(deleteId);
       setDeleteId(null);
@@ -110,11 +52,9 @@ const RentPage = () => {
     } catch {
       alert("Error al eliminar renta");
     }
-
   };
 
   return (
-
     <div className="rent-page">
 
       <div className="providers-header">
@@ -125,7 +65,6 @@ const RentPage = () => {
             Nueva renta
           </button>
         </Can>
-
       </div>
 
       {loading && <p>Cargando...</p>}
@@ -145,7 +84,9 @@ const RentPage = () => {
                 <th>Status</th>
                 <th>Usuario</th>
                 <th>Cuarto</th>
+                <Can permisos={["RENT_UPDATE", "RENT_DELETE"]}>
                 <th>Acciones</th>
+                </Can>
               </tr>
             </thead>
 
@@ -161,20 +102,13 @@ const RentPage = () => {
 
                 <tr key={r._id}>
 
-                  <td className="cell-id">
-                    {r._id}
-                  </td>
+                  <td className="cell-id">{r._id}</td>
+
+                  <td>{new Date(r.fechainicio).toLocaleDateString()}</td>
+
+                  <td>{new Date(r.fechafin).toLocaleDateString()}</td>
 
                   <td>
-                    {new Date(r.fechainicio).toLocaleDateString()}
-                  </td>
-
-                  <td>
-                    {new Date(r.fechafin).toLocaleDateString()}
-                  </td>
-
-                  <td>
-
                     <span
                       className={`role-badge ${
                         r.status === "activa"
@@ -184,25 +118,20 @@ const RentPage = () => {
                     >
                       {r.status}
                     </span>
-
                   </td>
 
-                  <td>
-                    {r.usuario?.nombre || r.usuario}
-                  </td>
+                  <td>{r.usuario?.nombre}</td>
+
+                  <td>{r.cuarto?.titulo}</td>
+                <Can permisos={["RENT_UPDATE", "RENT_DELETE"]}>
 
                   <td>
-                    {r.cuarto?.nombre || r.cuarto}
-                  </td>
-
-                  <td>
-
                     <div className="table-actions">
 
                       <Can permiso="RENT_UPDATE">
                         <button
                           className="btn btn-sm edit"
-                          onClick={() => handleEditar(r)}
+                          onClick={() => openEditModal(r)}
                         >
                           Editar
                         </button>
@@ -218,9 +147,8 @@ const RentPage = () => {
                       </Can>
 
                     </div>
-
                   </td>
-
+                </Can>
                 </tr>
 
               ))}
@@ -233,63 +161,20 @@ const RentPage = () => {
 
       )}
 
-      {/* Modal crear / editar */}
-
-      <Modal
-        open={showForm}
-        title={editing ? "Editar renta" : "Nueva renta"}
-        onClose={() => setShowForm(false)}
-        onConfirm={handleSubmit}
-        confirmText="Guardar"
-        showCancel
-      >
-
-        {formError && <p className="error">{formError}</p>}
-
-        <label>Fecha inicio</label>
-        <input
-          type="date"
-          name="fechainicio"
-          value={formData.fechainicio}
-          onChange={handleChange}
+      {/* MODAL CREAR / EDITAR */}
+      {showForm && (
+        <RentFormModal
+          open={showForm}
+          renta={selectedrent}
+          onClose={() => {
+            setShowForm(false);
+            setSelectedrent(null);
+          }}
+          onSaved={cargarRentas}
         />
+      )}
 
-        <label>Fecha fin</label>
-        <input
-          type="date"
-          name="fechafin"
-          value={formData.fechafin}
-          onChange={handleChange}
-        />
-
-        <label>ID Usuario</label>
-        <input
-          name="usuario"
-          value={formData.usuario}
-          onChange={handleChange}
-        />
-
-        <label>ID Cuarto</label>
-        <input
-          name="cuarto"
-          value={formData.cuarto}
-          onChange={handleChange}
-        />
-
-        <label>Status</label>
-        <select
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-        >
-          <option value="activa">Activa</option>
-          <option value="finalizada">Finalizada</option>
-          <option value="cancelada">Cancelada</option>
-        </select>
-
-      </Modal>
-
-      {/* Modal eliminar */}
+      {/* MODAL ELIMINAR */}
 
       <Modal
         open={!!deleteId}

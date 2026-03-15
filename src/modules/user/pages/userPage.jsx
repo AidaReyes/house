@@ -7,12 +7,13 @@ import { useSearch } from '../../product/hooks/useSearch'
 import "./page.css";
 
 export default function UsersPage() {
+  
   const { users, loading, createUser, updateUser, deleteUser } = useUsers();
 
   const [showForm, setShowForm] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-
+  
   // Buscador sobre usuarios (id, nombre, usuario)
   const {
     query,
@@ -80,6 +81,7 @@ export default function UsersPage() {
       <table className="users-table" border="0" cellPadding="8">
         <thead>
           <tr>
+            <th>Id usuario</th>
             <th>Nombre</th>
             <th>Usuario</th>
             <th>Rol</th>
@@ -92,6 +94,7 @@ export default function UsersPage() {
         <tbody>
           {(usersFiltrados || []).map((u) => (
             <tr key={u.id ?? u._id}>
+              <td>{u.id ?? u._id}</td>
               <td>{u.nombre}</td>
               <td>{u.usuario}</td>
               <td>

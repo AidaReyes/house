@@ -6,7 +6,7 @@ export const useLogoutWithAlert = () => {
   const { logout } = useAuth();
 
   const logoutWithAlert = async (
-    message = "Tu sesión ha expirado"
+    message = "Tu sesión hasss expirado"
   ) => {
     await Swal.fire({
       title: "Sesión finalizada",

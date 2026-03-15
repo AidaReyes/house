@@ -46,7 +46,7 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
 
         <div className="header-logo">
           <span className="logo-text">
-            Admin<span className="logo-accent">Panel</span>
+            <span className="logo-accent">Cozy-House</span>
           </span>
         </div>
 

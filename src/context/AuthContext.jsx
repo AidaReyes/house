@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
   };
-
+// "
   const logoutWithAlert = (message = "Tu sesión ha expirado") => {
     alert(message);
     logout();

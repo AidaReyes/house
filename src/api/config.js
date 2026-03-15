@@ -38,4 +38,4 @@ export const attachInterceptors = (logoutWithAlert) => {
 };
 
 
-export default api;
+export default api
