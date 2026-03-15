@@ -1,6 +1,6 @@
 import Sidebar from './Sidebar';
 import Header from './Header';
-import './Layout.css';
+// import './Layout.css';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 

@@ -211,40 +211,38 @@ const RolePage = () => {
 
     <div className="providers-page professional">
 
-      <div className="providers-header">
+      <div className="crud-actions">
 
-        <h2>Roles</h2>
+        <div className="providers-header">
+          <Can permiso="ROL_CREATE">
+            <button
+              className="btn btn-primary"
+              onClick={handleNuevo}
+            >
+              Nuevo rol
+            </button>
+          </Can>
+        </div>
 
-        <Can permiso="ROL_CREATE">
+        <form className="search" onSubmit={(e) => e.preventDefault()}>
+          <input
+            type="text"
+            placeholder="Buscar rol..."
+            value={query}
+            onChange={onSearchChange}
+            className="search-input"
+          />
+
           <button
-            className="btn-primary"
-            onClick={handleNuevo}
+            type="button"
+            className="search-clear"
+            onClick={clearSearch}
           >
-            Nuevo rol
+            Limpiar
           </button>
-        </Can>
+        </form>
 
       </div>
-
-      <form className="search" onSubmit={(e) => e.preventDefault()}>
-
-        <input
-          type="text"
-          placeholder="Buscar rol..."
-          value={query}
-          onChange={onSearchChange}
-          className="search-input"
-        />
-
-        <button
-          type="button"
-          className="search-clear"
-          onClick={clearSearch}
-        >
-          Limpiar
-        </button>
-
-      </form>
 
       {loading && <p className="muted">Cargando roles...</p>}
       {error && <p className="error">{error}</p>}
@@ -255,38 +253,50 @@ const RolePage = () => {
 
           {rolesFiltrados.map((r) => (
 
-            <div className="provider-card pro" key={r._id}>
+            <div className="card" key={r._id}>
 
-              <div className="provider-card-header">
+              <div className="card-header">
 
-                <span className="provider-id">
+                <span className="muted">
                   ID: {r._id}
                 </span>
 
-                <span
-                  className={`role-badge ${
-                    r.activo
-                      ? "role-badge-active"
-                      : "role-badge-inactive"
-                  }`}
-                >
+                <span className={`badge ${r.activo ? "badge-success" : "badge-danger"}`}>
                   {r.activo ? "Activo" : "Inactivo"}
                 </span>
 
               </div>
 
-              <div className="provider-card-body">
+              <div className="card-body">
 
-                <h3>{r.nombre}</h3>
-                <p>{r.descripcion}</p>
+                <h3 className="card-title">
+                  {r.nombre}
+                </h3>
+                <div className="role-permissions">
+
+                  {r.permisos?.length > 0 ? (
+                    r.permisos.map((perm) => (
+                      <span className="badge badge-primary" key={perm._id}>
+                        {perm.nombre}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="muted">Sin permisos</span>
+                  )}
+
+                </div>
+
+                <p className="muted">
+                  {r.descripcion}
+                </p>
 
               </div>
 
-              <div className="provider-card-actions">
+              <div className="card-footer">
 
                 <Can permiso="ROL_UPDATE">
                   <button
-                    className="btn edit"
+                    className="btn btn-edit"
                     onClick={() => handleEditar(r)}
                   >
                     Editar
@@ -295,7 +305,7 @@ const RolePage = () => {
 
                 <Can permiso="ROL_DELETE">
                   <button
-                    className="btn delete"
+                    className="btn btn-danger"
                     onClick={() => setDeleteId(r._id)}
                   >
                     Eliminar

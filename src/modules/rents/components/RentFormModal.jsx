@@ -3,7 +3,6 @@ import Modal from "../../product/components/Modal";
 import { rentService } from "../service/rents.service";
 import { roomsService } from "../../rooms/service/room.Service";
 
-import "./rentStyle.css";
 
 const RentFormModal = ({ open, onClose, renta, onSaved }) => {
 

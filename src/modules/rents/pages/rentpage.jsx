@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { rentService } from "../service/rents.service";
 import Modal from "../../product/components/Modal";
-import "./rentStyle.css";
 import Can from "../../../components/can";
 import RentFormModal from "../components/RentFormModal";
+import { useSearch } from "../../product/hooks/useSearch";
 
 const RentPage = () => {
   // useEffect(() => {
@@ -53,19 +53,69 @@ const RentPage = () => {
       alert("Error al eliminar renta");
     }
   };
+  // Buscador
+  // Buscador sobre usuarios (id, nombre, usuario)
+  const {
+    query,
+    filteredItems: rentsFiltrados,
+    onChange: onSearchChange,
+    clear: clearSearch,
+  } = useSearch(rentas || [], (u, q) => {
+    const queryLower = q.toLowerCase();
+    const id = String(u._id ?? u.id ?? "").toLowerCase();
+    const cuarto = String(u.cuarto ?? "").toLowerCase();
+    const usuario = String(u.usuario ?? "").toLowerCase();
+    const fechainicio = String(u.fechainicio ?? "").toLowerCase();
+    const fechafin = String(u.fechafin ?? "").toLowerCase();
 
+
+    return (
+      id.includes(queryLower) ||
+      cuarto.includes(queryLower) ||
+      usuario.includes(queryLower) ||
+      fechainicio.includes(queryLower) ||
+      fechafin.includes(queryLower)
+    );
+  });
   return (
     <div className="rent-page">
 
       <div className="providers-header">
         <h2>Gestión de Rentas</h2>
-
-        <Can permiso="RENT_CREATE">
-          <button className="btn-primary" onClick={handleNuevo}>
-            Nueva renta
-          </button>
-        </Can>
       </div>
+
+        <div className="crud-actions">
+
+          <div className="providers-header">
+            <Can permiso="RENT_CREATE">
+              <button
+                className="btn btn-primary"
+                onClick={handleNuevo}
+              >
+                Nueva renta
+              </button>
+            </Can>
+          </div>
+
+          <form className="search" onSubmit={(e) => e.preventDefault()}>
+            <input
+              type="text"
+              placeholder="Buscar renta..."
+              value={query}
+              onChange={onSearchChange}
+              className="search-input"
+            />
+
+            <button
+              type="button"
+              className="search-clear"
+              onClick={clearSearch}
+            >
+              Limpiar
+            </button>
+          </form>
+
+        </div>
 
       {loading && <p>Cargando...</p>}
       {error && <p className="error">{error}</p>}
@@ -98,7 +148,7 @@ const RentPage = () => {
                 </tr>
               )}
 
-              {rentas.map((r) => (
+              {rentsFiltrados.map((r) => (
 
                 <tr key={r._id}>
 

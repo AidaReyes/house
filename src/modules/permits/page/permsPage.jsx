@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { permisoService } from "../service/permsService";
 import Modal from "../../product/components/Modal";
-import "./permsStyle.css";
 import { useSearch } from "../../product/hooks/useSearch";
 import Can from "../../../components/can";
 import PermFormModal from "../components/permsFormModal";
@@ -176,41 +175,38 @@ const PermsPage = () => {
 
   return (
     <div className="providers-page professional">
+<div className="crud-actions">
 
-      <div className="providers-header">
-        <Can permiso="PERMISOS_CREATE">
-          <h2>Permisos</h2>
+  <div className="providers-header">
+    <Can permiso="PERMISOS_CREATE">
+      <button
+        className="btn btn-primary"
+        onClick={handleNuevo}
+      >
+        Nuevo permiso
+      </button>
+    </Can>
+  </div>
 
-          <button
-            className="btn-primary"
-            onClick={handleNuevo}
-          >
-            Nuevo permiso
-          </button>
+  <form className="search" onSubmit={(e) => e.preventDefault()}>
+    <input
+      type="text"
+      placeholder="Buscar permiso..."
+      value={query}
+      onChange={onSearchChange}
+      className="search-input"
+    />
 
-        </Can>
-      </div>
+    <button
+      type="button"
+      className="search-clear"
+      onClick={clearSearch}
+    >
+      Limpiar
+    </button>
+  </form>
 
-      <form className="search" onSubmit={(e) => e.preventDefault()}>
-
-        <input
-          type="text"
-          placeholder="Buscar permiso..."
-          value={query}
-          onChange={onSearchChange}
-          className="search-input"
-        />
-
-        <button
-          type="button"
-          className="search-clear"
-          onClick={clearSearch}
-        >
-          Limpiar
-        </button>
-
-      </form>
-
+</div>
       {loading && <p className="muted">Cargando permisos...</p>}
       {error && <p className="error">{error}</p>}
 
@@ -238,7 +234,7 @@ const PermsPage = () => {
                     <th>Estado</th>
 
                     <Can permisos={["PERMISOS_UPDATE", "PERMISOS_DELETE"]} mode="any">
-                      <th style={{ width: "130px" }}>Acciones</th>
+                      <th>Acciones</th>
                     </Can>
 
                   </tr>
@@ -254,6 +250,7 @@ const PermsPage = () => {
                       <td>{p.recurso}</td>
                       <td>{p.accion}</td>
                       <td>{p.descripcion}</td>
+
 
                       <td>
                         <span
