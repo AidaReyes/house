@@ -1,0 +1,43 @@
+.role-form input,
+.role-form textarea{
+  width:100%;
+  margin-bottom:10px;
+}
+
+.permisos-container{
+  max-height:300px;
+  overflow-y:auto;
+  border:1px solid #ddd;
+  padding:10px;
+  border-radius:6px;
+}
+
+.permiso-grupo{
+  margin-bottom:15px;
+}
+
+.permiso-titulo{
+  font-weight:bold;
+  margin-bottom:6px;
+  text-transform:uppercase;
+  font-size:13px;
+}
+
+.permiso-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill,minmax(120px,1fr));
+  gap:6px;
+}
+
+.permiso-item{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  font-size:13px;
+}
+
+.role-activo{
+  margin-top:10px;
+  display:flex;
+  gap:6px;
+}
