@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Modal from "../../product/components/Modal";
 import { rentService } from "../service/rents.service";
-import { roomsService } from "../../rooms/service/rooms.Service";
+import { roomsService } from "../../rooms/service/room.Service";
 
 import "./rentStyle.css";
 
