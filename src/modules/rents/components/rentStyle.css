@@ -1,0 +1,46 @@
+.rent-form{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.rent-form label{
+font-size:.85rem;
+font-weight:600;
+color:#374151;
+}
+
+.rent-form input{
+padding:8px;
+border:1px solid #d1d5db;
+border-radius:6px;
+font-size:.85rem;
+}
+
+.input-group{
+display:flex;
+gap:6px;
+}
+
+.input-group button{
+background:#3b82f6;
+border:none;
+color:white;
+padding:7px 10px;
+border-radius:6px;
+cursor:pointer;
+font-size:.75rem;
+}
+
+.checkbox{
+display:flex;
+align-items:center;
+gap:8px;
+font-size:.85rem;
+margin-top:8px;
+}
+
+.checkbox input{
+width:16px;
+height:16px;
+}

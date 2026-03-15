@@ -1,0 +1,41 @@
+.rent-table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+.rent-table th,
+.rent-table td{
+border:1px solid #ddd;
+padding:10px;
+text-align:center;
+}
+
+.rent-table th{
+background:#f5f5f5;
+}
+
+.btn{
+padding:6px 12px;
+margin:2px;
+border:none;
+cursor:pointer;
+}
+
+.btn.edit{
+background:#3498db;
+color:white;
+}
+
+.btn.delete{
+background:#e74c3c;
+color:white;
+}
+
+.btn-primary{
+background:#2ecc71;
+color:white;
+padding:8px 15px;
+border:none;
+cursor:pointer;
+}
