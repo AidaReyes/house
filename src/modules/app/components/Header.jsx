@@ -1,23 +1,22 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 import {
-  FaHouse,
-  FaUserShield,
-  FaKey,
   FaBoxesStacked,
-  FaHandshake,
-  FaUsers,
-  FaBars,
   FaChevronDown,
+  FaGear,
+  FaHandshake,
+  FaHouse,
+  FaKey,
   FaRightFromBracket,
-  FaGear
+  FaUsers,
+  FaUserShield
 } from "react-icons/fa6";
 
 import perfil from "../../../assets/perfil.png";
 
-import { useAuth } from "../../../context/AuthContext";
 import Can from "../../../components/can.jsx";
+import { useAuth } from "../../../context/AuthContext";
 import UserProfileModal from "../../../modules/user/components/UserProfileModal.jsx";
 
 import "./header.css";
@@ -112,7 +111,15 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
             <span>Renta</span>
           </NavLink>
         </Can>
-
+        <Can permiso="RENT_LIST">
+          <NavLink
+            to="/cuartos"
+            className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
+          >
+            <FaHandshake />
+            <span>Cuartos</span>
+          </NavLink>
+        </Can>
         <NavLink
           to="/usuarios"
           className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
@@ -121,7 +128,9 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
           <span>Usuarios</span>
         </NavLink>
 
+
       </nav>
+      
 
       {/* USER */}
       <div className="header-right">

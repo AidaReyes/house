@@ -1,10 +1,12 @@
-import { BrowserRouter, Routes, Route,Navigate } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 // Layout
 import Layout from '../modules/app/components/Layout.jsx';
 
 // Pages internas
 import DashboardPage from '../modules/app/pages/dashboardPage.jsx';
+import Cuartos from "../modules/cuartos/Page/cuartosuser.jsx";
+
 import ProductsPage from '../modules/product/pages/productPage.jsx';
 
 
@@ -13,9 +15,9 @@ import ProvidersPage from '../modules/provider/pages/providerPage.jsx';
 
 import UsersPage from '../modules/user/pages/userPage.jsx';
 
-import RolePage from '../modules/role/pages/rolePage.jsx';
 import Permspage from '../modules/permits/page/permsPage.jsx';
 import RentPage from '../modules/rents/pages/rentpage.jsx';
+import RolePage from '../modules/role/pages/rolePage.jsx';
 
 // Pages públicas
 import LoginPage from '../modules/app/pages/LoginPage.jsx';
@@ -43,7 +45,8 @@ export default function AppRouter() {
           }
         >
           <Route path="/dashboard" element={<DashboardPage />} />
-
+          {/* Cuartos */}
+          <Route path="/cuartos" element={<Cuartos />} />
           {/* Productos → admin, gerente, cajero */}
           <Route
             path="/productos"

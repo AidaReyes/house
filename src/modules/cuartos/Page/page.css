@@ -1,0 +1,222 @@
+/* Contenedor Principal */
+.cuartos-container {
+  padding: 40px;
+  background-color: #f9fafb;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Header */
+.header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.title-main {
+  font-size: 26px;
+  font-weight: 700;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-add {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Buscador */
+.search-container {
+  display: flex;
+  gap: 10px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 18px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  margin-bottom: 35px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  outline: none;
+  font-size: 15px;
+}
+
+.btn-search {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 0 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-clear {
+  background: #f3f4f6;
+  color: #4b5563;
+  border: none;
+  padding: 0 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Grid */
+.rooms-grid {
+  display: grid;
+  /* Corregido: llevaba una 'C' mayúscula que puede dar error */
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+  gap: 30px;
+}
+
+/* Card Estilo Imagen */
+.room-card {
+  border-radius: 28px; /* Muy redondeado como la imagen */
+  overflow: hidden;
+  background: white;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+}
+
+.image-box {
+  position: relative;
+  height: 210px;
+  padding: 10px; /* Crea el efecto de marco para la imagen */
+}
+
+.room-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px; /* Imagen redondeada internamente */
+}
+
+.status-badge {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Info de la Card */
+.room-info-body {
+  padding: 20px 24px;
+}
+
+.room-name {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 15px 0;
+  color: #1f2937;
+}
+
+.details-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #f8fafc;
+  padding-bottom: 15px;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #64748b;
+  font-size: 14px;
+  margin: 0;
+}
+
+.icon-accent {
+  color: #3b82f6;
+  font-size: 18px;
+}
+
+/* Footer Card */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price-box {
+  display: flex;
+  align-items: baseline;
+}
+
+.price-val {
+  font-weight: 800;
+  font-size: 24px;
+  color: #0f172a;
+}
+
+.price-period {
+  font-size: 14px;
+  color: #94a3b8;
+  margin-left: 4px;
+}
+
+.actions-group {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-detail-view {
+  background-color: #4091ce;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-contact {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Menú de opciones */
+.menu-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.btn-dots {
+  background: rgba(255,255,255,0.9);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
