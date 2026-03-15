@@ -16,6 +16,7 @@ import Permspage from '../modules/permits/page/permsPage.jsx';
 // Pages públicas
 import LoginPage from '../modules/app/pages/LoginPage.jsx';
 import RegisterPage from '../modules/app/pages/RegisterPage.jsx';
+import PerfilArrendador from '../modules/app/pages/PerfilArrendador.jsx';
 
 import Can from '../components/can.jsx';
 // Protected route
@@ -39,6 +40,7 @@ export default function AppRouter() {
           }
         >
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/arrendador" element={<PerfilArrendador />} />
 
           {/* Productos → admin, gerente, cajero */}
           <Route
