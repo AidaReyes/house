@@ -180,7 +180,7 @@ const PermsPage = () => {
   <div className="providers-header">
     <Can permiso="PERMISOS_CREATE">
       <button
-        className="btn btn-primary"
+        className="btn btn-primary btn-md"
         onClick={handleNuevo}
       >
         Nuevo permiso
@@ -270,7 +270,7 @@ const PermsPage = () => {
 
                           <Can permiso="PERMISOS_UPDATE">
                             <button
-                              className="btn btn-sm edit"
+                              className="btn btn-sm btn-primary"
                               onClick={() => handleEditar(p)}
                             >
                               Editar
@@ -279,7 +279,7 @@ const PermsPage = () => {
 
                           <Can permiso="PERMISOS_DELETE">
                             <button
-                              className="btn btn-sm delete"
+                              className="btn btn-sm btn-danger"
                               onClick={() => setDeleteId(p._id)}
                             >
                               Eliminar

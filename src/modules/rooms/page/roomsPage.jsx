@@ -64,7 +64,7 @@ export default function RoomsPage() {
 
       <div className="crud-actions">
         <button
-          className="btn btn-primary"
+          className="btn btn-danger btn-sm"
           onClick={openCreateModal}
         >
           Nuevo cuarto
@@ -95,14 +95,14 @@ export default function RoomsPage() {
 
               <td>
                 <button
-                  className="btn btn-sm edit"
+                  className="btn btn-primary btn-sm"
                   onClick={() => openEditModal(room)}
                 >
                   Editar
                 </button>
 
                 <button
-                  className="btn btn-sm delete"
+                  className="btn btn-sm btn-danger"
                   onClick={() => handleDelete(room._id)}
                 >
                   Eliminar

@@ -216,7 +216,7 @@ const RolePage = () => {
         <div className="providers-header">
           <Can permiso="ROL_CREATE">
             <button
-              className="btn btn-primary"
+              className="btn btn-primary btn-md"
               onClick={handleNuevo}
             >
               Nuevo rol
@@ -296,7 +296,7 @@ const RolePage = () => {
 
                 <Can permiso="ROL_UPDATE">
                   <button
-                    className="btn btn-edit"
+                    className="btn btn-sm btn-primary"
                     onClick={() => handleEditar(r)}
                   >
                     Editar
@@ -305,7 +305,7 @@ const RolePage = () => {
 
                 <Can permiso="ROL_DELETE">
                   <button
-                    className="btn btn-danger"
+                    className="btn btn-sm btn-danger"
                     onClick={() => setDeleteId(r._id)}
                   >
                     Eliminar

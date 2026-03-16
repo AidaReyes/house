@@ -58,7 +58,7 @@ export default function UsersPage() {
   <div className="providers-header">
     <Can permiso="USER_CREATE">
       <button
-        className="btn btn-primary"
+        className="btn btn-primary btn-md"
         onClick={openCreateModal}
       >
         Nuevo usuario
@@ -112,10 +112,10 @@ export default function UsersPage() {
               <Can permisos={["USER_UPDATE", "USER_DELETE"]}>
                 <td>
                   <Can permiso="USER_UPDATE">
-                    <button className="btn btn-sm edit" onClick={() => openEditModal(u)}>Editar</button>
+                    <button className="btn btn-sm btn-primary" onClick={() => openEditModal(u)}>Editar</button>
                   </Can>
                   <Can permiso="USER_DELETE">
-                    <button className="btn btn-sm delete" onClick={() => openDeleteModal(u)}>Eliminar</button>
+                    <button className="btn btn-sm btn-danger" onClick={() => openDeleteModal(u)}>Eliminar</button>
                   </Can>
                 </td>
               </Can>
