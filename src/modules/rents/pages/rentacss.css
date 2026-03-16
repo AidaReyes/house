@@ -1,0 +1,16 @@
+body{
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+.card{
+  background: var(--color-card);
+}
+
+.table th{
+  background: var(--table-header);
+}
+
+.btn-primary{
+  background: var(--color-primary);
+}

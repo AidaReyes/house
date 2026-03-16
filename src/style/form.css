@@ -1,0 +1,105 @@
+input,
+select,
+textarea{
+
+width:100%;
+
+padding:8px 10px;
+
+border-radius:6px;
+
+border:1px solid var(--border-color);
+
+background:var(--color-card);
+
+color:var(--color-text);
+
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+
+outline:none;
+border-color:var(--color-primary);
+
+}
+
+label{
+font-size:14px;
+color:var(--color-text-light);
+margin-bottom:4px;
+display:block;
+}
+
+.form-group{
+margin-bottom:15px;
+}
+
+.crud-actions{
+
+display:flex;
+flex-direction:column;
+
+align-items:flex-end;
+
+gap:10px;
+
+margin-bottom:20px;
+
+}
+
+
+/* BUSCADOR */
+
+.search{
+
+display:flex;
+gap:10px;
+
+}
+
+
+/* INPUT */
+
+.search-input{
+
+height:38px;
+width:260px;
+
+padding:0 12px;
+
+border-radius:8px;
+
+border:1px solid var(--border-color);
+
+background:var(--color-card);
+
+color:var(--color-text);
+
+}
+
+
+/* BOTON LIMPIAR */
+
+.search-clear{
+
+height:38px;
+
+padding:0 14px;
+
+border-radius:8px;
+
+border:1px solid var(--border-color);
+
+background:var(--color-card);
+
+cursor:pointer;
+
+}
+
+.search-clear:hover{
+
+background:var(--hover-bg);
+
+}

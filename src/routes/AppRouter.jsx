@@ -5,7 +5,7 @@ import Layout from '../modules/app/components/Layout.jsx';
 
 // Pages internas
 import DashboardPage from '../modules/app/pages/dashboardPage.jsx';
-import Cuartos from "../modules/cuartos/Page/cuartosuser.jsx";
+import Cuartos from "../modules/rooms/page/roomsPage.jsx";
 
 import ProductsPage from '../modules/product/pages/productPage.jsx';
 

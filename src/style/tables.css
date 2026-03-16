@@ -1,0 +1,25 @@
+table{
+width:100%;
+border-collapse:collapse;
+background:var(--color-card);
+}
+
+th{
+background:var(--table-header);
+padding:10px;
+text-align:left;
+border-bottom:1px solid var(--table-border);
+}
+
+td{
+padding:10px;
+border-bottom:1px solid var(--table-border);
+}
+
+tr{
+background:var(--table-row);
+}
+
+tbody tr:hover{
+background:var(--color-background);
+}

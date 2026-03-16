@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-
+import { toggleTheme } from "../../../utils/theme.js";
 import {
   FaBoxesStacked,
   FaChevronDown,
@@ -37,7 +37,9 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
 
   return (
     <header className="header">
-
+<button onClick={toggleTheme}>
+  🌙
+</button>
       {/* LEFT */}
       <div className="header-left">
 
@@ -45,7 +47,7 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
 
         <div className="header-logo">
           <span className="logo-text">
-            <span className="logo-accent">Cozy-House</span>
+              <img id="logo" src="/logo_Dark.png" alt="Logo" />
           </span>
         </div>
 

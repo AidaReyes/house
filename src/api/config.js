@@ -5,37 +5,52 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
-// ========== REQUEST INTERCEPTOR ==========
+// REQUEST
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
-    if (token) {
-      // Puedes usar Authorization también
-      // config.headers['Authorization'] = `Bearer ${token}`;
 
+    if (token) {
       config.headers['x-token'] = `Bearer ${token}`;
     }
+
     return config;
   },
   (error) => Promise.reject(error)
 );
 
-// ========== RESPONSE INTERCEPTOR ==========
-export const attachInterceptors = (logoutWithAlert) => {
+
+// RESPONSE
+export const attachInterceptors = (logout) => {
+
   api.interceptors.response.use(
+
     (res) => res,
+
     (error) => {
+
       const status = error?.response?.status;
       const message = error?.response?.data?.message?.toLowerCase() || "";
 
       if (status === 401 || message.includes("expired")) {
-        logoutWithAlert("Tu sesión ha expirado. Inicia sesión nuevamente.");
+
+        // Lanzar evento global
+        window.dispatchEvent(
+          new CustomEvent("session-expired", {
+            detail: {
+              message: "Tu sesión ha expirado. Inicia sesión nuevamente."
+            }
+          })
+        );
+
+        logout();
       }
 
       return Promise.reject(error);
     }
+
   );
+
 };
 
-
-export default api
+export default api;

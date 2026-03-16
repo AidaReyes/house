@@ -4,7 +4,6 @@ import UserFormModal from "../components/UserFormModal.jsx";
 import UserDeleteModal from "../components/UserDeleteModal.jsx";
 import Can from "../../../components/can"; // para poder ocultar botón de acuerdo al permiso
 import { useSearch } from '../../product/hooks/useSearch'
-import "./page.css";
 
 export default function UsersPage() {
   
@@ -54,29 +53,38 @@ export default function UsersPage() {
     <div className="users-page">
       <h1>Usuarios</h1>
 
-      {/* Buscador */}
-      <form className="search" onSubmit={(e) => e.preventDefault()}>
-        <input
-          type="text"
-          placeholder="Buscar usuario..."
-          value={query}
-          onChange={onSearchChange}
-          className="search-input"
-        />
-        <button
-          type="button"
-          className="search-clear"
-          onClick={clearSearch}
-        >
-          Limpiar
-        </button>
-      </form>
+<div className="crud-actions">
 
-      <Can permiso="USER_CREATE">
-        <button className="btn btn-primary" onClick={openCreateModal}>
-          Nuevo usuario
-        </button>
-      </Can>
+  <div className="providers-header">
+    <Can permiso="USER_CREATE">
+      <button
+        className="btn btn-primary"
+        onClick={openCreateModal}
+      >
+        Nuevo usuario
+      </button>
+    </Can>
+  </div>
+
+  <form className="search" onSubmit={(e) => e.preventDefault()}>
+    <input
+      type="text"
+      placeholder="Buscar permiso..."
+      value={query}
+      onChange={onSearchChange}
+      className="search-input"
+    />
+
+    <button
+      type="button"
+      className="search-clear"
+      onClick={clearSearch}
+    >
+      Limpiar
+    </button>
+  </form>
+
+</div>
 
       <table className="users-table" border="0" cellPadding="8">
         <thead>
@@ -104,10 +112,10 @@ export default function UsersPage() {
               <Can permisos={["USER_UPDATE", "USER_DELETE"]}>
                 <td>
                   <Can permiso="USER_UPDATE">
-                    <button onClick={() => openEditModal(u)}>Editar</button>
+                    <button className="btn btn-sm edit" onClick={() => openEditModal(u)}>Editar</button>
                   </Can>
                   <Can permiso="USER_DELETE">
-                    <button onClick={() => openDeleteModal(u)}>Eliminar</button>
+                    <button className="btn btn-sm delete" onClick={() => openDeleteModal(u)}>Eliminar</button>
                   </Can>
                 </td>
               </Can>
