@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import "./RoomFormMod...css";
-
+import "./RoomFormModal.css";
 const EditRoomModal = ({ isOpen, onClose, onSubmit, roomData }) => {
   const [formData, setFormData] = useState({
     alojamiento: "",
@@ -8,7 +7,8 @@ const EditRoomModal = ({ isOpen, onClose, onSubmit, roomData }) => {
     precio: "",
     inmuebles: "",
     servicios: "",
-    imagen: ""
+    imagen: "",
+    diponible:true
   });
 
   useEffect(() => {
@@ -19,9 +19,14 @@ const EditRoomModal = ({ isOpen, onClose, onSubmit, roomData }) => {
 
   if (!isOpen) return null;
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+const handleChange = (e) => {
+  const { name, value, type, checked } = e.target;
+
+  setFormData({
+    ...formData,
+    [name]: type === "checkbox" ? checked : value
+  });
+};
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -79,7 +84,15 @@ const EditRoomModal = ({ isOpen, onClose, onSubmit, roomData }) => {
             value={formData.imagen}
             onChange={handleChange}
           />
-
+           <label className="checkboxRow">
+  <input
+    type="checkbox"
+    name="disponible"
+    checked={formData.disponible}
+    onChange={handleChange}
+  />
+  Disponible
+</label>
           <div className="modalActions">
             <button type="submit" className="saveBtn">Actualizar</button>
             <button type="button" className="cancelBtn" onClick={onClose}>Cancelar</button>

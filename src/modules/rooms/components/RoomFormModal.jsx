@@ -11,15 +11,18 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit }) => {
     precio: "",
     inmuebles: "",
     Contacto: "",
-    imagen: ""
+    imagen: "",
+    disponible: true
   });
 
   if (!isOpen) return null;
 
   const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
     setForm({
       ...form,
-      [e.target.name]: e.target.value
+      [name]: type === "checkbox" ? checked : value
     });
   };
 
@@ -36,7 +39,8 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit }) => {
       precio: "",
       inmuebles: "",
       Contacto: "",
-      imagen: ""
+      imagen: "",
+      disponible: true
     });
 
     onClose();
@@ -55,6 +59,7 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit }) => {
           <input
             name="alojamiento"
             placeholder="Nombre del alojamiento"
+            value={form.alojamiento}
             onChange={handleChange}
             className="modalInput"
             required
@@ -63,6 +68,7 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit }) => {
           <input
             name="ubicacion"
             placeholder="Ubicación"
+            value={form.ubicacion}
             onChange={handleChange}
             className="modalInput"
             required
@@ -71,6 +77,7 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit }) => {
           <input
             name="servicios"
             placeholder="Servicios"
+            value={form.servicios}
             onChange={handleChange}
             className="modalInput"
             required
@@ -79,6 +86,7 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit }) => {
           <textarea
             name="descripcion"
             placeholder="Descripción breve"
+            value={form.descripcion}
             onChange={handleChange}
             className="modalTextarea"
           />
@@ -87,6 +95,7 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit }) => {
             name="precio"
             type="number"
             placeholder="Cargo mensual"
+            value={form.precio}
             onChange={handleChange}
             className="modalInput"
             required
@@ -94,28 +103,38 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit }) => {
 
           <input
             name="inmuebles"
-            type="text"
             placeholder="Inmuebles"
+            value={form.inmuebles}
             onChange={handleChange}
             className="modalInput"
-            required
           />
 
           <input
             name="Contacto"
-            type="text"
             placeholder="Correo"
+            value={form.Contacto}
             onChange={handleChange}
             className="modalInput"
-            required
           />
 
           <input
             name="imagen"
-            placeholder="URL de la imagen (http://...)"
+            placeholder="URL de la imagen"
+            value={form.imagen}
             onChange={handleChange}
             className="modalInput"
           />
+
+          {/* DISPONIBLE */}
+          <label className="checkboxRow">
+            <input
+              type="checkbox"
+              name="disponible"
+              checked={form.disponible}
+              onChange={handleChange}
+            />
+            Disponible
+          </label>
 
           <div className="modalActions">
             <button type="submit" className="saveBtn">
@@ -132,6 +151,7 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit }) => {
           </div>
 
         </form>
+
       </div>
     </div>
   );
