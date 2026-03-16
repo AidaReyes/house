@@ -12,7 +12,7 @@
 }
 
 .modalContainer {
-  background: white;
+  background: rgb(242, 240, 240);
   padding: 30px;
   border-radius: 15px;
   width: 90%;
@@ -30,21 +30,20 @@
   gap: 15px;
 }
 
-.modalInput {
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #030303;
-  font-size: 16px;
-}
+.modalInput,
 
 .modalTextarea {
   padding: 12px;
   border-radius: 8px;
-  border: 1px solid #030303;
   font-size: 16px;
-  height: 80px;
+  opacity: 1 !important;
+  width: 100%;
+  box-sizing: border-box;
 }
-
+.modalTextarea {
+  height: 80px;
+  resize: none;
+}
 .modalActions {
   display: flex;
   gap: 10px;
@@ -55,7 +54,7 @@
   flex: 1;
   padding: 12px;
   background: #2ecc71;
-  color: white;
+  color: rgb(247, 245, 245);
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -70,4 +69,17 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
+}
+.checkboxRow{
+display:flex;
+align-items:center;
+gap:10px;
+font-size:14px;
+margin-top:10px;
+}
+
+.modalInput::placeholder,
+.modalTextarea::placeholder {
+  color: #888 !important;
+  -webkit-text-fill-color: #888 !important;
 }
