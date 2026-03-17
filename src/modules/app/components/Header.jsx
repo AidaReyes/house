@@ -37,9 +37,7 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
 
   return (
     <header className="header">
-<button onClick={toggleTheme}>
-  🌙
-</button>
+
       {/* LEFT */}
       <div className="header-left">
 
@@ -47,7 +45,7 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
 
         <div className="header-logo">
           <span className="logo-text">
-              <img id="logo" src="/logo_Dark.png" alt="Logo" />
+              <img id="logo" src="/logo.png" alt="Logo" />
           </span>
         </div>
 
@@ -136,7 +134,9 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
 
       {/* USER */}
       <div className="header-right">
-
+<button onClick={toggleTheme}>
+  🌙
+</button>
         <div
           className="header-profile"
           onClick={() => setShowUserMenu(!showUserMenu)}
