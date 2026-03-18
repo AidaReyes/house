@@ -129,6 +129,10 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
           <FaUsers />
           <span>Usuarios</span>
         </NavLink>
+        
+        <NavLink to="/arrendador">
+              Arrendador
+        </NavLink>
 
 
       </nav>
