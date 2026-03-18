@@ -272,19 +272,7 @@ const RolePage = () => {
                 <h3 className="card-title">
                   {r.nombre}
                 </h3>
-                <div className="role-permissions">
 
-                  {r.permisos?.length > 0 ? (
-                    r.permisos.map((perm) => (
-                      <span className="badge badge-primary" key={perm._id}>
-                        {perm.nombre}
-                      </span>
-                    ))
-                  ) : (
-                    <span className="muted">Sin permisos</span>
-                  )}
-
-                </div>
 
                 <p className="muted">
                   {r.descripcion}

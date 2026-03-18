@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from '../../../context/AuthContext';
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import "./Card.css";
 import Can from "../../../components/can";//para poder ocultar boton de acuerdo al permiso
 
 const Card = ({ productos = [], onEdit, onDelete }) => {

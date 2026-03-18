@@ -9,30 +9,23 @@
   align-items: center;
   justify-content: space-between;
 
-  height: 60px;
+  height: 100px;
   padding: 0 20px;
   position: relative;
   z-index: 50;
 }
-
 
 /* ================= LEFT ================= */
 
 .header-left{
   display: flex;
   align-items: center;
-  gap: 15px;
-}
-
-.header-logo{
-  display: flex;
-  align-items: center;
 }
 
 .header-logo img{
-  height: 200px;
+  height: 140px;
+  object-fit: contain;
 }
-
 
 /* ================= NAV ================= */
 
@@ -56,6 +49,7 @@
   font-size: 14px;
 
   transition: all 0.2s ease;
+  position: relative;
 }
 
 .header-link svg{
@@ -68,11 +62,27 @@
 }
 
 .header-link.active{
-  background: var(--hover-bg);
   color: var(--text-main);
   font-weight: 500;
 }
 
+/* línea animada */
+.header-link::after{
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0%;
+  height: 2px;
+  background: var(--text-main);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.header-link:hover::after,
+.header-link.active::after{
+  width: 70%;
+}
 
 /* ================= RIGHT ================= */
 
@@ -82,6 +92,27 @@
   gap: 10px;
 }
 
+/* ================= THEME BUTTON ================= */
+
+.theme-btn{
+  border: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+
+  border-radius: 8px;
+  padding: 6px 10px;
+
+  cursor: pointer;
+  transition: all 0.2s;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-btn:hover{
+  background: var(--hover-bg);
+}
 
 /* ================= PROFILE ================= */
 
@@ -94,7 +125,6 @@
   border-radius: 8px;
 
   cursor: pointer;
-
   transition: background 0.2s;
 }
 
@@ -134,7 +164,6 @@
   transform: rotate(180deg);
 }
 
-
 /* ================= MENU ================= */
 
 .header-menu{
@@ -148,7 +177,7 @@
   border: 1px solid var(--border-color);
   border-radius: 10px;
 
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 
   padding: 8px;
 
@@ -157,8 +186,18 @@
   gap: 5px;
 
   z-index: 100;
+
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: fadeInMenu 0.2s ease forwards;
 }
 
+@keyframes fadeInMenu {
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 /* ================= MENU ITEMS ================= */
 
@@ -180,12 +219,7 @@
   color: var(--text-main);
 
   cursor: pointer;
-
   transition: background 0.2s;
-}
-
-.header-menu-item svg{
-  font-size: 15px;
 }
 
 .header-menu-item:hover{
@@ -196,32 +230,10 @@
   color: #ef4444;
 }
 
-
 /* ================= OVERLAY ================= */
 
 .header-menu-overlay{
   position: fixed;
   inset: 0;
   z-index: 90;
-}
-
-
-/* ================= THEME BUTTON ================= */
-
-.header button{
-  border: none;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-
-  border-radius: 8px;
-
-  padding: 6px 10px;
-
-  cursor: pointer;
-
-  transition: all 0.2s;
-}
-
-.header button:hover{
-  background: var(--hover-bg);
 }
