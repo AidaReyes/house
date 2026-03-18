@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Card from '../components/Card'
 import ProductoForm from '../components/productForm'
 import { productService } from '../service/productService'
 import Modal from '../components/Modal'

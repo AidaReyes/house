@@ -1,26 +1,164 @@
-.role-permissions{
+/* ============================= */
+/* CONTENEDOR PRINCIPAL */
+/* ============================= */
 
-display:flex;
-
-flex-wrap:wrap;
-
-gap:6px;
-
-margin-top:10px;
-
+.providers-page {
+  padding: 20px;
 }
 
+/* ============================= */
+/* HEADER + ACCIONES */
+/* ============================= */
 
-.badge-primary{
+.crud-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 
-background:rgba(37,99,235,0.15);
+/* ============================= */
+/* BUSCADOR */
+/* ============================= */
 
-color:var(--color-primary);
+.search {
+  display: flex;
+  gap: 8px;
+}
 
-padding:4px 8px;
+.search-input {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  outline: none;
+}
 
-border-radius:6px;
+.search-clear {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #e5e7eb;
+  cursor: pointer;
+}
 
-font-size:12px;
+/* ============================= */
+/* GRID DE CARDS */
+/* ============================= */
 
+.providers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 15px;
+}
+
+/* ============================= */
+/* CARD */
+/* ============================= */
+
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 15px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* HEADER */
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* BODY */
+
+.card-body {
+  flex: 1;
+}
+
+.card-title {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+/* ============================= */
+/* PERMISOS (🔥 LO IMPORTANTE) */
+/* ============================= */
+
+.role-permissions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  max-height: 100px;        /* 🔥 límite */
+  overflow-y: auto;         /* 🔥 scroll */
+
+  background: #f9fafb;
+  padding: 8px;
+  border-radius: 8px;
+
+  margin-bottom: 10px;
+}
+
+/* SCROLL BONITO */
+.role-permissions::-webkit-scrollbar {
+  width: 6px;
+}
+
+.role-permissions::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 10px;
+}
+
+.role-permissions::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.35);
+}
+
+/* ============================= */
+/* FOOTER */
+/* ============================= */
+
+.card-footer {
+  margin-top: 10px;
+}
+
+/* ACCIONES */
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ============================= */
+/* TEXTO */
+/* ============================= */
+
+.muted {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
+
+@media (max-width: 500px) {
+  .crud-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search {
+    width: 100%;
+  }
+
+  .search-input {
+    flex: 1;
+  }
 }

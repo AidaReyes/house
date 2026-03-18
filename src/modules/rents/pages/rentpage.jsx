@@ -176,11 +176,11 @@ const RentPage = () => {
                 <Can permisos={["RENT_UPDATE", "RENT_DELETE"]}>
 
                   <td>
-                    <div className="table-actions">
+                    <div className="actions">
 
                       <Can permiso="RENT_UPDATE">
                         <button
-                          className="btn btn-sm edit"
+                          className="btn btn-sm btn-primary"
                           onClick={() => openEditModal(r)}
                         >
                           Editar
@@ -189,7 +189,7 @@ const RentPage = () => {
 
                       <Can permiso="RENT_DELETE">
                         <button
-                          className="btn btn-sm delete"
+                          className="btn btn-sm btn-danger"
                           onClick={() => setDeleteId(r._id)}
                         >
                           Eliminar

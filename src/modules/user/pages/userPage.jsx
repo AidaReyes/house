@@ -6,13 +6,13 @@ import Can from "../../../components/can"; // para poder ocultar botón de acuer
 import { useSearch } from '../../product/hooks/useSearch'
 
 export default function UsersPage() {
-  
+
   const { users, loading, createUser, updateUser, deleteUser } = useUsers();
 
   const [showForm, setShowForm] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  
+
   // Buscador sobre usuarios (id, nombre, usuario)
   const {
     query,
@@ -55,38 +55,38 @@ export default function UsersPage() {
     <div className="users-page">
       <h1>Usuarios</h1>
 
-<div className="crud-actions">
+      <div className="crud-actions">
 
-  <div className="providers-header">
-    <Can permiso="USER_CREATE">
-      <button
-        className="btn btn-primary"
-        onClick={openCreateModal}
-      >
-        Nuevo usuario
-      </button>
-    </Can>
-  </div>
+        <div className="providers-header">
+          <Can permiso="USER_CREATE">
+            <button
+              className="btn btn-primary"
+              onClick={openCreateModal}
+            >
+              Nuevo usuario
+            </button>
+          </Can>
+        </div>
 
-  <form className="search" onSubmit={(e) => e.preventDefault()}>
-    <input
-      type="text"
-      placeholder="Buscar permiso..."
-      value={query}
-      onChange={onSearchChange}
-      className="search-input"
-    />
+        <form className="search" onSubmit={(e) => e.preventDefault()}>
+          <input
+            type="text"
+            placeholder="Buscar permiso..."
+            value={query}
+            onChange={onSearchChange}
+            className="search-input"
+          />
 
-    <button
-      type="button"
-      className="search-clear"
-      onClick={clearSearch}
-    >
-      Limpiar
-    </button>
-  </form>
+          <button
+            type="button"
+            className="search-clear"
+            onClick={clearSearch}
+          >
+            Limpiar
+          </button>
+        </form>
 
-</div>
+      </div>
 
       <table className="users-table" border="0" cellPadding="8">
         <thead>
@@ -115,12 +115,14 @@ export default function UsersPage() {
 
               <Can permisos={["USER_UPDATE", "USER_DELETE"]}>
                 <td>
-                  <Can permiso="USER_UPDATE">
-                    <button className="btn btn-sm edit" onClick={() => openEditModal(u)}>Editar</button>
-                  </Can>
-                  <Can permiso="USER_DELETE">
-                    <button className="btn btn-sm delete" onClick={() => openDeleteModal(u)}>Eliminar</button>
-                  </Can>
+                  <div className="actions">
+                    <Can permiso="USER_UPDATE">
+                      <button className="btn btn-sm btn-primary" onClick={() => openEditModal(u)}>Editar</button>
+                    </Can>
+                    <Can permiso="USER_DELETE">
+                      <button className="btn btn-sm btn-danger" onClick={() => openDeleteModal(u)}>Eliminar</button>
+                    </Can>
+                  </div>
                 </td>
               </Can>
             </tr>

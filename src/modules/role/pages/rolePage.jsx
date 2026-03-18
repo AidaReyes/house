@@ -293,25 +293,27 @@ const RolePage = () => {
               </div>
 
               <div className="card-footer">
+                <div className="actions">
 
-                <Can permiso="ROL_UPDATE">
-                  <button
-                    className="btn btn-edit"
-                    onClick={() => handleEditar(r)}
-                  >
-                    Editar
-                  </button>
-                </Can>
+                  <Can permiso="ROL_UPDATE">
+                    <button
+                      className="btn btn-primary btn-sm"
+                      onClick={() => handleEditar(r)}
+                    >
+                      Editar
+                    </button>
+                  </Can>
 
-                <Can permiso="ROL_DELETE">
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => setDeleteId(r._id)}
-                  >
-                    Eliminar
-                  </button>
-                </Can>
+                  <Can permiso="ROL_DELETE">
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => setDeleteId(r._id)}
+                    >
+                      Eliminar
+                    </button>
+                  </Can>
 
+                </div>
               </div>
 
             </div>

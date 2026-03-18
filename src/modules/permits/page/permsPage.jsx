@@ -266,11 +266,11 @@ const PermsPage = () => {
 
                       <td>
 
-                        <div className="table-actions">
+                        <div className="actions">
 
                           <Can permiso="PERMISOS_UPDATE">
                             <button
-                              className="btn btn-sm edit"
+                              className="btn btn-sm btn-primary"
                               onClick={() => handleEditar(p)}
                             >
                               Editar
@@ -279,7 +279,7 @@ const PermsPage = () => {
 
                           <Can permiso="PERMISOS_DELETE">
                             <button
-                              className="btn btn-sm delete"
+                              className="btn btn-sm btn-danger"
                               onClick={() => setDeleteId(p._id)}
                             >
                               Eliminar

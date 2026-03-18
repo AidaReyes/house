@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BiUser, BiEnvelope, BiLock, BiShow, BiHide } from "react-icons/bi";
 import "./auth.css";
@@ -7,6 +7,8 @@ import { useRegister } from "../hooks/useRegister";
 export default function RegisterPage() {
   const navigate = useNavigate();
   const { register, loading, error } = useRegister();
+
+  const topRef = useRef(null);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -17,6 +19,38 @@ export default function RegisterPage() {
     password: "",
     confirm: "",
   });
+
+  // 🔥 Partículas
+  useEffect(() => {
+    const container = topRef.current;
+    if (!container) return;
+
+    const createParticles = () => {
+      container.querySelectorAll(".particle").forEach(p => p.remove());
+
+      for (let i = 0; i < 60; i++) {
+        const particle = document.createElement("div");
+        particle.className = "particle";
+
+        const size = Math.random() * 6 + 4;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+
+        particle.style.opacity = Math.random() * 0.6 + 0.2;
+        particle.style.animationDuration = `${Math.random() * 10 + 6}s`;
+
+        container.appendChild(particle);
+      }
+    };
+
+    createParticles();
+    window.addEventListener("resize", createParticles);
+
+    return () => window.removeEventListener("resize", createParticles);
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -33,102 +67,107 @@ export default function RegisterPage() {
     const user = await register(form.nombre, form.usuario, form.password);
 
     if (user) {
-      alert("Usuario creado correctamente");
       navigate("/");
     }
   };
 
   return (
-    <div className="auth-wrapper">
-      <div className="auth-card glass">
-        <h2 className="auth-title">Crear Cuenta</h2>
-        <p className="auth-subtitle">Regístrate para continuar</p>
+    <div className="login-page">
 
-        <form onSubmit={handleSubmit}>
+      {/* 🔥 PARTE SUPERIOR */}
+      <div className="top-section" ref={topRef}></div>
+
+      {/* 🔥 FORM */}
+      <div className="form-container">
+
+        <div className="logo-container">
+          <img src="/logo_Dark.png" alt="Logo" className="logo" />
+        </div>
+
+        <form className="auth-card" onSubmit={handleSubmit}>
+          <h2>Crear Cuenta</h2>
 
           {/* Nombre */}
           <div className="input-group">
-            <label>Nombre</label>
-            <div className="input-icon-box">
-              <BiUser className="input-icon" />
-              <input
-                type="text"
-                name="nombre"
-                onChange={handleChange}
-                required
-              />
-            </div>
+            <BiUser />
+            <input
+              type="text"
+              name="nombre"
+              placeholder="Nombre"
+              value={form.nombre}
+              onChange={handleChange}
+              required
+            />
           </div>
 
-          {/* Email */}
+          {/* Correo */}
           <div className="input-group">
-            <label>Correo electrónico</label>
-            <div className="input-icon-box">
-              <BiEnvelope className="input-icon" />
-              <input
-                type="email"
-                name="usuario"
-                onChange={handleChange}
-                required
-              />
-            </div>
+            <BiEnvelope />
+            <input
+              type="email"
+              name="usuario"
+              placeholder="Correo"
+              value={form.usuario}
+              onChange={handleChange}
+              required
+            />
           </div>
 
-          {/* Contraseña */}
+          {/* Password */}
           <div className="input-group">
-            <label>Contraseña</label>
-            <div className="input-icon-box">
-              <BiLock className="input-icon" />
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                onChange={handleChange}
-                required
-              />
-
-              <button
-                type="button"
-                className="toggle-btn"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <BiHide size={22} /> : <BiShow size={22} />}
-              </button>
-            </div>
+            <BiLock />
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Contraseña"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+            <button
+              type="button"
+              className="toggle-password"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <BiHide /> : <BiShow />}
+            </button>
           </div>
 
           {/* Confirmar */}
           <div className="input-group">
-            <label>Confirmar contraseña</label>
-            <div className="input-icon-box">
-              <BiLock className="input-icon" />
-              <input
-                type={showConfirm ? "text" : "password"}
-                name="confirm"
-                onChange={handleChange}
-                required
-              />
-
-              <button
-                type="button"
-                className="toggle-btn"
-                onClick={() => setShowConfirm(!showConfirm)}
-              >
-                {showConfirm ? <BiHide size={22} /> : <BiShow size={22} />}
-              </button>
-            </div>
+            <BiLock />
+            <input
+              type={showConfirm ? "text" : "password"}
+              name="confirm"
+              placeholder="Confirmar contraseña"
+              value={form.confirm}
+              onChange={handleChange}
+              required
+            />
+            <button
+              type="button"
+              className="toggle-password"
+              onClick={() => setShowConfirm(!showConfirm)}
+            >
+              {showConfirm ? <BiHide /> : <BiShow />}
+            </button>
           </div>
 
-          {error && <p className="error-text">{error}</p>}
+          {error && <p className="error">{error}</p>}
 
-          <button className="auth-btn" disabled={loading}>
+          <button className="btn" disabled={loading}>
             {loading ? "Cargando..." : "Registrarse"}
           </button>
-        </form>
 
-        <p className="auth-switch">
-          ¿Ya tienes cuenta? <Link to="/">Inicia sesión</Link>
-        </p>
+          <p className="switch">
+            ¿Ya tienes cuenta? <Link to="/">Inicia sesión</Link>
+          </p>
+        </form>
       </div>
+
+      {/* 🔥 PARTE INFERIOR */}
+      <div className="bottom-section"></div>
+
     </div>
   );
 }

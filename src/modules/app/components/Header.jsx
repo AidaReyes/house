@@ -47,7 +47,7 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
 
         <div className="header-logo">
           <span className="logo-text">
-              <img id="logo" src="/logo_Dark.png" alt="Logo" />
+              <img id="logo" src="/logo.png" alt="Logo" />
           </span>
         </div>
 

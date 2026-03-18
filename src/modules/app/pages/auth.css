@@ -1,180 +1,183 @@
-/* ======= FONDO OSCURO PREMIUM ======= */
-.auth-wrapper {
+/* ============================= */
+/* BASE */
+/* ============================= */
+
+.login-page {
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  background: radial-gradient(circle at top, #3f3f3f, #000000 70%);
-  background-size: 200% 200%;
-
-  padding: 20px;
-}
-
-@keyframes bgMove {
-  0% { background-position: 50% 0%; }
-  50% { background-position: 50% 100%; }
-  100% { background-position: 50% 0%; }
-}
-
-/* ======= CARD CRISTAL GLASSMORPHISM ======= */
-.auth-card.glass {
-  width: 380px;
-  padding: 2.5rem;
-
-  background: rgba(255, 255, 255, 0.07);
-  border-radius: 16px;
-  backdrop-filter: blur(14px);
-  border: 1.2px solid rgba(255, 255, 255, 0.15);
-
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
-
-  animation: fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(25px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* TITULOS */
-.auth-title {
-  text-align: center;
-  color: #fff;
-  font-size: 2rem;
-  margin-bottom: 0.3rem;
-}
-
-.auth-subtitle {
-  text-align: center;
-  color: #c7c7c7;
-  margin-bottom: 1.5rem;
-  font-size: 0.95rem;
-}
-
-/* ======= INPUTS ======= */
-.input-group {
-  margin-bottom: 1.3rem;
-}
-
-.input-group label {
-  font-weight: 500;
-  margin-bottom: 6px;
-  display: block;
-  color: #ddd;
-}
-
-/* Caja con iconos */
-.input-icon-box {
   position: relative;
   display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ============================= */
+/* TOP */
+/* ============================= */
+
+.top-section {
+  flex: 1;
+  background: linear-gradient(135deg, #1e1b4b, #312e81, #4c1d95);
+  background-size: 200% 200%;
+  animation: gradientMove 8s ease infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+/* CURVA */
+.top-section::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background: white;
+  border-top-left-radius: 100% 100%;
+  border-top-right-radius: 100% 100%;
+}
+
+/* ============================= */
+/* BOTTOM */
+/* ============================= */
+
+.bottom-section {
+  flex: 1;
+  background: white;
+}
+
+/* ============================= */
+/* FORM */
+/* ============================= */
+
+.form-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 350px;
+  padding: 20px;
+  z-index: 10;
+}
+
+.auth-card {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.auth-card h2 {
+  margin-bottom: 20px;
+}
+
+/* ============================= */
+/* INPUTS */
+/* ============================= */
+
+.input-group {
+  display: flex;
+  align-items: center;
+  background: #f3f4f6;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.input-group svg {
+  color: #6b7280;
+  font-size: 18px;
+  margin-right: 8px;
+}
+
+.input-group input {
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+  font-size: 14px;
+}
+
+/* BOTÓN OJO */
+.toggle-password {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  display: flex;
   align-items: center;
 }
 
-.input-icon {
-  position: absolute;
-  left: 12px;
-  color: #b9b9b9;
-  font-size: 20px;
-}
+/* ============================= */
+/* BOTÓN */
+/* ============================= */
 
-/* Input estilo glass */
-.input-icon-box input {
+.btn {
   width: 100%;
-  padding: 12px 12px 12px 40px;
-  border-radius: 12px;
-  border: 1.5px solid rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.08);
-  color: #eee;
-  font-size: 1rem;
-
-  transition: 0.2s;
-}
-
-.input-icon-box input:focus {
-  border-color: #010101;
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 0 10px rgba(50, 50, 50, 0.5);
-  outline: none;
-}
-
-/* Botón mostrar/ocultar */
-.toggle-btn {
-  position: absolute;
-  right: 12px;
-  background: none;
+  padding: 10px;
   border: none;
-  color: #bbb;
+  background: #4c1d95;
+  color: white;
+  border-radius: 10px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: 0.3s;
 }
 
-.toggle-btn:hover {
-  color: #fff;
+.btn:hover {
+  background: #6d28d9;
 }
 
-/* ======= BOTÓN ENTRAR CON EFECTO GLOW ======= */
-.auth-btn {
-  width: 100%;
-  padding: 12px;
-  margin-top: 5px;
+/* ============================= */
+/* TEXTO */
+/* ============================= */
 
-  background: linear-gradient(135deg, #232323, #000000);
-  color: #fff;
-
-  border-radius: 12px;
-  border: none;
-  font-size: 1.1rem;
-  font-weight: 600;
-
-  cursor: pointer;
-  transition: 0.25s;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+.switch {
+  margin-top: 10px;
+  font-size: 13px;
 }
 
-.auth-btn:hover {
-  background: linear-gradient(135deg, #373737, #202020);
-  box-shadow: 0 0 18px rgba(23, 23, 23, 0.9);
-}
-
-/* ======= ERROR ======= */
-.error-text {
-  color: #ff6b6b;
-  font-size: 0.9rem;
-  margin-top: -5px;
+.error {
+  color: red;
+  font-size: 13px;
   margin-bottom: 10px;
 }
 
-/* ======= SWITCH ======= */
-.auth-switch {
+/* ============================= */
+/* LOGO */
+/* ============================= */
+
+.logo-container {
   text-align: center;
-  color: #cccccc;
-  margin-top: 1.4rem;
+  margin-bottom: 10px;
 }
 
-.auth-switch a {
-  color: #faf8f8;
-  font-weight: 600;
-  text-decoration: none;
+.logo {
+  width: 200px;
 }
 
-.auth-switch a:hover {
-  text-decoration: underline;
+/* ============================= */
+/* PARTÍCULAS */
+/* ============================= */
+
+.particle {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: float 10s linear infinite;
+  filter: blur(1px);
 }
 
-
-
-/* ===== AUTO-FILL FIX ===== */
-input:-webkit-autofill {
-  background-color: rgba(255, 255, 255, 0.08) !important;
-  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.08) inset !important;
-  -webkit-text-fill-color: #eee !important;
-  border-radius: 12px;
-  transition: background-color 9999s ease-in-out 0s;
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-40px); }
+  100% { transform: translateY(0); }
 }
 
-input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.12) inset !important;
-  -webkit-text-fill-color: #fff !important;
+/* GRADIENTE ANIMADO */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
-
