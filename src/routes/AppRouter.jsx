@@ -1,20 +1,17 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
+// Landing
+import RentaZacLanding from '../modules/app/pages/RentaZacLanding.jsx';
+
 // Layout
-import Layout from '../modules/app/components/Layout.jsx';
+import Layout from "../modules/app/components/Layout.jsx";
 
 // Pages internas
 import DashboardPage from '../modules/app/pages/dashboardPage.jsx';
 import Cuartos from "../modules/rooms/page/roomsPage.jsx";
-
 import ProductsPage from '../modules/product/pages/productPage.jsx';
-
-
-
 import ProvidersPage from '../modules/provider/pages/providerPage.jsx';
-
 import UsersPage from '../modules/user/pages/userPage.jsx';
-
 import Permspage from '../modules/permits/page/permsPage.jsx';
 import RentPage from '../modules/rents/pages/rentpage.jsx';
 import RolePage from '../modules/role/pages/rolePage.jsx';
@@ -25,7 +22,6 @@ import LoginPage from '../modules/app/pages/LoginPage.jsx';
 import RegisterPage from '../modules/app/pages/RegisterPage.jsx';
 
 import Can from '../components/can.jsx';
-// Protected route
 import ProtectedRoute from './ProtectedRoute';
 
 export default function AppRouter() {
@@ -33,11 +29,22 @@ export default function AppRouter() {
     <BrowserRouter>
       <Routes>
 
-        {/* Rutas públicas */}
-        <Route path="/" element={<LoginPage />} />
+        {/* 🔥 Landing */}
+        <Route
+          path="/"
+          element={
+            <RentaZacLanding
+              onLogin={() => window.location.href = '/login'}
+              onRegister={() => window.location.href = '/register'}
+            />
+          }
+        />
+
+        {/* 🔓 Públicas */}
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
-        {/* Rutas privadas con layout */}
+        {/* 🔒 Privadas */}
         <Route
           element={
             <ProtectedRoute>
@@ -46,11 +53,12 @@ export default function AppRouter() {
           }
         >
           <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/arrendador" element={<PerfilArrendador />} />
-            
+          <Route path="/arrendador" element={<PerfilArrendador />} />
+
           {/* Cuartos */}
           <Route path="/cuartos" element={<Cuartos />} />
-          {/* Productos → admin, gerente, cajero */}
+
+          {/* Productos */}
           <Route
             path="/productos"
             element={
@@ -60,7 +68,7 @@ export default function AppRouter() {
             }
           />
 
-          {/* Proveedores → admin, gerente */}
+          {/* Proveedores */}
           <Route
             path="/proveedores"
             element={
@@ -69,6 +77,8 @@ export default function AppRouter() {
               </Can>
             }
           />
+
+          {/* Usuarios */}
           <Route
             path="/usuarios"
             element={
@@ -77,6 +87,8 @@ export default function AppRouter() {
               </Can>
             }
           />
+
+          {/* Roles */}
           <Route
             path="/roles"
             element={
@@ -85,18 +97,20 @@ export default function AppRouter() {
               </Can>
             }
           />
+
+          {/* Permisos */}
           <Route
             path="/perms"
-            
             element={
               <Can permiso="PERMISOS_LIST" fellback={<Navigate to="/no-autorizado" replace />}>
                 <Permspage />
               </Can>
             }
           />
+
+          {/* Rentas */}
           <Route
             path="/renta"
-            
             element={
               <Can permiso="RENT_LIST" fellback={<Navigate to="/no-autorizado" replace />}>
                 <RentPage />
@@ -105,9 +119,7 @@ export default function AppRouter() {
           />
         </Route>
 
-
-
-        {/* Página de error si no tiene permisos */}
+        {/* ❌ No autorizado */}
         <Route path="/no-autorizado" element={<h1>No autorizado</h1>} />
 
       </Routes>
