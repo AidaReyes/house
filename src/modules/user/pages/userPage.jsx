@@ -24,11 +24,13 @@ export default function UsersPage() {
     const id = String(u._id ?? u.id ?? "").toLowerCase();
     const nombre = String(u.nombre ?? "").toLowerCase();
     const usuario = String(u.usuario ?? "").toLowerCase();
+    const telefono = String(u.telefono ?? "").toLowerCase();
 
     return (
       id.includes(queryLower) ||
       nombre.includes(queryLower) ||
-      usuario.includes(queryLower)
+      usuario.includes(queryLower) ||
+      telefono.includes(queryLower)
     );
   });
 
@@ -92,6 +94,7 @@ export default function UsersPage() {
             <th>Id usuario</th>
             <th>Nombre</th>
             <th>Usuario</th>
+            <th>Telefono</th>
             <th>Rol</th>
             <Can permisos={["USER_UPDATE", "USER_DELETE"]}>
               <th>Acciones</th>
@@ -105,6 +108,7 @@ export default function UsersPage() {
               <td>{u.id ?? u._id}</td>
               <td>{u.nombre}</td>
               <td>{u.usuario}</td>
+              <td>{u.telefono || "Sin telefono"}</td>
               <td>
                 {u.roles?.nombre || "Sin rol"}
               </td>
