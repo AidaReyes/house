@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import DeleteRoomModal from "../components/DeleteRoomModal"; // 👈 NUEVO
 import EditRoomModal from "../components/EditRoomModal";
 import RoomFormModal from "../components/RoomFormModal";
 import { roomsService } from "../service/room.service";
+import "./RoomsPage.css";
 
 export default function RoomsPage() {
 
@@ -10,9 +12,11 @@ export default function RoomsPage() {
 
   const [showForm, setShowForm] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [showDelete, setShowDelete] = useState(false); // 👈 NUEVO
+
   const [selectedRoom, setSelectedRoom] = useState(null);
 
-  // cargar rooms desde el backend
+  // 🔹 Cargar cuartos
   const loadRooms = async () => {
     try {
       const data = await roomsService.getAll();
@@ -30,31 +34,43 @@ export default function RoomsPage() {
 
   if (loading) return <p>Cargando cuartos...</p>;
 
+  // 🔹 Crear
   const openCreateModal = () => {
     setSelectedRoom(null);
     setShowForm(true);
   };
 
+  // 🔹 Editar
   const openEditModal = (room) => {
     setSelectedRoom(room);
     setShowEdit(true);
   };
 
+  // 🔹 Eliminar (abrir modal)
+  const openDeleteModal = (room) => {
+    setSelectedRoom(room);
+    setShowDelete(true);
+  };
+
+  // 🔹 Confirmar eliminar
+  const confirmDelete = async () => {
+    await roomsService.delete(selectedRoom._id);
+    loadRooms();
+    setShowDelete(false);
+  };
+
+  // 🔹 Crear
   const handleCreate = async (data) => {
     await roomsService.create(data);
-    loadRooms(); // refrescar tabla
+    loadRooms();
     setShowForm(false);
   };
 
+  // 🔹 Actualizar
   const handleUpdate = async (data) => {
     await roomsService.update(selectedRoom._id, data);
     loadRooms();
     setShowEdit(false);
-  };
-
-  const handleDelete = async (id) => {
-    await roomsService.delete(id);
-    loadRooms();
   };
 
   return (
@@ -63,75 +79,57 @@ export default function RoomsPage() {
       <h1>Mis cuartos</h1>
 
       <div className="crud-actions">
-        <button
-          className="btn btn-primary"
-          onClick={openCreateModal}
-        >
+        <button className="btn btn-primary" onClick={openCreateModal}>
           Nuevo cuarto
         </button>
       </div>
 
-      <table className="rooms-table" border="0" cellPadding="8">
+      {/* CARDS */}
+      <div className="rooms-container">
+        {rooms.map((room) => (
+          <div className="room-card" key={room._id}>
 
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Título</th>
-            <th>Descripción</th>
-            <th>Precio</th>
-            <th>Status</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
+            <div className="room-status">{room.status}</div>
 
-        <tbody>
-          {(rooms || []).map((room) => (
-            <tr key={room._id}>
-              <td>{room._id}</td>
-              <td>{room.titulo}</td>
-              <td>{room.descripcion}</td>
-              <td>${room.precio}</td>
-              <td>{room.status}</td>
+            <h3 className="room-title">{room.titulo}</h3>
+            <p className="room-desc">{room.descripcion}</p>
+            <p className="room-price">${room.precio}</p>
 
-              <td>
-                <button
-                  className="btn btn-sm edit"
-                  onClick={() => openEditModal(room)}
-                >
-                  Editar
-                </button>
+            <div className="room-actions">
+              <button onClick={() => openEditModal(room)}>
+                Editar
+              </button>
 
-                <button
-                  className="btn btn-sm delete"
-                  onClick={() => handleDelete(room._id)}
-                >
-                  Eliminar
-                </button>
-              </td>
+              <button
+                className="delete"
+                onClick={() => openDeleteModal(room)}
+              >
+                Eliminar
+              </button>
+            </div>
 
-            </tr>
-          ))}
-        </tbody>
+          </div>
+        ))}
+      </div>
 
-      </table>
+      {/* MODALES */}
+      <RoomFormModal
+        isOpen={showForm}
+        onClose={() => setShowForm(false)}
+        onSubmit={handleCreate}
+      />
 
-      {/* MODAL CREAR */}
-      {showForm && (
-        <RoomFormModal
-          isOpen={showForm}
-          onClose={() => setShowForm(false)}
-          onSubmit={handleCreate}
-        />
-      )}
+      <EditRoomModal
+        room={selectedRoom}
+        onClose={() => setShowEdit(false)}
+        onSubmit={handleUpdate}
+      />
 
-      {/* MODAL EDITAR */}
-      {showEdit && (
-        <EditRoomModal
-          room={selectedRoom}
-          onClose={() => setShowEdit(false)}
-          onSubmit={handleUpdate}
-        />
-      )}
+      <DeleteRoomModal
+        isOpen={showDelete}
+        onClose={() => setShowDelete(false)}
+        onConfirm={confirmDelete}
+      />
 
     </div>
   );
