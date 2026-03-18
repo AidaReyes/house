@@ -95,7 +95,7 @@ export default function RoomsPage() {
             <p className="room-desc">{room.descripcion}</p>
             <p className="room-price">${room.precio}</p>
 
-            <div className="room-actions">
+            <div className="actions">
               <button onClick={() => openEditModal(room)}>
                 Editar
               </button>
