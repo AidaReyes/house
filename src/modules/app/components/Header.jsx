@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { toggleTheme } from "../../../utils/theme.js";
 import {
@@ -21,7 +21,7 @@ import UserProfileModal from "../../../modules/user/components/UserProfileModal.
 
 import "./header.css";
 
-const Header = () => {
+const Header = ({ toggleSidebar, sidebarOpen }) => {
 
   const { user, logout } = useAuth();
   const [showProfile, setShowProfile] = useState(false);
@@ -35,68 +35,107 @@ const Header = () => {
     }
   };
 
-  // cerrar con ESC
-  useEffect(() => {
-    const handleEsc = (e) => {
-      if (e.key === "Escape") setShowUserMenu(false);
-    };
-
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
-  }, []);
-
-  // NAV dinámico
-  const navItems = [
-    { to: "/dashboard", icon: <FaHouse />, label: "Home" },
-    { to: "/roles", icon: <FaUserShield />, label: "Roles", permiso: "ROL_LIST" },
-    { to: "/perms", icon: <FaKey />, label: "Permisos", permiso: "PERMISOS_LIST" },
-    { to: "/productos", icon: <FaBoxesStacked />, label: "Productos", permiso: "PRODUCTO_LIST" },
-    { to: "/proveedores", icon: <FaHandshake />, label: "Proveedores", permiso: "PROVEEDOR_LIST" },
-    { to: "/renta", icon: <FaHandshake />, label: "Renta", permiso: "RENT_LIST" },
-    { to: "/cuartos", icon: <FaHandshake />, label: "Cuartos", permiso: "RENT_LIST" },
-    { to: "/usuarios", icon: <FaUsers />, label: "Usuarios" }
-  ];
-
   return (
     <header className="header">
-
+<button onClick={toggleTheme}>
+  🌙
+</button>
       {/* LEFT */}
       <div className="header-left">
+
+
+
         <div className="header-logo">
-          <img src="/logo2.png" alt="Logo" />
+          <span className="logo-text">
+              <img id="logo" src="/logo_Dark.png" alt="Logo" />
+          </span>
         </div>
+
       </div>
 
       {/* NAV */}
       <nav className="header-nav">
-        {navItems.map((item, index) => {
-          const link = (
-            <NavLink
-              key={index}
-              to={item.to}
-              className={({ isActive }) =>
-                `header-link ${isActive ? "active" : ""}`
-              }
-            >
-              {item.icon}
-              <span>{item.label}</span>
-            </NavLink>
-          );
 
-          return item.permiso ? (
-            <Can key={index} permiso={item.permiso}>
-              {link}
-            </Can>
-          ) : link;
-        })}
+        <NavLink
+          to="/dashboard"
+          className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
+        >
+          <FaHouse />
+          <span>Home</span>
+        </NavLink>
+
+        <Can permiso="ROL_LIST">
+          <NavLink
+            to="/roles"
+            className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
+          >
+            <FaUserShield />
+            <span>Roles</span>
+          </NavLink>
+        </Can>
+
+        <Can permiso="PERMISOS_LIST">
+          <NavLink
+            to="/perms"
+            className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
+          >
+            <FaKey />
+            <span>Permisos</span>
+          </NavLink>
+        </Can>
+
+        <Can permiso="PRODUCTO_LIST">
+          <NavLink
+            to="/productos"
+            className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
+          >
+            <FaBoxesStacked />
+            <span>Productos</span>
+          </NavLink>
+        </Can>
+
+        <Can permiso="PROVEEDOR_LIST">
+          <NavLink
+            to="/proveedores"
+            className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
+          >
+            <FaHandshake />
+            <span>Proveedores</span>
+          </NavLink>
+        </Can>
+
+        <Can permiso="RENT_LIST">
+          <NavLink
+            to="/renta"
+            className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
+          >
+            <FaHandshake />
+            <span>Renta</span>
+          </NavLink>
+        </Can>
+        <Can permiso="RENT_LIST">
+          <NavLink
+            to="/cuartos"
+            className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
+          >
+            <FaHandshake />
+            <span>Cuartos</span>
+          </NavLink>
+        </Can>
+        <NavLink
+          to="/usuarios"
+          className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
+        >
+          <FaUsers />
+          <span>Usuarios</span>
+        </NavLink>
+
+
       </nav>
+      
 
-      {/* RIGHT */}
+      {/* USER */}
       <div className="header-right">
-
-        <button className="theme-btn" onClick={toggleTheme}>
-          🌙
-        </button>
 
         <div
           className="header-profile"
@@ -125,6 +164,7 @@ const Header = () => {
           <FaChevronDown
             className={`header-arrow ${showUserMenu ? "rotated" : ""}`}
           />
+
         </div>
 
         {/* MENU */}

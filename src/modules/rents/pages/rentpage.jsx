@@ -89,7 +89,7 @@ const RentPage = () => {
           <div className="providers-header">
             <Can permiso="RENT_CREATE">
               <button
-                className="btn btn-primary btn-md"
+                className="btn btn-primary"
                 onClick={handleNuevo}
               >
                 Nueva renta
@@ -180,7 +180,7 @@ const RentPage = () => {
 
                       <Can permiso="RENT_UPDATE">
                         <button
-                          className="btn btn-sm btn-primary"
+                          className="btn btn-sm edit"
                           onClick={() => openEditModal(r)}
                         >
                           Editar
@@ -189,7 +189,7 @@ const RentPage = () => {
 
                       <Can permiso="RENT_DELETE">
                         <button
-                          className="btn btn-sm btn-danger"
+                          className="btn btn-sm delete"
                           onClick={() => setDeleteId(r._id)}
                         >
                           Eliminar

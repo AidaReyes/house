@@ -216,7 +216,7 @@ const RolePage = () => {
         <div className="providers-header">
           <Can permiso="ROL_CREATE">
             <button
-              className="btn btn-primary btn-md"
+              className="btn btn-primary"
               onClick={handleNuevo}
             >
               Nuevo rol
@@ -272,7 +272,19 @@ const RolePage = () => {
                 <h3 className="card-title">
                   {r.nombre}
                 </h3>
+                <div className="role-permissions">
 
+                  {r.permisos?.length > 0 ? (
+                    r.permisos.map((perm) => (
+                      <span className="badge badge-primary" key={perm._id}>
+                        {perm.nombre}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="muted">Sin permisos</span>
+                  )}
+
+                </div>
 
                 <p className="muted">
                   {r.descripcion}
@@ -284,7 +296,7 @@ const RolePage = () => {
 
                 <Can permiso="ROL_UPDATE">
                   <button
-                    className="btn btn-sm btn-primary"
+                    className="btn btn-edit"
                     onClick={() => handleEditar(r)}
                   >
                     Editar
@@ -293,7 +305,7 @@ const RolePage = () => {
 
                 <Can permiso="ROL_DELETE">
                   <button
-                    className="btn btn-sm btn-danger"
+                    className="btn btn-danger"
                     onClick={() => setDeleteId(r._id)}
                   >
                     Eliminar
