@@ -18,6 +18,7 @@ import UsersPage from '../modules/user/pages/userPage.jsx';
 import Permspage from '../modules/permits/page/permsPage.jsx';
 import RentPage from '../modules/rents/pages/rentpage.jsx';
 import RolePage from '../modules/role/pages/rolePage.jsx';
+import PerfilArrendador from '../modules/app/pages/PerfilArrendador.jsx';
 
 // Pages públicas
 import LoginPage from '../modules/app/pages/LoginPage.jsx';
@@ -45,6 +46,8 @@ export default function AppRouter() {
           }
         >
           <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/arrendador" element={<PerfilArrendador />} />
+            
           {/* Cuartos */}
           <Route path="/cuartos" element={<Cuartos />} />
           {/* Productos → admin, gerente, cajero */}
