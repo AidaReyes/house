@@ -3,12 +3,10 @@ import { rentService } from "../service/rents.service";
 import Modal from "../../product/components/Modal";
 import Can from "../../../components/can";
 import RentFormModal from "../components/RentFormModal";
-import { useSearch } from "../../product/hooks/useSearch";
+import TableWrapper from "../components/TableWrapper";
 
 const RentPage = () => {
-  // useEffect(() => {
-  //   document.title = "Rents - Cozzy House";
-  // }, []);
+
   const [rentas, setRentas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -53,30 +51,7 @@ const RentPage = () => {
       alert("Error al eliminar renta");
     }
   };
-  // Buscador
-  // Buscador sobre usuarios (id, nombre, usuario)
-  const {
-    query,
-    filteredItems: rentsFiltrados,
-    onChange: onSearchChange,
-    clear: clearSearch,
-  } = useSearch(rentas || [], (u, q) => {
-    const queryLower = q.toLowerCase();
-    const id = String(u._id ?? u.id ?? "").toLowerCase();
-    const cuarto = String(u.cuarto ?? "").toLowerCase();
-    const usuario = String(u.usuario ?? "").toLowerCase();
-    const fechainicio = String(u.fechainicio ?? "").toLowerCase();
-    const fechafin = String(u.fechafin ?? "").toLowerCase();
 
-
-    return (
-      id.includes(queryLower) ||
-      cuarto.includes(queryLower) ||
-      usuario.includes(queryLower) ||
-      fechainicio.includes(queryLower) ||
-      fechafin.includes(queryLower)
-    );
-  });
   return (
     <div className="rent-page">
 
@@ -84,130 +59,89 @@ const RentPage = () => {
         <h2>Gestión de Rentas</h2>
       </div>
 
-        <div className="crud-actions">
+      <div className="crud-actions">
 
-          <div className="providers-header">
-            <Can permiso="RENT_CREATE">
-              <button
-                className="btn btn-primary"
-                onClick={handleNuevo}
-              >
-                Nueva renta
-              </button>
-            </Can>
-          </div>
-
-          <form className="search" onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="text"
-              placeholder="Buscar renta..."
-              value={query}
-              onChange={onSearchChange}
-              className="search-input"
-            />
-
+        <div className="providers-header">
+          <Can permiso="RENT_CREATE">
             <button
-              type="button"
-              className="search-clear"
-              onClick={clearSearch}
+              className="btn btn-primary"
+              onClick={handleNuevo}
             >
-              Limpiar
+              Nueva renta
             </button>
-          </form>
-
+          </Can>
         </div>
+
+      </div>
 
       {loading && <p>Cargando...</p>}
       {error && <p className="error">{error}</p>}
 
       {!loading && (
 
-        <div className="table-container">
+        <TableWrapper
+          data={rentas}
+          headers={[
+            "ID",
+            "Fecha inicio",
+            "Fecha fin",
+            "Status",
+            "Usuario",
+            "Cuarto",
+            "Acciones"
+          ]}
+          renderRow={(r) => (
+            <tr key={r._id}>
 
-          <table className="perms-table">
+              <td className="cell-id">{r._id}</td>
 
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Fecha inicio</th>
-                <th>Fecha fin</th>
-                <th>Status</th>
-                <th>Usuario</th>
-                <th>Cuarto</th>
-                <Can permisos={["RENT_UPDATE", "RENT_DELETE"]}>
-                <th>Acciones</th>
-                </Can>
-              </tr>
-            </thead>
+              <td>{new Date(r.fechainicio).toLocaleDateString()}</td>
 
-            <tbody>
+              <td>{new Date(r.fechafin).toLocaleDateString()}</td>
 
-              {rentas.length === 0 && (
-                <tr>
-                  <td colSpan="7">No hay rentas registradas</td>
-                </tr>
-              )}
+              <td>
+                <span
+                  className={`role-badge ${
+                    r.status === "activa"
+                      ? "role-badge-active"
+                      : "role-badge-inactive"
+                  }`}
+                >
+                  {r.status}
+                </span>
+              </td>
 
-              {rentsFiltrados.map((r) => (
+              <td>{r.usuario?.nombre}</td>
 
-                <tr key={r._id}>
+              <td>{r.cuarto?.titulo}</td>
 
-                  <td className="cell-id">{r._id}</td>
+              <td>
+                <div className="actions">
 
-                  <td>{new Date(r.fechainicio).toLocaleDateString()}</td>
-
-                  <td>{new Date(r.fechafin).toLocaleDateString()}</td>
-
-                  <td>
-                    <span
-                      className={`role-badge ${
-                        r.status === "activa"
-                          ? "role-badge-active"
-                          : "role-badge-inactive"
-                      }`}
+                  <Can permiso="RENT_UPDATE">
+                    <button
+                      className="btn btn-sm btn-primary"
+                      onClick={() => openEditModal(r)}
                     >
-                      {r.status}
-                    </span>
-                  </td>
+                      Editar
+                    </button>
+                  </Can>
 
-                  <td>{r.usuario?.nombre}</td>
+                  <Can permiso="RENT_DELETE">
+                    <button
+                      className="btn btn-sm btn-danger"
+                      onClick={() => setDeleteId(r._id)}
+                    >
+                      Eliminar
+                    </button>
+                  </Can>
 
-                  <td>{r.cuarto?.titulo}</td>
-                <Can permisos={["RENT_UPDATE", "RENT_DELETE"]}>
+                </div>
+              </td>
 
-                  <td>
-                    <div className="actions">
-
-                      <Can permiso="RENT_UPDATE">
-                        <button
-                          className="btn btn-sm btn-primary"
-                          onClick={() => openEditModal(r)}
-                        >
-                          Editar
-                        </button>
-                      </Can>
-
-                      <Can permiso="RENT_DELETE">
-                        <button
-                          className="btn btn-sm btn-danger"
-                          onClick={() => setDeleteId(r._id)}
-                        >
-                          Eliminar
-                        </button>
-                      </Can>
-
-                    </div>
-                  </td>
-                </Can>
-                </tr>
-
-              ))}
-
-            </tbody>
-
-          </table>
-
-        </div>
+            </tr>
+          )}
+        />
 
       )}
 
@@ -225,7 +159,6 @@ const RentPage = () => {
       )}
 
       {/* MODAL ELIMINAR */}
-
       <Modal
         open={!!deleteId}
         title="Eliminar renta"

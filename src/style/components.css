@@ -109,6 +109,7 @@
 /* ============================= */
 
 .btn-sm {
+  width: auto;
   padding: 6px 10px;
   font-size: 12px;
 }
