@@ -18,10 +18,9 @@ export default function RegisterPage() {
     usuario: "",
     password: "",
     confirm: "",
-    type_User: true
+    type_User: false // 👈 por defecto no marcado = false
   });
 
- 
   useEffect(() => {
     const container = topRef.current;
     if (!container) return;
@@ -52,18 +51,19 @@ export default function RegisterPage() {
 
     return () => window.removeEventListener("resize", createParticles);
   }, []);
-  const handleChange = (e) => {
-  const { name, value, type, checked } = e.target;
 
-  if (type === "checkbox") {
-    setForm({
-      ...form,
-      type_User: !checked // true = usuario, false = admin (según tu lógica)
-    });
-  } else {
-    setForm({ ...form, [name]: value });
-  }
-};
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    if (type === "checkbox") {
+      setForm({
+        ...form,
+        type_User: checked // ✅ true si está marcado, false si no
+      });
+    } else {
+      setForm({ ...form, [name]: value });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -79,12 +79,20 @@ export default function RegisterPage() {
       form.password,
       form.type_User
     );
-    
-    if (!user.type_User) {
-      navigate("/publicar"); // arrendador
-      } else {
-navigate("/"); // usuario normal
-}
+
+    // ✅ evitar error si user es null
+    if (!user) {
+      console.log("No se recibió respuesta del registro");
+      return;
+    }
+
+    // Redirección según tipo
+    if (form.type_User === false) {
+      navigate("/"); // arrendador
+    } else {
+      navigate("/"); // usuario normal
+    }
+  };
 
   return (
     <div className="login-page">
@@ -166,15 +174,16 @@ navigate("/"); // usuario normal
             </button>
           </div>
 
+          {/* Checkbox */}
           <div className="input-group" style={{ gap: "10px" }}>
             <input
               type="checkbox"
               id="arrendador"
+              checked={form.type_User} // ✅ controlado
               onChange={handleChange}
             />
             <label htmlFor="arrendador">
-              Registrarme como arrendador 
-            
+              Registrarme como arrendador
             </label>
           </div>
 
