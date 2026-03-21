@@ -1,7 +1,7 @@
-import React, { useState } from "react";
 import "../pages/PerfilArrendador.css";
+import  { useEffect, useState } from "react";
 
-export default function PublicarPropiedad() {
+export default function PublicarPropiedad({ agregarPropiedad, cerrar }) {
 
 const [form,setForm] = useState({
 tipo:"",
@@ -57,7 +57,7 @@ const file = e.target.files[0];
 if(file){
 setForm({
 ...form,
-imagen:file
+imagen: URL.createObjectURL(file) // 🔥 guardamos preview directamente
 });
 
 setPreview(URL.createObjectURL(file));
@@ -66,7 +66,9 @@ setPreview(URL.createObjectURL(file));
 
 const handleSubmit = (e)=>{
 e.preventDefault();
-console.log(form);
+
+agregarPropiedad(form); // 🔥 manda datos al padre
+
 alert("Propiedad publicada");
 };
 
@@ -78,8 +80,6 @@ return (
 
 <form onSubmit={handleSubmit}>
 
-{/* TIPO */}
-
 <label>Tipo de propiedad</label>
 <select name="tipo" onChange={handleChange}>
 <option>Seleccionar</option>
@@ -88,41 +88,28 @@ return (
 <option>Casa</option>
 </select>
 
-
-{/* PRECIO */}
-
 <label>Precio mensual</label>
 <input
 type="number"
 name="precio"
-placeholder=""
 onChange={handleChange}
 />
-
-
-{/* ZONA */}
 
 <label>Zona</label>
 <select name="zona" onChange={handleChange}>
 <option>Centro</option>
-<option>Reforma</option>
-<option>Zacualtipan Norte</option>
-<option>Zacualtipan Sur</option>
+<option>Loma bonita</option>
+<option>Santa celicia</option>
+<option>Cosapa</option>
 </select>
 
-
-{/* RECMARAS */}
-
 <label>Recámaras</label>
-<select name="" onChange={handleChange}>
+<select name="recamaras" onChange={handleChange}>
 <option>1</option>
 <option>2</option>
 <option>3</option>
 <option>4</option>
 </select>
-
-
-{/* BAÑOS */}
 
 <label>Baños</label>
 <select name="banos" onChange={handleChange}>
@@ -131,17 +118,11 @@ onChange={handleChange}
 <option>3</option>
 </select>
 
-
-{/* TIPO DE BAÑO */}
-
 <label>Tipo de baño</label>
 <select name="tipoBano" onChange={handleChange}>
 <option>Privado</option>
 <option>Compartido</option>
 </select>
-
-
-{/* DISPONIBILIDAD */}
 
 <label>Disponibilidad</label>
 <select name="disponibilidad" onChange={handleChange}>
@@ -149,13 +130,9 @@ onChange={handleChange}
 <option>Ocupado</option>
 </select>
 
-
-{/* SERVICIOS */}
-
 <label>Servicios incluidos</label>
 
 <div className="servicios">
-
 {serviciosDisponibles.map((s)=>(
 <button
 type="button"
@@ -166,11 +143,7 @@ onClick={()=>toggleServicio(s)}
 {s}
 </button>
 ))}
-
 </div>
-
-
-{/* IMAGEN */}
 
 <label>Imagen de la propiedad</label>
 
@@ -192,9 +165,6 @@ borderRadius:"8px"
 />
 )}
 
-
-{/* TELEFONO */}
-
 <label>Teléfono</label>
 <input
 type="text"
@@ -202,14 +172,17 @@ name="telefono"
 onChange={handleChange}
 />
 
-
 <div className="botones">
 
-<button type="submit" className="publicar">
+<button type="submit" className="btn btn-sm btn-primery">
 Publicar Propiedad
 </button>
 
-<button type="button" className="cancelar">
+<button 
+type="button" 
+className="btn btn-sm btn-primery"
+onClick={cerrar} // 🔥 cerrar formulario
+>
 Cancelar
 </button>
 
@@ -220,4 +193,4 @@ Cancelar
 </div>
 
 );
-} 
+}

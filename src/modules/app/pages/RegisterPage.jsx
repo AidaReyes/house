@@ -18,9 +18,10 @@ export default function RegisterPage() {
     usuario: "",
     password: "",
     confirm: "",
+    tipo: "usuario" 
   });
 
-  // 🔥 Partículas
+ 
   useEffect(() => {
     const container = topRef.current;
     if (!container) return;
@@ -53,7 +54,16 @@ export default function RegisterPage() {
   }, []);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+
+    if (type === "checkbox") {
+      setForm({
+        ...form,
+        tipo: checked ? "arrendador" : "usuario"
+      });
+    } else {
+      setForm({ ...form, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -64,20 +74,27 @@ export default function RegisterPage() {
       return;
     }
 
-    const user = await register(form.nombre, form.usuario, form.password);
+    const user = await register(
+      form.nombre,
+      form.usuario,
+      form.password,
+      form.tipo
+    );
 
     if (user) {
-      navigate("/");
+      if (user.tipo === "arrendador") {
+        navigate("/publicar");
+      } else {
+        navigate("/");
+      }
     }
   };
 
   return (
     <div className="login-page">
 
-      {/* 🔥 PARTE SUPERIOR */}
       <div className="top-section" ref={topRef}></div>
 
-      {/* 🔥 FORM */}
       <div className="form-container">
 
         <div className="logo-container">
@@ -153,6 +170,18 @@ export default function RegisterPage() {
             </button>
           </div>
 
+          <div className="input-group" style={{ gap: "10px" }}>
+            <input
+              type="checkbox"
+              id="arrendador"
+              onChange={handleChange}
+            />
+            <label htmlFor="arrendador">
+              Registrarme como arrendador 
+            
+            </label>
+          </div>
+
           {error && <p className="error">{error}</p>}
 
           <button className="btn" disabled={loading}>
@@ -165,7 +194,6 @@ export default function RegisterPage() {
         </form>
       </div>
 
-      {/* 🔥 PARTE INFERIOR */}
       <div className="bottom-section"></div>
 
     </div>
