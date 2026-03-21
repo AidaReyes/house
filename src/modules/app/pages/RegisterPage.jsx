@@ -18,7 +18,7 @@ export default function RegisterPage() {
     usuario: "",
     password: "",
     confirm: "",
-    tipo: "usuario" 
+    type_User: true
   });
 
  
@@ -52,19 +52,18 @@ export default function RegisterPage() {
 
     return () => window.removeEventListener("resize", createParticles);
   }, []);
-
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const { name, value, type, checked } = e.target;
 
-    if (type === "checkbox") {
-      setForm({
-        ...form,
-        tipo: checked ? "arrendador" : "usuario"
-      });
-    } else {
-      setForm({ ...form, [name]: value });
-    }
-  };
+  if (type === "checkbox") {
+    setForm({
+      ...form,
+      type_User: !checked // true = usuario, false = admin (según tu lógica)
+    });
+  } else {
+    setForm({ ...form, [name]: value });
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,17 +77,14 @@ export default function RegisterPage() {
       form.nombre,
       form.usuario,
       form.password,
-      form.tipo
+      form.type_User
     );
-
-    if (user) {
-      if (user.tipo === "arrendador") {
-        navigate("/publicar");
+    
+    if (!user.type_User) {
+      navigate("/publicar"); // arrendador
       } else {
-        navigate("/");
-      }
-    }
-  };
+navigate("/"); // usuario normal
+}
 
   return (
     <div className="login-page">
