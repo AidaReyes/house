@@ -13,6 +13,7 @@ export const roomsService = {
     return data;
   },
 
+
   //  Actualizar Room
   async update(id, Room) {
     const { data } = await api.patch(`/Room/actualizar/${id}`, Room);

@@ -1,25 +1,26 @@
-import "./RoomFormModal.css";
-
+import "./DeleteRoomModal.css";
 export default function DeleteRoomModal({ isOpen, onClose, onConfirm }) {
 
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal">
+<div className="delete-overlay">
+  <div className="delete-modal">
 
-        <h2>¿Eliminar cuarto?</h2>
-        <p>Esta acción no se puede deshacer</p>
+    <h2 className="delete-title">¿Eliminar cuarto?</h2>
+    <p className="delete-text">Esta acción no se puede deshacer</p>
 
-        <div className="modal-actions">
-          <button onClick={onClose}>Cancelar</button>
+    <div className="delete-actions">
+      <button className="cancel-btn" onClick={onClose}>
+        Cancelar
+      </button>
 
-          <button className="delete" onClick={onConfirm}>
-            Eliminar
-          </button>
-        </div>
-
-      </div>
+      <button className="confirm-delete" onClick={onConfirm}>
+        Eliminar
+      </button>
     </div>
+
+  </div>
+</div>
   );
 }
