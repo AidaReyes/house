@@ -10,14 +10,14 @@ const [propiedades,setPropiedades] = useState([]);
 return(
 <div>
 
-{/* BOTON NUEVA PROPIEDAD */}
+
 
 <div className="header-propiedades">
 
 <h2>Mis Propiedades</h2>
 
 <button 
-className="nueva-propiedad"
+className="btn btn-sm btn-primary"
 onClick={()=>setMostrarFormulario(true)}
 >
 + Nueva Propiedad
@@ -26,14 +26,10 @@ onClick={()=>setMostrarFormulario(true)}
 </div>
 
 
-{/* FORMULARIO */}
-
 {mostrarFormulario && (
 <PublicarPropiedad/>
 )}
 
-
-{/* LISTA DE PROPIEDADES */}
 
 <div className="lista-propiedades">
 

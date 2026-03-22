@@ -18,9 +18,9 @@ export default function RegisterPage() {
     usuario: "",
     password: "",
     confirm: "",
+    type_User: false // 👈 por defecto no marcado = false
   });
 
-  // 🔥 Partículas
   useEffect(() => {
     const container = topRef.current;
     if (!container) return;
@@ -53,7 +53,16 @@ export default function RegisterPage() {
   }, []);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+
+    if (type === "checkbox") {
+      setForm({
+        ...form,
+        type_User: checked // ✅ true si está marcado, false si no
+      });
+    } else {
+      setForm({ ...form, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -64,20 +73,32 @@ export default function RegisterPage() {
       return;
     }
 
-    const user = await register(form.nombre, form.usuario, form.password);
+    const user = await register(
+      form.nombre,
+      form.usuario,
+      form.password,
+      form.type_User
+    );
 
-    if (user) {
-      navigate("/");
+    // ✅ evitar error si user es null
+    if (!user) {
+      console.log("No se recibió respuesta del registro");
+      return;
+    }
+
+    // Redirección según tipo
+    if (form.type_User === false) {
+      navigate("/"); // arrendador
+    } else {
+      navigate("/"); // usuario normal
     }
   };
 
   return (
     <div className="login-page">
 
-      {/* 🔥 PARTE SUPERIOR */}
       <div className="top-section" ref={topRef}></div>
 
-      {/* 🔥 FORM */}
       <div className="form-container">
 
         <div className="logo-container">
@@ -153,6 +174,19 @@ export default function RegisterPage() {
             </button>
           </div>
 
+          {/* Checkbox */}
+          <div className="input-group" style={{ gap: "10px" }}>
+            <input
+              type="checkbox"
+              id="arrendador"
+              checked={form.type_User} // ✅ controlado
+              onChange={handleChange}
+            />
+            <label htmlFor="arrendador">
+              Registrarme como arrendador
+            </label>
+          </div>
+
           {error && <p className="error">{error}</p>}
 
           <button className="btn" disabled={loading}>
@@ -165,7 +199,6 @@ export default function RegisterPage() {
         </form>
       </div>
 
-      {/* 🔥 PARTE INFERIOR */}
       <div className="bottom-section"></div>
 
     </div>

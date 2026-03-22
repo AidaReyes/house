@@ -1,7 +1,7 @@
-import React, { useState } from "react";
 import "../pages/PerfilArrendador.css";
+import { useState } from "react";
 
-export default function PublicarPropiedad() {
+export default function PublicarPropiedad({ agregarPropiedad, cerrar }) {
 
 const [form,setForm] = useState({
 tipo:"",
@@ -57,7 +57,7 @@ const file = e.target.files[0];
 if(file){
 setForm({
 ...form,
-imagen:file
+imagen: URL.createObjectURL(file)
 });
 
 setPreview(URL.createObjectURL(file));
@@ -66,158 +66,121 @@ setPreview(URL.createObjectURL(file));
 
 const handleSubmit = (e)=>{
 e.preventDefault();
-console.log(form);
-alert("Propiedad publicada");
+
+agregarPropiedad(form);
 };
 
 return (
 
-<div className="form-container">
+/* 🔥 OVERLAY */
+<div className="modal-overlay">
 
-<h2>Agregar Nueva Propiedad</h2>
+  {/* 🔥 CONTENIDO */}
+  <div className="modal-content">
 
-<form onSubmit={handleSubmit}>
+    <h2>Agregar Nueva Propiedad</h2>
 
-{/* TIPO */}
+    <form onSubmit={handleSubmit}>
 
-<label>Tipo de propiedad</label>
-<select name="tipo" onChange={handleChange}>
-<option>Seleccionar</option>
-<option>Cuarto</option>
-<option>Departamento</option>
-<option>Casa</option>
-</select>
+      <label>Tipo de propiedad</label>
+      <select name="tipo" onChange={handleChange}>
+        <option>Seleccionar</option>
+        <option>Cuarto</option>
+        <option>Departamento</option>
+        <option>Casa</option>
+      </select>
 
+      <label>Precio mensual</label>
+      <input type="number" name="precio" onChange={handleChange}/>
 
-{/* PRECIO */}
+      <label>Zona</label>
+      <select name="zona" onChange={handleChange}>
+        <option>Centro</option>
+        <option>Loma bonita</option>
+        <option>Santa celicia</option>
+        <option>Cosapa</option>
+      </select>
 
-<label>Precio mensual</label>
-<input
-type="number"
-name="precio"
-placeholder=""
-onChange={handleChange}
-/>
+      <label>Recámaras</label>
+      <select name="recamaras" onChange={handleChange}>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+      </select>
 
+      <label>Baños</label>
+      <select name="banos" onChange={handleChange}>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+      </select>
 
-{/* ZONA */}
+      <label>Tipo de baño</label>
+      <select name="tipoBano" onChange={handleChange}>
+        <option>Privado</option>
+        <option>Compartido</option>
+      </select>
 
-<label>Zona</label>
-<select name="zona" onChange={handleChange}>
-<option>Centro</option>
-<option>Reforma</option>
-<option>Zacualtipan Norte</option>
-<option>Zacualtipan Sur</option>
-</select>
+      <label>Disponibilidad</label>
+      <select name="disponibilidad" onChange={handleChange}>
+        <option>Disponible</option>
+        <option>Ocupado</option>
+      </select>
 
+      <label>Servicios incluidos</label>
 
-{/* RECMARAS */}
+      <div className="servicios">
+        {serviciosDisponibles.map((s)=>(
+          <button
+            type="button"
+            key={s}
+            className={form.servicios.includes(s) ? "activo":""}
+            onClick={()=>toggleServicio(s)}
+          >
+            {s}
+          </button>
+        ))}
+      </div>
 
-<label>Recámaras</label>
-<select name="" onChange={handleChange}>
-<option>1</option>
-<option>2</option>
-<option>3</option>
-<option>4</option>
-</select>
+      <label>Imagen de la propiedad</label>
+      <input type="file" accept="image/*" onChange={handleImage}/>
 
+      {preview && (
+        <img
+          src={preview}
+          alt="preview"
+          style={{
+            width:"200px",
+            marginTop:"10px",
+            borderRadius:"8px"
+          }}
+        />
+      )}
 
-{/* BAÑOS */}
+      <label>Teléfono</label>
+      <input type="text" name="telefono" onChange={handleChange}/>
 
-<label>Baños</label>
-<select name="banos" onChange={handleChange}>
-<option>1</option>
-<option>2</option>
-<option>3</option>
-</select>
+      <div className="botones">
 
+        <button type="submit" className="btn btn-sm btn-primery">
+          Publicar
+        </button>
 
-{/* TIPO DE BAÑO */}
+        <button 
+          type="button" 
+          className="btn btn-sm btn-primery"
+          onClick={cerrar}
+        >
+          Cancelar
+        </button>
 
-<label>Tipo de baño</label>
-<select name="tipoBano" onChange={handleChange}>
-<option>Privado</option>
-<option>Compartido</option>
-</select>
+      </div>
 
+    </form>
 
-{/* DISPONIBILIDAD */}
-
-<label>Disponibilidad</label>
-<select name="disponibilidad" onChange={handleChange}>
-<option>Disponible</option>
-<option>Ocupado</option>
-</select>
-
-
-{/* SERVICIOS */}
-
-<label>Servicios incluidos</label>
-
-<div className="servicios">
-
-{serviciosDisponibles.map((s)=>(
-<button
-type="button"
-key={s}
-className={form.servicios.includes(s) ? "activo":""}
-onClick={()=>toggleServicio(s)}
->
-{s}
-</button>
-))}
-
-</div>
-
-
-{/* IMAGEN */}
-
-<label>Imagen de la propiedad</label>
-
-<input
-type="file"
-accept="image/*"
-onChange={handleImage}
-/>
-
-{preview && (
-<img
-src={preview}
-alt="preview"
-style={{
-width:"200px",
-marginTop:"10px",
-borderRadius:"8px"
-}}
-/>
-)}
-
-
-{/* TELEFONO */}
-
-<label>Teléfono</label>
-<input
-type="text"
-name="telefono"
-onChange={handleChange}
-/>
-
-
-<div className="botones">
-
-<button type="submit" className="publicar">
-Publicar Propiedad
-</button>
-
-<button type="button" className="cancelar">
-Cancelar
-</button>
-
-</div>
-
-</form>
-
+  </div>
 </div>
 
 );
-} 
+}
