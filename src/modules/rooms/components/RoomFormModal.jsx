@@ -3,10 +3,25 @@ import "./RoomFormModal.css";
 
 const RoomFormModal = ({ isOpen, onClose, onSubmit, user, roomData, mode }) => {
   const coloniasZacualtipan = [
-    "Centro", "10 de Mayo", "Chililiapa", "Cacala", "Cosapa", "La Victoria",
-    "López Mateos", "Lindavista", "La Otra Banda", "Cortadura", "Flor del Campo",
-    "Garita", "Vista Hermosa", "Las Cuevas", "Tenantipa", "Tepeyac",
-    "Fraccionamiento Hidalgo", "Fraccionamiento San Francisco", "El Rastro", "Barrio de Jesús"
+    "Centro",
+    "10 de Mayo",
+   "Chililiapa",
+   "Cacala",
+   "Cosapa",
+   "La Victoria",
+   "López Mateos",
+   "Lindavista",
+   "La Otra Banda",
+    "Cortadura",
+    "Flor del Campo",
+    "Garita",
+    "Vista Hermosa",
+     "Las Cuevas",
+    "Tenantipa",
+     "Tepeyac",
+    "Fraccionamiento Hidalgo",
+    "Fraccionamiento San Francisco",
+   "El Rastro", "Barrio de Jesús"
   ].sort();
 
   const [form, setForm] = useState({
@@ -81,7 +96,6 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit, user, roomData, mode }) => {
         <h2 className="modalTitle">{mode === "create" ? "Registrar cuarto" : "Editar cuarto"}</h2>
 
         <form onSubmit={handleSubmit} className="modalForm">
-          {/* SECCIÓN CON SCROLL */}
           <div className="formScrollArea">
             <label className="inputLabel">Nombre del alojamiento</label>
             <div className="inputField">
@@ -194,7 +208,6 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit, user, roomData, mode }) => {
             </div>
           </div>
 
-          {/* BOTONES FIJOS ABAJO */}
           <div className="buttonGroup">
             <button type="submit" className="mainBtn">Guardar cuarto</button>
             <button type="button" className="secondaryBtn" onClick={onClose}>Cancelar</button>

@@ -161,46 +161,42 @@
   cursor: pointer;
   transition: 0.3s;
 }
-/* Contenedor de las vistas previas */
 .previewImages {
-  display: flex;       /* Alinea las fotos en fila */
-  flex-wrap: wrap;    /* Si son muchas, saltan a la siguiente línea */
-  gap: 12px;           /* ESTA ES LA CLAVE: crea el espacio entre fotos */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
   margin-top: 15px;
   padding: 5px;
   justify-content: flex-start;
 }
 
-/* Estilo individual de cada foto */
+
 .previewImages img {
-  width: 85px;         /* Tamaño uniforme */
-  height: 85px;        /* Tamaño uniforme */
-  object-fit: cover;   /* Evita que se estiren o deformen */
-  border-radius: 12px; /* Bordes redondeados como tus inputs */
-  border: 2px solid var(--lila-light); /* Borde sutil lila */
-  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.1); /* Sombra suave */
+  width: 85px;
+  height: 85px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 2px solid var(--lila-light); 
+  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.1); 
   transition: transform 0.2s ease;
 }
 
-/* Efecto visual al pasar el mouse */
 .previewImages img:hover {
   transform: scale(1.05);
   border-color: var(--lila-primary);
 }
-/* Contenedor de las fotos */
 .previewImagesContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Tamaño de cada celda */
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); 
   gap: 12px;
   margin-top: 15px;
   padding: 10px 0;
 }
 
-/* Wrapper de la imagen */
 .previewWrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1; /* Hace que sean cuadradas */
+  aspect-ratio: 1 / 1; 
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -209,52 +205,39 @@
 .previewWrapper img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ajusta la imagen sin deformarla */
+  object-fit: cover; 
   display: block;
 }
 
-/* Botón "Eliminar" tipo etiqueta (como en tu imagen) */
 .removeImageOverlay {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* Centrado total */
-  background: rgba(0, 0, 0, 0.6); /* Fondo oscuro semitransparente */
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.6);
   color: white;
   border: none;
   padding: 4px 12px;
   font-size: 0.75rem;
   border-radius: 4px;
   cursor: pointer;
-  opacity: 0; /* Oculto por defecto */
+  opacity: 0;
   transition: opacity 0.3s ease;
   backdrop-filter: blur(2px);
   text-transform: uppercase;
   font-weight: bold;
 }
 
-/* Mostrar el botón al pasar el mouse sobre la imagen */
 .previewWrapper:hover .removeImageOverlay {
   opacity: 1;
 }
 
-/* Si prefieres que el botón esté siempre visible en una esquina como etiqueta */
-/* .removeImageOverlay {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.9);
-  color: #333;
-  font-size: 10px;
-  padding: 2px 6px;
-} 
-*/
+
 .inputLabel {
   display: block;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #6a5acd; /* Color acorde al tema lila */
+  color: #6a5acd; 
   margin-bottom: 4px;
   margin-top: 10px;
   text-align: left;
@@ -265,16 +248,15 @@
   gap: 15px;
   align-items: flex-start;
 }
-/* El contenedor blanco debe tener un tamaño máximo */
 .modalContainer {
   max-width: 500px;
   width: 90%;
-  max-height: 90vh; /* Máximo 90% de la altura de la pantalla */
+  max-height: 90vh; 
   display: flex;
   flex-direction: column;
   background: white;
   border-radius: 20px;
-  overflow: hidden; /* Importante: para que el scroll sea interno */
+  overflow: hidden; 
 }
 
 .modalForm {
@@ -284,12 +266,10 @@
   overflow: hidden;
 }
 
-/* Esta es la clave: el área de scroll */
 .formScrollArea {
-  flex: 1; /* Ocupa todo el espacio disponible */
-  overflow-y: auto; /* Activa el scroll vertical */
+  flex: 1; 
+  overflow-y: auto; 
   padding: 20px;
-  /* Personalización del scrollbar (opcional) */
 }
 
 .formScrollArea::-webkit-scrollbar {

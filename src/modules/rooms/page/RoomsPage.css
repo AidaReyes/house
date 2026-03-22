@@ -1,10 +1,11 @@
 .rooms-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 15px;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 10px 20px;
+  margin-bottom: 2rem;
 }
-
 .new-room-btn {
   background: #2563eb;
   color: white;
@@ -15,14 +16,6 @@
   cursor: pointer;
 }
 
-/* Alineación del encabezado */
-.rooms-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  padding: 0 1rem;
-}
 
 .header-actions {
   display: flex;
@@ -34,19 +27,33 @@
   position: relative;
   padding: 20px;
 }
-.rooms-header {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-rows: auto auto;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 2rem;
-  padding: 0 1rem;
-  position: relative;
-}
+
 .rooms-title {
-  grid-column: 1;
-  grid-row: 1 / span 2;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.rooms-title .search-input {
+  width: 180px; 
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto; 
+}
+.header-right .search-input {
+  width: 220px;
+  padding-right: 15px;
+}s
+.rooms-header > .btn.btn-sm.btn-primary {
+  background-color: blue !important;
+  color: white;
+  border-radius: 20px;
+  padding: 8px 16px;
+  border: none;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .btn.btn-sm.btn-primary {
@@ -140,15 +147,13 @@
 .favorite-btn:hover {
   background-color: #ffffff;
   transform: scale(1.1);
-  color: #e63946; /* Color rojo al pasar el mouse */
+  color: #e63946;
 }
 
-/* Ajuste opcional para el status si se enciman */
 .room-status {
   position: absolute;
   bottom: 12px;
   left: 12px;
-  /* ... tus estilos actuales ... */
 }
 
 .room-card-image img {
@@ -325,12 +330,7 @@ content: '⋮';
 .room-card:hover::before {
   transform: scale(1.1); 
 }
-.rooms-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-}
+
 .room-services-list {
   display: flex;
   flex-wrap: wrap;
@@ -354,12 +354,11 @@ content: '⋮';
 }
 .search-actions {
   display: flex;
-  gap: 10px; /* espacio entre botones */
-  justify-content: flex-end; /* alineados a la derecha */
+  gap: 10px;
+  justify-content: flex-end;
   margin-top: 10px;
 }
 
-/* Botón limpiar estilo oscuro */
 .btn-secondary {
   background-color: #1f2937;
   color: white;
@@ -372,15 +371,14 @@ content: '⋮';
 }
 .room-buttons {
   display: flex;
-  gap: 8px; /* espacio entre botones */
+  gap: 8px;
 }
 
 .room-buttons .btn {
-  padding: 6px 10px; /* más pequeño */
+  padding: 6px 10px;
   font-size: 0.8rem;
   width: auto;
 }
-/*Imagen*/
 .gallery {
   display: flex;
   align-items: center;

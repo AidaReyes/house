@@ -18,15 +18,13 @@ import "./RoomDetailModal.css";
 const RoomDetailModal = ({ isOpen, onClose, room }) => {
   const [activeImgIndex, setActiveImgIndex] = useState(0);
 
-  // Resetear el índice cuando se abre un cuarto diferente
   useEffect(() => {
     setActiveImgIndex(0);
   }, [room, isOpen]);
 
   if (!isOpen || !room) return null;
 
-  // Accedemos a la lista de imágenes del modelo
-  const imagenes = room.imagen || []; 
+  const imagenes = room.imagen || [];
   const hasMultipleImages = imagenes.length > 1;
 
   const nextImage = () => {
@@ -51,13 +49,11 @@ const RoomDetailModal = ({ isOpen, onClose, room }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content detail-modal">
-        {/* Botón de cerrar superior */}
         <button className="close-button" onClick={onClose}>
           <MdClose size={28} />
         </button>
 
         <div className="detail-grid">
-          {/* COLUMNA IZQUIERDA: GALERÍA */}
           <div className="detail-image-section">
             <div className="main-image-wrapper">
               <img
@@ -80,9 +76,7 @@ const RoomDetailModal = ({ isOpen, onClose, room }) => {
                 </>
               )}
             </div>
-
-            {/* LISTA DE MINIATURAS (Clickable) */}
-            {hasMultipleImages && (
+                        {hasMultipleImages && (
               <div className="thumbnails-list">
                 {imagenes.map((img, idx) => (
                   <div 
@@ -96,9 +90,8 @@ const RoomDetailModal = ({ isOpen, onClose, room }) => {
               </div>
             )}
           </div>
-
-          {/* COLUMNA DERECHA: DATOS */}
           <div className="detail-info-section">
+
             <div className="detail-header">
               <span className={`status-pill ${room.status}`}>
                 {room.status}
@@ -155,8 +148,70 @@ const RoomDetailModal = ({ isOpen, onClose, room }) => {
                 ))}
               </div>
             </section>
+            
+            
+          </div>
+<div className="comments-section">
+  <h3>Comentarios</h3>
+  <div className="comments-list">
+    <div className="comment-item">
+      <div className="comment-user-row">
+        <div className="user-info-meta">
+          <img src="https://i.pravatar.cc/150?u=1" alt="User" className="comment-avatar" />
+          <div className="user-details">
+            <strong>Emma Davis</strong>
+            <div className="stars">★★★★★</div>
           </div>
         </div>
+        <div className="comment-actions">
+          <button className="btn-publish">Publicar</button>
+          <button className="btn-delete">Eliminar</button>
+        </div>
+      </div>
+      <p className="comment-text">
+Muy buena relación calidad-precio. Es difícil encontrar lugares amueblados así de cuidados por este precio en la zona.      </p>
+    </div>
+     <div className="comment-item">
+      <div className="comment-user-row">
+        <div className="user-info-meta">
+          <img src="https://i.pravatar.cc/150?u=1" alt="User" className="comment-avatar" />
+          <div className="user-details">
+            <strong>Fernanda Flores</strong>
+            <div className="stars">★★★★★</div>
+          </div>
+        </div>
+        <div className="comment-actions">
+          <button className="btn-publish">Publicar</button>
+          <button className="btn-delete">Eliminar</button>
+        </div>
+      </div>
+      <p className="comment-text">
+Muy buena relación calidad-precio. Es difícil encontrar lugares amueblados así de cuidados por este precio en la zona.      </p>
+    </div>
+     <div className="comment-item">
+      <div className="comment-user-row">
+        <div className="user-info-meta">
+          <img src="https://i.pravatar.cc/150?u=1" alt="User" className="comment-avatar" />
+          <div className="user-details">
+            <strong>David Rivera</strong>
+            <div className="stars">★★★★★</div>
+          </div>
+        </div>
+        <div className="comment-actions">
+          <button className="btn-publish">Publicar</button>
+          <button className="btn-delete">Eliminar</button>
+        </div>
+      </div>
+      <p className="comment-text">
+      Muy buena relación calidad-precio. Es difícil encontrar lugares amueblados así de cuidados por este precio en la zona.      </p>
+    </div>
+    
+  </div>
+  
+</div>
+
+        </div>
+        
       </div>
     </div>
   );
