@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   MdChair,
+  MdFavoriteBorder,
   MdFlashOn,
   MdLocalFireDepartment,
   MdLocationOn,
@@ -10,6 +11,7 @@ import {
 } from "react-icons/md";
 import { useSearch } from '../../product/hooks/useSearch'; //LIN PARA PODERBUSCAR
 import DeleteRoomModal from "../components/DeleteRoomModal";
+import RoomDetailModal from "../components/RoomDetailModal";
 import RoomFormModal from "../components/RoomFormModal";
 import { roomsService } from "../service/room.service";
 import "./RoomsPage.css";
@@ -19,10 +21,14 @@ export default function RoomsPage() {
   const [loading, setLoading] = useState(true);
   const [showDelete, setShowDelete] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
+
   const [mode, setMode] = useState("create"); 
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [user, setUser] = useState(null);
-
+  const [filterColonia, setFilterColonia] = useState("");
+  const [filterPrecio, setFilterPrecio] = useState("");
+  
 const loadRooms = async () => {
   try {
     const data = await roomsService.getAll();
@@ -43,6 +49,7 @@ const loadRooms = async () => {
     console.log("USER:", storedUser);
     setUser(storedUser);
   }, []);
+  
   const {
    query,
    filteredItems: roomsFiltrados,
@@ -98,7 +105,6 @@ const loadRooms = async () => {
 };
 
 
-
   const renderServiceIcon = (service) => {
     switch (service) {
       case "agua":
@@ -130,6 +136,10 @@ const loadRooms = async () => {
   setSelectedRoom(room);
   setShowDelete(true);
   };
+  const handleOpenDetail = (room) => {
+  setSelectedRoom(room);
+  setShowDetail(true);
+};
   const handleDelete = async () => {
   try {
 
@@ -199,25 +209,21 @@ const loadRooms = async () => {
       roomsFiltrados.map((room) => (
         <div className="room-card" key={room._id}>
 
-          <div className="room-card-image">
-            <img
-              src={
-                room.imagen?.[0] ||
-                "https://via.placeholder.com/300x200?text=Cozzy+Rental"
-              }
-              alt={room.titulo}
-            />
+<div className="room-card-image">
+  <img
+    src={room.imagen?.[0] || "https://via.placeholder.com/300x200?text=Cozzy+Rental"}
+    alt={room.titulo}
+  />
 
-            <div
-              className={`room-status ${
-                room.status === "disponible"
-                  ? "status-online"
-                  : "status-offline"
-              }`}
-            >
-              {room.status}
-            </div>
-          </div>
+  {/* NUEVO: Botón de Favorito */}
+  <button className="favorite-btn" title="Guardar en favoritos">
+    <MdFavoriteBorder />
+  </button>
+
+  <div className={`room-status ${room.status === "disponible" ? "status-online" : "status-offline"}`}>
+    {room.status}
+  </div>
+</div>
 
           <div className="room-card-body">
 
@@ -233,8 +239,7 @@ const loadRooms = async () => {
               {room.direccion || "Direccion no especificada"}
             </p>
 
-            <p className="room-desc">{room.descripcion}</p>
-
+{/* <p className="room-desc">{room.descripcion}</p> */}
             <div className="room-features">
               <span className="feature-badge">
                 <MdPeople /> {room.capacidad || 1} pers.
@@ -268,6 +273,7 @@ const loadRooms = async () => {
                 / {room.tipoRenta || "mes"}
               </span>
             </div>
+            
 
             <div className="room-actions">
               <button
@@ -284,6 +290,13 @@ const loadRooms = async () => {
                 Eliminar
               </button>
             </div>
+             <div className="room-buttons">
+<button
+  className="btn btn-sm btn-primary"
+onClick={() => handleOpenDetail(room)}>
+  Detalles
+</button>  <button className="btn btn-sm btn-primary">Información</button>
+</div>
 
           </div>
         </div>
@@ -311,7 +324,11 @@ const loadRooms = async () => {
     }}
     onConfirm={handleDelete}
   />
-
+<RoomDetailModal
+  isOpen={showDetail}
+  onClose={() => setShowDetail(false)}
+  room={selectedRoom}
+/>
 </div>
 );
 }
