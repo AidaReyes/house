@@ -17,10 +17,17 @@ import "./RoomDetailModal.css";
 
 const RoomDetailModal = ({ isOpen, onClose, room }) => {
   const [activeImgIndex, setActiveImgIndex] = useState(0);
-
+   const [comentarios, setComentarios] = useState([]);
   useEffect(() => {
     setActiveImgIndex(0);
   }, [room, isOpen]);
+  useEffect(() => {
+  if (room?._id) {
+    fetch(`http://localhost:3000/api/comments/room/${room._id}`)
+      .then(res => res.json())
+      .then(data => setComentarios(data));
+  }
+}, [room]);
 
   if (!isOpen || !room) return null;
 
@@ -151,63 +158,36 @@ const RoomDetailModal = ({ isOpen, onClose, room }) => {
             
             
           </div>
-<div className="comments-section">
-  <h3>Comentarios</h3>
-  <div className="comments-list">
-    <div className="comment-item">
+<div className="comments-list">
+  {comentarios.map((c) => (
+    <div className="comment-item" key={c._id}>
       <div className="comment-user-row">
         <div className="user-info-meta">
-          <img src="https://i.pravatar.cc/150?u=1" alt="User" className="comment-avatar" />
+          <img
+            src="https://i.pravatar.cc/150"
+            alt="User"
+            className="comment-avatar"
+          />
           <div className="user-details">
-            <strong>Emma Davis</strong>
-            <div className="stars">★★★★★</div>
+            <strong>{c.userId?.nombre}</strong>
+            <div className="stars">{"★".repeat(c.calificacion)}</div>
           </div>
         </div>
+
+        {/* SOLO ADMIN */}
         <div className="comment-actions">
-          <button className="btn-publish">Publicar</button>
-          <button className="btn-delete">Eliminar</button>
+          <button
+            className="btn-delete"
+            onClick={() => eliminarComentario(c._id)}
+          >
+            Eliminar
+          </button>
         </div>
       </div>
-      <p className="comment-text">
-Muy buena relación calidad-precio. Es difícil encontrar lugares amueblados así de cuidados por este precio en la zona.      </p>
+
+      <p className="comment-text">{c.texto}</p>
     </div>
-     <div className="comment-item">
-      <div className="comment-user-row">
-        <div className="user-info-meta">
-          <img src="https://i.pravatar.cc/150?u=1" alt="User" className="comment-avatar" />
-          <div className="user-details">
-            <strong>Fernanda Flores</strong>
-            <div className="stars">★★★★★</div>
-          </div>
-        </div>
-        <div className="comment-actions">
-          <button className="btn-publish">Publicar</button>
-          <button className="btn-delete">Eliminar</button>
-        </div>
-      </div>
-      <p className="comment-text">
-Muy buena relación calidad-precio. Es difícil encontrar lugares amueblados así de cuidados por este precio en la zona.      </p>
-    </div>
-     <div className="comment-item">
-      <div className="comment-user-row">
-        <div className="user-info-meta">
-          <img src="https://i.pravatar.cc/150?u=1" alt="User" className="comment-avatar" />
-          <div className="user-details">
-            <strong>David Rivera</strong>
-            <div className="stars">★★★★★</div>
-          </div>
-        </div>
-        <div className="comment-actions">
-          <button className="btn-publish">Publicar</button>
-          <button className="btn-delete">Eliminar</button>
-        </div>
-      </div>
-      <p className="comment-text">
-      Muy buena relación calidad-precio. Es difícil encontrar lugares amueblados así de cuidados por este precio en la zona.      </p>
-    </div>
-    
-  </div>
-  
+  ))}
 </div>
 
         </div>
