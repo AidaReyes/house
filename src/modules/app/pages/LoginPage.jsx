@@ -11,21 +11,19 @@ export default function LoginPage() {
   const topRef = useRef(null);
 
   const [showPassword, setShowPassword] = useState(false);
-
   const [form, setForm] = useState({
     usuario: "",
     password: "",
   });
 
-  // 🔥 mismas partículas que register
   useEffect(() => {
     const container = topRef.current;
     if (!container) return;
 
     const createParticles = () => {
-      container.querySelectorAll(".particle").forEach(p => p.remove());
+      container.querySelectorAll(".particle").forEach((p) => p.remove());
 
-      for (let i = 0; i < 60; i++) {
+      for (let i = 0; i < 45; i++) {
         const particle = document.createElement("div");
         particle.className = "particle";
 
@@ -36,8 +34,8 @@ export default function LoginPage() {
         particle.style.left = `${Math.random() * 100}%`;
         particle.style.top = `${Math.random() * 100}%`;
 
-        particle.style.opacity = Math.random() * 0.6 + 0.2;
-        particle.style.animationDuration = `${Math.random() * 10 + 6}s`;
+        particle.style.opacity = Math.random() * 0.5 + 0.15;
+        particle.style.animationDuration = `${Math.random() * 8 + 6}s`;
 
         container.appendChild(particle);
       }
@@ -50,7 +48,10 @@ export default function LoginPage() {
   }, []);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -61,21 +62,19 @@ export default function LoginPage() {
 
   return (
     <div className="login-page">
-
-      {/* 🔥 PARTE SUPERIOR */}
       <div className="top-section" ref={topRef}></div>
+      <div className="bottom-section"></div>
 
-      {/* 🔥 FORM */}
       <div className="form-container">
-
-        <div className="logo-container">
+        <div className="brand-block">
           <img src="/logo_Dark.png" alt="Logo" className="logo" />
+          <p className="brand-subtitle">Accede a tu panel y gestiona tu sistema</p>
         </div>
 
         <form className="auth-card" onSubmit={handleSubmit}>
           <h2>Bienvenido</h2>
+          <p className="auth-subtitle">Inicia sesión para continuar</p>
 
-          {/* Correo */}
           <div className="input-group">
             <BiEnvelope />
             <input
@@ -88,7 +87,6 @@ export default function LoginPage() {
             />
           </div>
 
-          {/* Password */}
           <div className="input-group">
             <BiLockAlt />
             <input
@@ -102,7 +100,8 @@ export default function LoginPage() {
             <button
               type="button"
               className="toggle-password"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => setShowPassword((prev) => !prev)}
+              aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
             >
               {showPassword ? <BiHide /> : <BiShow />}
             </button>
@@ -110,7 +109,7 @@ export default function LoginPage() {
 
           {error && <p className="error">{error}</p>}
 
-          <button className="btn" disabled={loading}>
+          <button className="btn btn-primary btn-block" disabled={loading}>
             {loading ? "Cargando..." : "Entrar"}
           </button>
 
@@ -119,10 +118,6 @@ export default function LoginPage() {
           </p>
         </form>
       </div>
-
-      {/* 🔥 PARTE INFERIOR */}
-      <div className="bottom-section"></div>
-
     </div>
   );
 }

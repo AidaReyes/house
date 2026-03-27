@@ -1,93 +1,117 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Modal from "../../product/components/Modal";
 import { rentService } from "../service/rents.service";
 import { roomsService } from "../../rooms/service/room.Service";
 
+const initialForm = {
+  fechainicio: "",
+  fechafin: "",
+  cuarto: "",
+  estado: "activa",
+};
 
 const RentFormModal = ({ open, onClose, renta, onSaved }) => {
-
   const [cuartos, setCuartos] = useState([]);
+  const [loadingRooms, setLoadingRooms] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const [formData, setFormData] = useState({
-    fechainicio: "",
-    fechafin: "",
-    cuarto: "",
-    status: "activa"
-  });
+  const [formData, setFormData] = useState(initialForm);
 
-  // Cargar cuartos
+  // Cargar cuartos solo cuando el modal esté abierto
   useEffect(() => {
+    if (!open) return;
 
     const cargarDatos = async () => {
       try {
+        setLoadingRooms(true);
+        setErrorMsg("");
 
         const rooms = await roomsService.getAll();
-        setCuartos(rooms || []);
-
+        setCuartos(Array.isArray(rooms) ? rooms : []);
       } catch (error) {
         console.error("Error cargando cuartos", error);
+        setErrorMsg("No se pudieron cargar los cuartos.");
+      } finally {
+        setLoadingRooms(false);
       }
     };
 
     cargarDatos();
+  }, [open]);
 
-  }, []);
-
-  // Cuando se abre para editar
+  // Cargar datos cuando se abre en edición
   useEffect(() => {
+    if (!open) return;
 
     if (renta) {
-
       setFormData({
-        fechainicio: renta.fechainicio?.slice(0,10) || "",
-        fechafin: renta.fechafin?.slice(0,10) || "",
+        fechainicio: renta.fechainicio?.slice(0, 10) || "",
+        fechafin: renta.fechafin?.slice(0, 10) || "",
         cuarto: renta.cuarto?._id || "",
-        status: renta.status || "activa"
+        estado: renta.estado || "activa",
       });
-
     } else {
-
-      setFormData({
-        fechainicio: "",
-        fechafin: "",
-        cuarto: "",
-        status: "activa"
-      });
-
+      setFormData(initialForm);
     }
 
-  }, [renta]);
+    setErrorMsg("");
+  }, [open, renta]);
+
+  const cuartosDisponibles = useMemo(() => {
+    if (renta) {
+      return cuartos;
+    }
+
+    return cuartos.filter((c) => !c.estado || c.estado === "disponible");
+  }, [cuartos, renta]);
 
   const handleChange = (e) => {
-
     const { name, value } = e.target;
 
     setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
 
+    if (errorMsg) {
+      setErrorMsg("");
+    }
+  };
+
+  const validarFormulario = () => {
+    if (!formData.cuarto) {
+      return "Selecciona un cuarto.";
+    }
+
+    if (!formData.fechainicio || !formData.fechafin) {
+      return "Selecciona la fecha de inicio y la fecha de fin.";
+    }
+
+    if (formData.fechafin <= formData.fechainicio) {
+      return "La fecha de fin debe ser mayor a la fecha de inicio.";
+    }
+
+    return "";
   };
 
   const guardar = async () => {
+    const errorValidacion = validarFormulario();
+
+    if (errorValidacion) {
+      setErrorMsg(errorValidacion);
+      return;
+    }
 
     try {
-
-      if (!formData.cuarto) {
-        alert("Selecciona un cuarto");
-        return;
-      }
-
-      if (!formData.fechainicio || !formData.fechafin) {
-        alert("Selecciona las fechas");
-        return;
-      }
+      setSaving(true);
+      setErrorMsg("");
 
       const data = {
-        fechainicio: new Date(formData.fechainicio),
-        fechafin: new Date(formData.fechafin),
+        fechainicio: formData.fechainicio,
+        fechafin: formData.fechafin,
         cuarto: formData.cuarto,
-        status: formData.status
+        estado: formData.estado,
       };
 
       console.log("Datos enviados:", data);
@@ -98,99 +122,97 @@ const RentFormModal = ({ open, onClose, renta, onSaved }) => {
         await rentService.create(data);
       }
 
-      onSaved();
-      onClose();
-
+      onSaved?.();
+      onClose?.();
     } catch (error) {
-
       console.error(
         "Error guardando renta:",
         error.response?.data || error.message
       );
 
+      setErrorMsg(
+        error.response?.data?.message ||
+          "No se pudo guardar la renta. Intenta de nuevo."
+      );
+    } finally {
+      setSaving(false);
     }
-
   };
 
   return (
-
     <Modal
       open={open}
       title={renta ? "Editar renta" : "Nueva renta"}
-      onClose={onClose}
+      onClose={saving ? undefined : onClose}
       onConfirm={guardar}
-      confirmText="Guardar"
+      confirmText={saving ? "Guardando..." : "Guardar"}
       showCancel
     >
-
       <div className="rent-form">
+        {errorMsg && <div className="form-alert error">{errorMsg}</div>}
 
-        {/* Fecha inicio */}
         <div className="form-group">
-          <label>Fecha inicio</label>
+          <label htmlFor="fechainicio">Fecha inicio</label>
           <input
+            id="fechainicio"
             type="date"
             name="fechainicio"
             value={formData.fechainicio}
             onChange={handleChange}
+            disabled={saving}
           />
         </div>
 
-        {/* Fecha fin */}
         <div className="form-group">
-          <label>Fecha fin</label>
+          <label htmlFor="fechafin">Fecha fin</label>
           <input
+            id="fechafin"
             type="date"
             name="fechafin"
             value={formData.fechafin}
             onChange={handleChange}
+            disabled={saving}
           />
         </div>
 
-        {/* Cuarto */}
         <div className="form-group">
-          <label>Cuarto</label>
-
+          <label htmlFor="cuarto">Cuarto</label>
           <select
+            id="cuarto"
             name="cuarto"
             value={formData.cuarto}
             onChange={handleChange}
+            disabled={saving || loadingRooms}
           >
+            <option value="">
+              {loadingRooms ? "Cargando cuartos..." : "Seleccionar cuarto"}
+            </option>
 
-            <option value="">Seleccionar cuarto</option>
-
-            {cuartos.map((c) => (
+            {cuartosDisponibles.map((c) => (
               <option key={c._id} value={c._id}>
-                {c.titulo || c.numero}
+                {c.titulo || c.numero || "Cuarto sin nombre"}
               </option>
             ))}
-
           </select>
-
         </div>
 
-        {/* Status */}
         <div className="form-group">
-          <label>Status</label>
-
+          <label htmlFor="estado">Estado</label>
           <select
-            name="status"
-            value={formData.status}
+            id="estado"
+            name="estado"
+            value={formData.estado}
             onChange={handleChange}
+            disabled={saving}
           >
             <option value="activa">Activa</option>
             <option value="finalizada">Finalizada</option>
             <option value="cancelada">Cancelada</option>
           </select>
-
         </div>
-
       </div>
-
     </Modal>
-
   );
-
 };
 
 export default RentFormModal;

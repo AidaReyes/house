@@ -8,9 +8,10 @@ import {
   FaHandshake,
   FaHouse,
   FaKey,
+  FaMoon,
   FaRightFromBracket,
   FaUsers,
-  FaUserShield
+  FaUserShield,
 } from "react-icons/fa6";
 
 import perfil from "../../../assets/perfil.png";
@@ -21,39 +22,31 @@ import UserProfileModal from "../../../modules/user/components/UserProfileModal.
 
 import "./header.css";
 
-const Header = ({ toggleSidebar, sidebarOpen }) => {
-
+const Header = () => {
   const { user, logout } = useAuth();
   const [showProfile, setShowProfile] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   const handleLogout = async () => {
     try {
+      setShowUserMenu(false);
       await logout();
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     }
   };
 
+  const closeMenu = () => setShowUserMenu(false);
+
   return (
     <header className="header">
-
-      {/* LEFT */}
       <div className="header-left">
-
-
-
-        <div className="header-logo">
-          <span className="logo-text">
-            <img id="logo" src="/logo.png" alt="Logo" />
-          </span>
-        </div>
-
+        <NavLink to="/dashboard" className="header-logo" onClick={closeMenu}>
+          <img id="logo" src="/logo.png" alt="Logo" />
+        </NavLink>
       </div>
 
-      {/* NAV */}
       <nav className="header-nav">
-
         <NavLink
           to="/dashboard"
           className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
@@ -111,15 +104,26 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
             <span>Renta</span>
           </NavLink>
         </Can>
+
         <Can permiso="RENT_LIST">
           <NavLink
             to="/cuartos"
             className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
           >
-            <FaHandshake />
+            <FaHouse />
             <span>Cuartos</span>
           </NavLink>
         </Can>
+        <Can permiso="RENT_LIST">
+          <NavLink
+            to="/CuartosPublicados"
+            className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
+          >
+            <FaHouse />
+            <span>Cuartos Publicados</span>
+          </NavLink>
+        </Can>
+
         <NavLink
           to="/usuarios"
           className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
@@ -128,27 +132,32 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
           <span>Usuarios</span>
         </NavLink>
 
-        <NavLink to="/arrendador">
-          Arrendador
+        <NavLink
+          to="/arrendador"
+          className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
+        >
+          <FaHandshake />
+          <span>Arrendador</span>
         </NavLink>
-
-
       </nav>
 
-
-      {/* USER */}
       <div className="header-right">
-        <button onClick={toggleTheme}>
-          🌙
+        <button
+          type="button"
+          className="header-theme-btn"
+          onClick={toggleTheme}
+          aria-label="Cambiar tema"
+        >
+          <FaMoon />
         </button>
+
         <div
           className="header-profile"
-          onClick={() => setShowUserMenu(!showUserMenu)}
+          onClick={() => setShowUserMenu((prev) => !prev)}
         >
-
           <img
             src={user?.foto || perfil}
-            alt={user?.nombre || user?.usuario}
+            alt={user?.nombre || user?.usuario || "Usuario"}
             className="header-avatar"
             onError={(e) => {
               e.target.src = perfil;
@@ -159,7 +168,6 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
             <span className="header-user-name">
               {user?.nombre || user?.usuario}
             </span>
-
             <span className="header-user-role">
               {user?.rol?.nombre || "Usuario"}
             </span>
@@ -168,20 +176,15 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
           <FaChevronDown
             className={`header-arrow ${showUserMenu ? "rotated" : ""}`}
           />
-
         </div>
 
-        {/* MENU */}
         {showUserMenu && (
           <>
-            <div
-              className="header-menu-overlay"
-              onClick={() => setShowUserMenu(false)}
-            />
+            <div className="header-menu-overlay" onClick={closeMenu} />
 
             <div className="header-menu">
-
               <button
+                type="button"
                 className="header-menu-item"
                 onClick={() => {
                   setShowProfile(true);
@@ -189,28 +192,26 @@ const Header = ({ toggleSidebar, sidebarOpen }) => {
                 }}
               >
                 <FaGear />
-                <span>Mi Perfil</span>
+                <span>Mi perfil</span>
               </button>
 
               <button
+                type="button"
                 className="header-menu-item logout"
                 onClick={handleLogout}
               >
                 <FaRightFromBracket />
-                <span>Cerrar Sesión</span>
+                <span>Cerrar sesión</span>
               </button>
-
             </div>
           </>
         )}
-
       </div>
 
       <UserProfileModal
         isOpen={showProfile}
         onClose={() => setShowProfile(false)}
       />
-
     </header>
   );
 };

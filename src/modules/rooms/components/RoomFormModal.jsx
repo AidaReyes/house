@@ -26,7 +26,7 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit, user, roomData, mode }) => {
 
   const [form, setForm] = useState({
     titulo: "", colonia: "", direccion: "", descripcion: "", precio: 0,
-    capacidad: 1, servicios: ["agua", "luz", "gas"], status: "disponible",
+    capacidad: 1, servicios: ["agua", "luz", "gas"], estado: "disponible",
     tipoRenta: "mensual", imagen: [], referencias: "", incluyeServicios: false, amueblado: false
   });
 
@@ -81,7 +81,7 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit, user, roomData, mode }) => {
       } else {
         setForm({
           titulo: "", colonia: "", direccion: "", descripcion: "", precio: 0,
-          capacidad: 1, servicios: ["agua", "luz", "gas"], status: "disponible",
+          capacidad: 1, servicios: ["agua", "luz", "gas"], estado: "disponible",
           tipoRenta: "mensual", imagen: [], referencias: "", incluyeServicios: false, amueblado: false
         });
       }
@@ -151,10 +151,10 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit, user, roomData, mode }) => {
             <label className="inputLabel">Estado de disponibilidad</label>
             <div style={{ padding: "5px 0" }}>
               <label className="checkItem">
-                <input type="checkbox" checked={form.status === "disponible"} 
-                  onChange={(e) => setForm({...form, status: e.target.checked ? "disponible" : "no disponible"})} />
+                <input type="checkbox" checked={form.estado === "disponible"} 
+                  onChange={(e) => setForm({...form, estado: e.target.checked ? "disponible" : "no disponible"})} />
                 <span style={{ marginLeft: "8px", color: "#666" }}>
-                  {form.status === "disponible" ? "Disponible ahora" : "No disponible"}
+                  {form.estado === "disponible" ? "Disponible ahora" : "No disponible"}
                 </span>
               </label>
             </div>
