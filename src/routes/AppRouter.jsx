@@ -9,6 +9,7 @@ import Layout from "../modules/app/components/Layout.jsx";
 // Pages internas
 import DashboardPage from '../modules/app/pages/dashboardPage.jsx';
 import Cuartos from "../modules/rooms/page/roomsPage.jsx";
+import PublicadoPage from "../modules/rooms/page/publicadosPage.jsx";
 import ProductsPage from '../modules/product/pages/productPage.jsx';
 import ProvidersPage from '../modules/provider/pages/providerPage.jsx';
 import UsersPage from '../modules/user/pages/userPage.jsx';
@@ -114,6 +115,15 @@ export default function AppRouter() {
             element={
               <Can permiso="RENT_LIST" fellback={<Navigate to="/no-autorizado" replace />}>
                 <RentPage />
+              </Can>
+            }
+          />
+          {/* Rentas */}
+          <Route
+            path="/CuartosPublicados"
+            element={
+              <Can permiso="RENT_LIST" fellback={<Navigate to="/no-autorizado" replace />}>
+                <PublicadoPage />
               </Can>
             }
           />
