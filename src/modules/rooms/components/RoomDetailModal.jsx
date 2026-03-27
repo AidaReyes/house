@@ -21,14 +21,22 @@ const RoomDetailModal = ({ isOpen, onClose, room }) => {
   useEffect(() => {
     setActiveImgIndex(0);
   }, [room, isOpen]);
-  useEffect(() => {
+useEffect(() => {
   if (room?._id) {
+    console.log("ROOM ID:", room._id);
+
     fetch(`http://localhost:3000/api/comments/room/${room._id}`)
       .then(res => res.json())
-      .then(data => setComentarios(data));
+      .then(data => {
+        console.log("RESPUESTA BACK:", data);
+        setComentarios(data.data || []);
+      })
+      .catch(err => {
+        console.error("Error:", err);
+        setComentarios([]);
+      });
   }
-}, [room]);
-
+}, [room?._id]);
   if (!isOpen || !room) return null;
 
   const imagenes = room.imagen || [];
@@ -52,7 +60,19 @@ const RoomDetailModal = ({ isOpen, onClose, room }) => {
       default: return <MdCheckCircle />;
     }
   };
+const eliminarComentario = async (id) => {
+  try {
+    await fetch(`http://localhost:3000/api/comments/${id}`, {
+      method: "DELETE",
+    });
 
+    // Actualizar lista
+    setComentarios(prev => prev.filter(c => c._id !== id));
+  } catch (error) {
+    console.error("Error eliminando comentario:", error);
+  }
+};
+  
   return (
     <div className="modal-overlay">
       <div className="modal-content detail-modal">
