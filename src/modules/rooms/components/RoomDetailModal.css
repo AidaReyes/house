@@ -425,3 +425,51 @@ display: flex;
   .detail-image-section { height: 300px; }
   .detail-modal { height: 95vh; }
 }
+.comments-section {
+  margin-top: 30px;
+}
+
+.comments-list {
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+/* Asegúrate de que estas clases existan en tu archivo .css */
+
+.comments-list {
+  max-height: 400px; /* Altura máxima antes de activar el scroll */
+  overflow-y: auto;  /* Activa el scroll vertical */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-right: 10px; /* Espacio para que la barra de scroll no tape el texto */
+  margin-top: 10px;
+}
+
+.comment-item {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 15px;
+  border: 1px solid #eee;
+  flex-shrink: 0; /* Importante: evita que los items se colapsen */
+}
+
+.avatar-circle {
+  width: 40px;
+  height: 40px;
+  background-color: #3498db;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.comment-date {
+  display: block;
+  margin-top: 8px;
+  color: #999;
+  font-size: 0.8rem;
+}

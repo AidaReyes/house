@@ -1,217 +1,124 @@
 import { useEffect, useState } from "react";
 import {
-  MdAttachMoney,
-  MdChair,
-  MdCheckCircle,
-  MdChevronLeft,
-  MdChevronRight,
   MdClose,
-  MdFlashOn,
-  MdLocalFireDepartment,
   MdLocationOn,
-  MdPeople,
-  MdWaterDrop,
-  MdWifi,
+  MdStar
 } from "react-icons/md";
 import "./RoomDetailModal.css";
 
 const RoomDetailModal = ({ isOpen, onClose, room }) => {
   const [activeImgIndex, setActiveImgIndex] = useState(0);
-   const [comentarios, setComentarios] = useState([]);
+  const [comentarios, setComentarios] = useState([]);
+
+  // Resetear índice de imagen al abrir
   useEffect(() => {
     setActiveImgIndex(0);
   }, [room, isOpen]);
-useEffect(() => {
-  if (room?._id) {
-    console.log("ROOM ID:", room._id);
 
-    fetch(`http://localhost:3000/api/comments/room/${room._id}`)
-      .then(res => res.json())
-      .then(data => {
-        console.log("RESPUESTA BACK:", data);
+  // Cargar comentarios desde el backend
+
+useEffect(() => {
+  if (isOpen && room?._id) {
+
+    console.log("ROOM ID FRONT:", room._id); // 👈 AQUÍ
+
+fetch(`http://localhost:3000/api/comment/room/${room._id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("DATA REAL:", data); // 👈 también útil
         setComentarios(data.data || []);
       })
-      .catch(err => {
-        console.error("Error:", err);
+      .catch((err) => {
+        console.error("Error al obtener comentarios:", err);
         setComentarios([]);
       });
   }
-}, [room?._id]);
+}, [room, isOpen]);
+
   if (!isOpen || !room) return null;
 
   const imagenes = room.imagen || [];
-  const hasMultipleImages = imagenes.length > 1;
 
-  const nextImage = () => {
-    setActiveImgIndex((prev) => (prev === imagenes.length - 1 ? 0 : prev + 1));
-  };
-
-  const prevImage = () => {
-    setActiveImgIndex((prev) => (prev === 0 ? imagenes.length - 1 : prev - 1));
-  };
-
-  const renderServiceIcon = (service) => {
-    switch (service?.toLowerCase()) {
-      case "agua": return <MdWaterDrop />;
-      case "luz": return <MdFlashOn />;
-      case "internet": return <MdWifi />;
-      case "gas": return <MdLocalFireDepartment />;
-      case "amueblado": return <MdChair />;
-      default: return <MdCheckCircle />;
+  const eliminarComentario = async (id) => {
+    if (!window.confirm("¿Eliminar comentario?")) return;
+    try {
+await fetch(`http://localhost:3000/api/comment/eliminar/${id}`, {
+  method: "DELETE"
+});      setComentarios((prev) => prev.filter((c) => c._id !== id));
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
-const eliminarComentario = async (id) => {
-  try {
-    await fetch(`http://localhost:3000/api/comments/${id}`, {
-      method: "DELETE",
-    });
 
-    // Actualizar lista
-    setComentarios(prev => prev.filter(c => c._id !== id));
-  } catch (error) {
-    console.error("Error eliminando comentario:", error);
-  }
-};
-  
   return (
     <div className="modal-overlay">
       <div className="modal-content detail-modal">
-        <button className="close-button" onClick={onClose}>
-          <MdClose size={28} />
-        </button>
+        <button className="close-button" onClick={onClose}><MdClose size={24} /></button>
 
         <div className="detail-grid">
+          {/* LADO IZQUIERDO: IMAGEN */}
           <div className="detail-image-section">
             <div className="main-image-wrapper">
-              <img
-                src={imagenes[activeImgIndex] || "https://via.placeholder.com/500x400?text=Sin+Imagen"}
-                alt={`Imagen ${activeImgIndex + 1}`}
-                className="detail-main-img"
+              <img 
+                src={imagenes[activeImgIndex] || "https://via.placeholder.com/500"} 
+                className="detail-main-img" 
+                alt="Room" 
               />
-              
-              {hasMultipleImages && (
-                <>
-                  <button className="nav-arrow left" onClick={prevImage}>
-                    <MdChevronLeft />
-                  </button>
-                  <button className="nav-arrow right" onClick={nextImage}>
-                    <MdChevronRight />
-                  </button>
-                  <div className="img-counter">
-                    {activeImgIndex + 1} / {imagenes.length}
-                  </div>
-                </>
-              )}
             </div>
-                        {hasMultipleImages && (
-              <div className="thumbnails-list">
-                {imagenes.map((img, idx) => (
-                  <div 
-                    key={idx} 
-                    className={`thumb-wrapper ${idx === activeImgIndex ? "active" : ""}`}
-                    onClick={() => setActiveImgIndex(idx)}
-                  >
-                    <img src={img} alt={`Miniatura ${idx}`} />
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
+
+          {/* LADO DERECHO: INFO Y COMENTARIOS */}
           <div className="detail-info-section">
-
-            <div className="detail-header">
-              <span className={`status-pill ${room.status}`}>
-                {room.status}
-              </span>
-              <h2 className="detail-title">{room.titulo}</h2>
-            </div>
+            <h2 className="detail-title">{room.titulo}</h2>
+            <p className="detail-location"><MdLocationOn /> {room.direccion}</p>
             
-            <p className="detail-location">
-              <MdLocationOn /> {room.direccion}, {room.colonia}
-            </p>
-
             <div className="detail-price-box">
-              <MdAttachMoney />
-              <span className="amount">{room.precio}</span>
-              <span className="period">/ {room.tipoRenta || "mes"}</span>
+              <span className="amount">${room.precio}</span>
+              <span className="period">/ {room.tipoRenta}</span>
             </div>
 
             <div className="detail-divider"></div>
 
-            <section className="detail-block">
+            {/* LISTA DE COMENTARIOS CON SCROLL */}
+            <section className="comments-section">
+              <h3>Comentarios ({comentarios.length})</h3>
               
-              <h3>Descripción</h3>
-
-              <p className="description-text">{room.descripcion}</p>
-            </section>
-
-            <section className="detail-block">
-              <div className="specs-container">
-                <div className="spec-tile">
-                  <MdPeople />
-                  <div>
-                    <small>Capacidad</small>
-                    <p>{room.capacidad || 1} Personas</p>
-                  </div>
-                </div>
-                <div className="spec-tile">
-                  <MdChair />
-                  <div>
-                    <small>Amueblado</small>
-                    <p>{room.amueblado ? "Sí" : "No"}</p>
-                  </div>
-                </div>
+              <div className="comments-list">
+                {comentarios.length > 0 ? (
+                  comentarios.map((c) => (
+                    <div className="comment-item" key={c._id}>
+                      <div className="comment-user-row">
+                        <div className="user-info-meta">
+                          {/* Avatar con inicial del nombre */}
+                          <div className="avatar-circle">
+                            {c.userId?.nombre?.charAt(0) || "U"}
+                          </div>
+                          <div className="user-details">
+                            <strong>{c.userId?.nombre}</strong>
+                            <div className="stars">
+                              {[...Array(5)].map((_, i) => (
+                                <MdStar key={i} color={i < c.calificacion ? "#ffb400" : "#ccc"} />
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                        <button className="btn-delete" onClick={() => eliminarComentario(c._id)}>
+                          Eliminar
+                        </button>
+                      </div>
+                      <p className="comment-text">{c.texto}</p>
+                      <small className="comment-date">
+                        {new Date(c.createdAt).toLocaleDateString()}
+                      </small>
+                    </div>
+                  ))
+                ) : (
+                  <p className="no-comments">No hay comentarios aún.</p>
+                )}
               </div>
             </section>
-
-            <section className="detail-block">
-              <h3>Servicios Incluidos</h3>
-              <div className="services-flex">
-                {room.servicios?.map((s, i) => (
-                  <div key={i} className="service-tag">
-                    {renderServiceIcon(s)}
-                    <span>{s}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
-            
-            
-          </div>
-<div className="comments-list">
-  {comentarios.map((c) => (
-    <div className="comment-item" key={c._id}>
-      <div className="comment-user-row">
-        <div className="user-info-meta">
-          <img
-            src="https://i.pravatar.cc/150"
-            alt="User"
-            className="comment-avatar"
-          />
-          <div className="user-details">
-            <strong>{c.userId?.nombre}</strong>
-            <div className="stars">{"★".repeat(c.calificacion)}</div>
           </div>
         </div>
-
-        {/* SOLO ADMIN */}
-        <div className="comment-actions">
-          <button
-            className="btn-delete"
-            onClick={() => eliminarComentario(c._id)}
-          >
-            Eliminar
-          </button>
-        </div>
-      </div>
-
-      <p className="comment-text">{c.texto}</p>
-    </div>
-  ))}
-</div>
-
-        </div>
-        
       </div>
     </div>
   );
