@@ -1,72 +1,320 @@
-import React, { useState } from "react";
-import PublicarPropiedad from "../components/PublicarPropiedad";
+import { useEffect, useState } from "react";
+import {
+  MdChair,
+  MdFavoriteBorder,
+  MdFlashOn,
+  MdLocalFireDepartment,
+  MdLocationOn,
+  MdPeople,
+  MdWaterDrop,
+  MdWifi
+} from "react-icons/md";
 
-export default function PerfilArrendador(){
+// ✅ HOOK
+import { useSearch } from "../../product/hooks/useSearch";
 
-const [mostrarFormulario,setMostrarFormulario] = useState(false);
+// ✅ COMPONENTES
+import DeleteRoomModal from "../../rooms/components/DeleteRoomModal";
+import RoomDetailModal from "../../rooms/components/RoomDetailModal";
+import RoomFormModal from "../../rooms/components/RoomFormModal";
 
-const [propiedades,setPropiedades] = useState([]);
+// ✅ SERVICE
+import { roomsService } from "../../rooms/service/room.service";
 
-return(
-<div>
+// ✅ CSS
+import "../../rooms/page/RoomsPage.css";
 
+export default function PerfilArrendador() {
 
+  const [rooms, setRooms] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showDelete, setShowDelete] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
+  const [applyFilter, setApplyFilter] = useState(false);
+  const [mode, setMode] = useState("create");
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [user, setUser] = useState(null);
+  const [filterColonia, setFilterColonia] = useState("");
+  const [filterPrecio, setFilterPrecio] = useState("");
 
-<div className="header-propiedades">
+  const loadRooms = async () => {
+    try {
+      const data = await roomsService.getCatalog();
+      setRooms(data || []);
+    } catch (error) {
+      console.error("Error cargando cuartos", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-<h2>Mis Propiedades</h2>
+  useEffect(() => {
+    loadRooms();
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    setUser(storedUser);
+  }, []);
 
-<button 
-className="btn btn-sm btn-primary"
-onClick={()=>setMostrarFormulario(true)}
->
-+ Nueva Propiedad
-</button>
+  const {
+    query,
+    filteredItems: roomsFiltrados,
+    onChange: onSearchChange,
+    clear: clearSearch,
+  } = useSearch(rooms || [], (r, q) => {
+    const queryLower = q.toLowerCase();
 
-</div>
+    return (
+      String(r.titulo ?? "").toLowerCase().includes(queryLower) ||
+      String(r.colonia ?? "").toLowerCase().includes(queryLower) ||
+      String(r.direccion ?? "").toLowerCase().includes(queryLower) ||
+      String(r.descripcion ?? "").toLowerCase().includes(queryLower)
+    );
+  });
 
+  const roomsFinal = roomsFiltrados.filter((room) => {
+    if (!applyFilter) return true;
 
-{mostrarFormulario && (
-<PublicarPropiedad/>
-)}
+    const coloniaMatch = filterColonia
+      ? room.colonia === filterColonia
+      : true;
 
+    const precioMatch = filterPrecio
+      ? Number(room.precio) <= Number(filterPrecio)
+      : true;
 
-<div className="lista-propiedades">
+    return coloniaMatch && precioMatch;
+  });
 
-{propiedades.length === 0 ? (
+  if (loading) return <p>Cargando cuartos...</p>;
 
-<p>No hay propiedades publicadas</p>
+  const handleSave = async (data) => {
+    try {
+      const userId = user?._id || user?.id;
 
-):(
+      const dataFinal = {
+        ...data,
+        propietario: userId
+      };
 
-propiedades.map((p,i)=>(
-<div key={i} className="card-propiedad">
+      if (mode === "create") {
+        await roomsService.create(dataFinal);
+      }
 
-<img src={p.imagen} alt="propiedad"/>
+      if (mode === "edit") {
+        await roomsService.update(selectedRoom._id, dataFinal);
+      }
 
-<div>
+      await loadRooms();
+      setShowForm(false);
+      setSelectedRoom(null);
 
-<h3>{p.tipo}</h3>
-<p>{p.zona}</p>
+    } catch (error) {
+      console.error("ERROR:", error);
+    }
+  };
 
-<span>{p.recamaras} rec.</span>
-<span>{p.banos} baño(s)</span>
+  const renderServiceIcon = (service) => {
+    switch (service) {
+      case "agua":
+        return <MdWaterDrop />;
+      case "luz":
+        return <MdFlashOn />;
+      case "internet":
+        return <MdWifi />;
+      case "gas":
+        return <MdLocalFireDepartment />;
+      case "amueblado":
+        return <MdChair />;
+      default:
+        return null;
+    }
+  };
 
-</div>
+  const openCreateModal = () => {
+    setSelectedRoom(null);
+    setMode("create");
+    setShowForm(true);
+  };
 
-<div className="precio">
+  const openEditModal = (room) => {
+    setSelectedRoom(room);
+    setMode("edit");
+    setShowForm(true);
+  };
 
-${p.precio}
+  const openDeleteModal = (room) => {
+    setSelectedRoom(room);
+    setShowDelete(true);
+  };
 
-</div>
+  const handleOpenDetail = (room) => {
+    setSelectedRoom(room);
+    setShowDetail(true);
+  };
 
-</div>
-))
+  const handleDelete = async () => {
+    try {
+      const id = selectedRoom?._id || selectedRoom?.id;
 
-)}
+      if (!id) return;
 
-</div>
+      await roomsService.delete(id);
+      await loadRooms();
 
-</div>
-);
+      setShowDelete(false);
+      setSelectedRoom(null);
+
+    } catch (error) {
+      console.error("Error eliminando:", error);
+    }
+  };
+
+  const colonias = [
+    "Centro","10 de Mayo","Chililiapa","Cacala","Cosapa","La Victoria",
+    "López Mateos","Lindavista","La Otra Banda","Cortadura",
+    "Flor del Campo","Garita","Vista Hermosa","Las Cuevas",
+    "Tenantipa","Tepeyac","Fraccionamiento Hidalgo",
+    "Fraccionamiento San Francisco","El Rastro","Barrio de Jesús"
+  ];
+
+  return (
+    <div className="rooms-page">
+
+      {/* 🔥 HEADER */}
+      <div className="rooms-header">
+
+        <h2>Mis Propiedades</h2>
+
+        <div className="rooms-title">
+          <select
+            className="search-input"
+            value={filterColonia}
+            onChange={(e) => setFilterColonia(e.target.value)}
+          >
+            <option value="">Todas las colonias</option>
+            {colonias.map((col, i) => (
+              <option key={i} value={col}>{col}</option>
+            ))}
+          </select>
+
+          <input
+            type="number"
+            placeholder="Precio máximo..."
+            className="search-input"
+            value={filterPrecio}
+            onChange={(e) => setFilterPrecio(e.target.value)}
+          />
+        </div>
+
+        <button onClick={() => { setFilterColonia(""); setFilterPrecio(""); }}>
+          Limpiar filtros
+        </button>
+
+        <button onClick={() => setApplyFilter(!applyFilter)}>
+          Aplicar filtros
+        </button>
+
+        <div className="header-right">
+          <input
+            type="text"
+            placeholder="Buscar..."
+            value={query}
+            onChange={onSearchChange}
+          />
+
+          <button onClick={clearSearch}>Limpiar</button>
+
+          <button onClick={openCreateModal}>
+            + Nueva Propiedad
+          </button>
+        </div>
+      </div>
+
+      {/* 🔥 CARDS */}
+      <div className="rooms-container">
+        {roomsFinal.length === 0 ? (
+          <p>No hay propiedades</p>
+        ) : (
+          roomsFinal.map((room) => (
+            <div className="room-card" key={room._id}>
+
+              <div className="room-card-image">
+                <img
+                  src={room.imagen?.[0] || "https://via.placeholder.com/300x200"}
+                  alt={room.titulo}
+                />
+
+                <button className="favorite-btn">
+                  <MdFavoriteBorder />
+                </button>
+
+                <div className={`room-status ${room.estado === "disponible" ? "status-online" : "status-offline"}`}>
+                  {room.estado}
+                </div>
+              </div>
+
+              <div className="room-card-body">
+
+                <h3 className="room-title">{room.titulo}</h3>
+
+                <p className="room-location">
+                  <MdLocationOn /> {room.colonia}
+                </p>
+
+                <p className="room-location">
+                  <MdLocationOn /> {room.direccion}
+                </p>
+
+                <div className="room-features">
+                  <span><MdPeople /> {room.capacidad || 1}</span>
+                  {room.amueblado && <span><MdChair /> Amueblado</span>}
+                </div>
+
+                <div className="room-services-list">
+                  {room.servicios?.map((s, i) => (
+                    <span key={i}>
+                      {renderServiceIcon(s)} {s}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="room-price-section">
+                  <span className="price-val">${room.precio}</span>
+                </div>
+
+                <div className="room-buttons">
+                  <button onClick={() => openEditModal(room)}>Editar</button>
+                  <button onClick={() => openDeleteModal(room)}>Eliminar</button>
+                  <button onClick={() => handleOpenDetail(room)}>Detalles</button>
+                </div>
+
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* 🔥 MODALES */}
+      <RoomFormModal
+        isOpen={showForm}
+        onClose={() => setShowForm(false)}
+        onSubmit={handleSave}
+        roomData={selectedRoom}
+        mode={mode}
+        user={user}
+      />
+
+      <DeleteRoomModal
+        isOpen={showDelete}
+        onClose={() => setShowDelete(false)}
+        onConfirm={handleDelete}
+      />
+
+      <RoomDetailModal
+        isOpen={showDetail}
+        onClose={() => setShowDetail(false)}
+        room={selectedRoom}
+      />
+    </div>
+  );
 }

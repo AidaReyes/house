@@ -1,186 +1,245 @@
-import "../pages/PerfilArrendador.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  MdChair,
+  MdFavoriteBorder,
+  MdFlashOn,
+  MdLocalFireDepartment,
+  MdLocationOn,
+  MdPeople,
+  MdWaterDrop,
+  MdWifi
+} from "react-icons/md";
 
-export default function PublicarPropiedad({ agregarPropiedad, cerrar }) {
+import { useSearch } from "../../product/hooks/useSearch";
 
-const [form,setForm] = useState({
-tipo:"",
-precio:"",
-zona:"",
-recamaras:"",
-banos:"",
-tipoBano:"",
-disponibilidad:"",
-servicios:[],
-telefono:"",
-imagen:null
-});
+import DeleteRoomModal from "../../rooms/components/DeleteRoomModal";
+import RoomDetailModal from "../../rooms/components/RoomDetailModal";
+import RoomFormModal from "../../rooms/components/RoomFormModal";
+import { roomsService } from "../../rooms/service/room.service";
 
-const [preview,setPreview] = useState(null);
+import "../components/PublicarPropiedad.css";
 
-const serviciosDisponibles = [
-"WiFi",
-"Agua",
-"Luz",
-"Gas",
-"Estacionamiento",
-"Semi amueblado",
-"Cocina",
-"Lavandería",
-"Seguridad"
-];
+export default function PublicarPropiedad() {
 
-const toggleServicio = (servicio)=>{
-if(form.servicios.includes(servicio)){
-setForm({
-...form,
-servicios: form.servicios.filter(s => s !== servicio)
-});
-}else{
-setForm({
-...form,
-servicios:[...form.servicios, servicio]
-});
-}
-};
+  const [rooms, setRooms] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showDelete, setShowDelete] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
+  const [applyFilter, setApplyFilter] = useState(false);
+  const [mode, setMode] = useState("create"); 
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [user, setUser] = useState(null);
+  const [filterColonia, setFilterColonia] = useState("");
+  const [filterPrecio, setFilterPrecio] = useState("");
 
-const handleChange = (e)=>{
-setForm({
-...form,
-[e.target.name]:e.target.value
-});
-};
+  const loadRooms = async () => {
+    try {
+      const data = await roomsService.getAll();
+      setRooms(data || []);
+    } catch (error) {
+      console.error("Error cargando cuartos", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-const handleImage = (e)=>{
-const file = e.target.files[0];
+  useEffect(() => {
+    loadRooms();
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    setUser(storedUser);
+  }, []);
 
-if(file){
-setForm({
-...form,
-imagen: URL.createObjectURL(file)
-});
+  const {
+    query,
+    filteredItems: roomsFiltrados,
+    onChange: onSearchChange,
+    clear: clearSearch,
+  } = useSearch(rooms || [], (r, q) => {
+    const queryLower = q.toLowerCase();
 
-setPreview(URL.createObjectURL(file));
-}
-};
+    return (
+      String(r.titulo ?? "").toLowerCase().includes(queryLower) ||
+      String(r.colonia ?? "").toLowerCase().includes(queryLower) ||
+      String(r.direccion ?? "").toLowerCase().includes(queryLower) ||
+      String(r.descripcion ?? "").toLowerCase().includes(queryLower)
+    );
+  });
 
-const handleSubmit = (e)=>{
-e.preventDefault();
+  const roomsFinal = roomsFiltrados.filter((room) => {
+    if (!applyFilter) return true;
 
-agregarPropiedad(form);
-};
+    const coloniaMatch = filterColonia
+      ? room.colonia === filterColonia
+      : true;
 
-return (
+    const precioMatch = filterPrecio
+      ? Number(room.precio) <= Number(filterPrecio)
+      : true;
 
-/* 🔥 OVERLAY */
-<div className="modal-overlay">
+    return coloniaMatch && precioMatch;
+  });
 
-  {/* 🔥 CONTENIDO */}
-  <div className="modal-content">
+  if (loading) return <p>Cargando cuartos...</p>;
 
-    <h2>Agregar Nueva Propiedad</h2>
+  const handleSave = async (data) => {
+    try {
+      const userId = user?._id || user?.id;
 
-    <form onSubmit={handleSubmit}>
+      const dataFinal = {
+        ...data,
+        propietario: userId
+      };
 
-      <label>Tipo de propiedad</label>
-      <select name="tipo" onChange={handleChange}>
-        <option>Seleccionar</option>
-        <option>Cuarto</option>
-        <option>Departamento</option>
-        <option>Casa</option>
-      </select>
+      if (mode === "create") {
+        await roomsService.create(dataFinal);
+      }
 
-      <label>Precio mensual</label>
-      <input type="number" name="precio" onChange={handleChange}/>
+      if (mode === "edit") {
+        await roomsService.update(selectedRoom._id, dataFinal);
+      }
 
-      <label>Zona</label>
-      <select name="zona" onChange={handleChange}>
-        <option>Centro</option>
-        <option>Loma bonita</option>
-        <option>Santa celicia</option>
-        <option>Cosapa</option>
-      </select>
+      await loadRooms();
+      setShowForm(false);
+      setSelectedRoom(null);
 
-      <label>Recámaras</label>
-      <select name="recamaras" onChange={handleChange}>
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-      </select>
+    } catch (error) {
+      console.error("ERROR:", error);
+    }
+  };
 
-      <label>Baños</label>
-      <select name="banos" onChange={handleChange}>
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-      </select>
+  const openCreateModal = () => {
+    setSelectedRoom(null);
+    setMode("create");
+    setShowForm(true);
+  };
 
-      <label>Tipo de baño</label>
-      <select name="tipoBano" onChange={handleChange}>
-        <option>Privado</option>
-        <option>Compartido</option>
-      </select>
+  const openEditModal = (room) => {
+    setSelectedRoom(room);
+    setMode("edit");
+    setShowForm(true);
+  };
 
-      <label>Disponibilidad</label>
-      <select name="disponibilidad" onChange={handleChange}>
-        <option>Disponible</option>
-        <option>Ocupado</option>
-      </select>
+  const openDeleteModal = (room) => {
+    setSelectedRoom(room);
+    setShowDelete(true);
+  };
 
-      <label>Servicios incluidos</label>
+  const handleOpenDetail = (room) => {
+    setSelectedRoom(room);
+    setShowDetail(true);
+  };
 
-      <div className="servicios">
-        {serviciosDisponibles.map((s)=>(
-          <button
-            type="button"
-            key={s}
-            className={form.servicios.includes(s) ? "activo":""}
-            onClick={()=>toggleServicio(s)}
+  const handleDelete = async () => {
+    try {
+      const id = selectedRoom?._id || selectedRoom?.id;
+
+      await roomsService.delete(id);
+      await loadRooms();
+
+      setShowDelete(false);
+      setSelectedRoom(null);
+
+    } catch (error) {
+      console.error("Error eliminando:", error);
+    }
+  };
+
+  const colonias = [
+    "Centro","10 de Mayo","Chililiapa","Cacala","Cosapa","La Victoria",
+    "López Mateos","Lindavista","La Otra Banda","Cortadura",
+    "Flor del Campo","Garita","Vista Hermosa","Las Cuevas",
+    "Tenantipa","Tepeyac","Fraccionamiento Hidalgo",
+    "Fraccionamiento San Francisco","El Rastro","Barrio de Jesús"
+  ];
+
+  return (
+    <div className="rooms-page">
+
+      <div className="rooms-header">
+
+        <div className="rooms-title">
+          <select
+            className="search-input"
+            value={filterColonia}
+            onChange={(e) => setFilterColonia(e.target.value)}
           >
-            {s}
+            <option value="">Todas las colonias</option>
+            {colonias.map((col, index) => (
+              <option key={index} value={col}>{col}</option>
+            ))}
+          </select>
+
+          <input
+            type="number"
+            placeholder="Precio máximo..."
+            className="search-input"
+            value={filterPrecio}
+            onChange={(e) => setFilterPrecio(e.target.value)}
+          />
+        </div>
+
+        <button onClick={() => {setFilterColonia(""); setFilterPrecio("");}}>
+          Limpiar filtros
+        </button>
+
+        <button onClick={() => setApplyFilter(!applyFilter)}>
+          Aplicar filtros
+        </button>
+
+        <div className="header-right">
+          <input
+            type="text"
+            placeholder="Buscar cuarto..."
+            value={query}
+            onChange={onSearchChange}
+          />
+
+          <button onClick={clearSearch}>Limpiar</button>
+
+          <button onClick={openCreateModal}>
+            Nuevo cuarto
           </button>
+        </div>
+      </div>
+
+      {/* 🔥 LISTA */}
+      <div className="rooms-container">
+        {roomsFinal.map((room) => (
+          <div key={room._id}>
+
+            <h3>{room.titulo}</h3>
+            <p>{room.colonia}</p>
+            <p>${room.precio}</p>
+
+            <button onClick={() => openEditModal(room)}>Editar</button>
+            <button onClick={() => openDeleteModal(room)}>Eliminar</button>
+            <button onClick={() => handleOpenDetail(room)}>Detalles</button>
+
+          </div>
         ))}
       </div>
 
-      <label>Imagen de la propiedad</label>
-      <input type="file" accept="image/*" onChange={handleImage}/>
+      <RoomFormModal
+        isOpen={showForm}
+        onClose={() => setShowForm(false)}
+        onSubmit={handleSave}
+        roomData={selectedRoom}
+        mode={mode}
+        user={user}
+      />
 
-      {preview && (
-        <img
-          src={preview}
-          alt="preview"
-          style={{
-            width:"200px",
-            marginTop:"10px",
-            borderRadius:"8px"
-          }}
-        />
-      )}
+      <DeleteRoomModal
+        isOpen={showDelete}
+        onClose={() => setShowDelete(false)}
+        onConfirm={handleDelete}
+      />
 
-      <label>Teléfono</label>
-      <input type="text" name="telefono" onChange={handleChange}/>
-
-      <div className="botones">
-
-        <button type="submit" className="btn btn-sm btn-primery">
-          Publicar
-        </button>
-
-        <button 
-          type="button" 
-          className="btn btn-sm btn-primery"
-          onClick={cerrar}
-        >
-          Cancelar
-        </button>
-
-      </div>
-
-    </form>
-
-  </div>
-</div>
-
-);
+      <RoomDetailModal
+        isOpen={showDetail}
+        onClose={() => setShowDetail(false)}
+        room={selectedRoom}
+      />
+    </div>
+  );
 }
