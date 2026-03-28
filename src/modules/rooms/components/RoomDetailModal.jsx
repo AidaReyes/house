@@ -57,39 +57,37 @@ await fetch(`http://localhost:3000/api/comment/eliminar/${id}`, {
 
         <div className="detail-grid">
           {/* LADO IZQUIERDO: IMAGEN */}
-          <div className="detail-image-section">
-            <div className="main-image-wrapper">
-              <img 
-                src={imagenes[activeImgIndex] || "https://via.placeholder.com/500"} 
-                className="detail-main-img" 
-                alt="Room" 
-              />
-            </div>
-          </div>
+<div className="detail-image-section">
+  <div className="main-image-wrapper">
+    <img 
+      src={imagenes[activeImgIndex] || "https://via.placeholder.com/500"} 
+      className="detail-main-img" 
+      alt="Room" 
+    />
+  </div>
 
-          {/* LADO DERECHO: INFO Y COMENTARIOS */}
-          <div className="detail-info-section">
-            <h2 className="detail-title">{room.titulo}</h2>
-            <p className="detail-location"><MdLocationOn /> {room.direccion}</p>
-            
-            <div className="detail-price-box">
-              <span className="amount">${room.precio}</span>
-              <span className="period">/ {room.tipoRenta}</span>
-            </div>
-
-            <div className="detail-divider"></div>
-
-            {/* LISTA DE COMENTARIOS CON SCROLL */}
-            <section className="comments-section">
-              <h3>Comentarios ({comentarios.length})</h3>
-              
-              <div className="comments-list">
+  {/* --- NUEVA SECCIÓN DE MINIATURAS --- */}
+  {imagenes.length > 1 && (
+    <div className="thumbnail-container">
+      {imagenes.map((img, index) => (
+        <div 
+          key={index} 
+          className={`thumbnail-item ${activeImgIndex === index ? 'active' : ''}`}
+          onClick={() => setActiveImgIndex(index)}
+        >
+          <img src={img} alt={`Thumbnail ${index}`} />
+        </div>
+      ))}
+    </div>
+  )}
+                         <section className="comments-section">
+                <h3>Comentarios ({comentarios.length})</h3>
+                <div className="comments-list">
                 {comentarios.length > 0 ? (
                   comentarios.map((c) => (
                     <div className="comment-item" key={c._id}>
                       <div className="comment-user-row">
                         <div className="user-info-meta">
-                          {/* Avatar con inicial del nombre */}
                           <div className="avatar-circle">
                             {c.userId?.nombre?.charAt(0) || "U"}
                           </div>
@@ -115,8 +113,56 @@ await fetch(`http://localhost:3000/api/comment/eliminar/${id}`, {
                 ) : (
                   <p className="no-comments">No hay comentarios aún.</p>
                 )}
-              </div>
+               </div>
             </section>
+          </div>
+
+          {/* LADO DERECHO: INFO Y COMENTARIOS */}
+          <div className="detail-info-section">
+            <span className={`status-pill ${room.estado === "disponible" ? "disponible" : "no-disponible"}`}>
+              {room.estado}
+               </span>
+            <h2 className="detail-title">{room.titulo}</h2>
+            <p className="detail-location"><MdLocationOn /> {room.direccion}</p>
+            
+            <div className="detail-price-box">
+              <span className="amount">${room.precio}</span>
+              
+              <span className="period">/ {room.tipoRenta}</span>
+               <h3>Descripción</h3>
+              <p className="description-text">{room.descripcion}</p>
+                <div className="specs-container">
+                <div className="spec-tile">
+               <div className="icon-wrapper">👤</div>
+                   <div className="spec-info">
+                    <span>Capacidad</span>
+                    <strong>{room.capacidad} Personas</strong>
+                       </div>
+               </div>
+
+  <div className="spec-tile">
+    <div className="icon-wrapper">🛏️</div>
+    <div className="spec-info">
+      <span>Amueblado</span>
+      <strong>{room.amueblado ? "Sí" : "No"}</strong>
+    </div>
+  </div>
+</div>
+{room.incluyeServicios && (
+  <div className="detail-block">
+    <h3>Servicios incluidos</h3>
+    <div className="services-flex">
+      {room.servicios.map((s, i) => (
+        <span key={i} className="service-tag">{s}</span>
+      ))}
+    </div>
+  </div>
+)}
+</div>
+
+            <div className="detail-divider"></div>
+
+ 
           </div>
         </div>
       </div>
