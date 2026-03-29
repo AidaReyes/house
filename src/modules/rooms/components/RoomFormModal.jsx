@@ -127,7 +127,6 @@ const handleSubmit = async (e) => {
     return Swal.fire("Error", "Debes subir al menos una imagen", "warning");
   }
 
-  // 🔥 CONFIRMACIÓN
   const confirm = await Swal.fire({
     title: "¿Guardar cambios?",
     text: "Verifica que la información sea correcta",
@@ -139,7 +138,6 @@ const handleSubmit = async (e) => {
 
   if (!confirm.isConfirmed) return;
 
-  // 🚀 ENVÍO
   try {
     await onSubmit({
       ...form,

@@ -1,54 +1,23 @@
 import { useEffect, useState } from "react";
 import {
   MdClose,
-  MdLocationOn,
-  MdStar
+  MdLocationOn
 } from "react-icons/md";
+import CommentsSection from "../../comment/components/CommentsSection";
 import "./RoomDetailModal.css";
-
 const RoomDetailModal = ({ isOpen, onClose, room }) => {
   const [activeImgIndex, setActiveImgIndex] = useState(0);
-  const [comentarios, setComentarios] = useState([]);
 
   // Resetear índice de imagen al abrir
   useEffect(() => {
     setActiveImgIndex(0);
   }, [room, isOpen]);
 
-  // Cargar comentarios desde el backend
-
-useEffect(() => {
-  if (isOpen && room?._id) {
-
-    console.log("ROOM ID FRONT:", room._id); // 👈 AQUÍ
-
-fetch(`http://localhost:3000/api/comment/room/${room._id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("DATA REAL:", data); // 👈 también útil
-        setComentarios(data.data || []);
-      })
-      .catch((err) => {
-        console.error("Error al obtener comentarios:", err);
-        setComentarios([]);
-      });
-  }
-}, [room, isOpen]);
 
   if (!isOpen || !room) return null;
 
   const imagenes = room.imagen || [];
 
-  const eliminarComentario = async (id) => {
-    if (!window.confirm("¿Eliminar comentario?")) return;
-    try {
-await fetch(`http://localhost:3000/api/comment/eliminar/${id}`, {
-  method: "DELETE"
-});      setComentarios((prev) => prev.filter((c) => c._id !== id));
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
 
   return (
     <div className="modal-overlay">
@@ -80,43 +49,8 @@ await fetch(`http://localhost:3000/api/comment/eliminar/${id}`, {
       ))}
     </div>
   )}
-                         <section className="comments-section">
-                <h3>Comentarios ({comentarios.length})</h3>
-                <div className="comments-list">
-                {comentarios.length > 0 ? (
-                  comentarios.map((c) => (
-                    <div className="comment-item" key={c._id}>
-                      <div className="comment-user-row">
-                        <div className="user-info-meta">
-                          <div className="avatar-circle">
-                            {c.userId?.nombre?.charAt(0) || "U"}
-                          </div>
-                          <div className="user-details">
-                            <strong>{c.userId?.nombre}</strong>
-                            <div className="stars">
-                              {[...Array(5)].map((_, i) => (
-                                <MdStar key={i} color={i < c.calificacion ? "#ffb400" : "#ccc"} />
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                        <button className="btn-delete" onClick={() => eliminarComentario(c._id)}>
-                          Eliminar
-                        </button>
-                      </div>
-                      <p className="comment-text">{c.texto}</p>
-                      <small className="comment-date">
-                        {new Date(c.createdAt).toLocaleDateString()}
-                      </small>
-                    </div>
-                  ))
-                ) : (
-                  <p className="no-comments">No hay comentarios aún.</p>
-                )}
-               </div>
-            </section>
-          </div>
-
+  <CommentsSection roomId={room._id} />
+  </div>
           {/* LADO DERECHO: INFO Y COMENTARIOS */}
           <div className="detail-info-section">
             <span className={`status-pill ${room.status?.toLowerCase() === "disponible" ? "disponible" : "no-disponible"}`}>
