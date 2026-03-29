@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import "./RoomFormModal.css";
 
 const RoomFormModal = ({ isOpen, onClose, onSubmit, user, roomData, mode }) => {
@@ -26,7 +27,7 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit, user, roomData, mode }) => {
 
   const [form, setForm] = useState({
     titulo: "", colonia: "", direccion: "", descripcion: "", precio: 0,
-    capacidad: 1, servicios: ["agua", "luz", "gas"], estado: "disponible",
+    capacidad: 1, servicios: ["agua", "luz", "gas"], status: "disponible",
     tipoRenta: "mensual", imagen: [], referencias: "", incluyeServicios: false, amueblado: false
   });
 
@@ -38,11 +39,25 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit, user, roomData, mode }) => {
     Image: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" /></svg>
   };
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setForm(prev => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
-  };
+ const handleChange = (e) => {
+  const { name, value, type, checked } = e.target;
 
+  // 🔥 CASO ESPECIAL: incluyeServicios
+  if (name === "incluyeServicios") {
+    setForm(prev => ({
+      ...prev,
+      incluyeServicios: checked,
+      servicios: checked ? prev.servicios : [] // 👈 LIMPIA SI SE DESACTIVA
+    }));
+    return;
+  }
+
+  setForm(prev => ({
+    ...prev,
+    [name]: type === "checkbox" ? checked : value
+  }));
+};
+//aqui termina
   const handleServiciosChange = (e) => {
     const { value, checked } = e.target;
     setForm(prev => ({
@@ -67,13 +82,96 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit, user, roomData, mode }) => {
     setForm(prev => ({ ...prev, imagen: prev.imagen.filter((_, i) => i !== indexToRemove) }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const userId = user?._id || user?.id;
-    if (!userId) return;
-    onSubmit({ ...form, propietario: userId, publicado: true });
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
+  const userId = user?._id || user?.id;
+  if (!userId) return;
+
+  // 🔒 VALIDACIONES
+  if (!form.titulo.trim()) {
+    return Swal.fire("Error", "El nombre del alojamiento es obligatorio", "warning");
+  }
+
+  if (form.titulo.length < 5) {
+    return Swal.fire("Error", "El título debe tener al menos 5 caracteres", "warning");
+  }
+
+  if (!form.precio || form.precio <= 0) {
+    return Swal.fire("Error", "El precio debe ser mayor a 0", "warning");
+  }
+
+  if (form.precio > 10000) {
+    return Swal.fire("Error", "El precio parece demasiado alto", "warning");
+  }
+
+  if (!form.colonia) {
+    return Swal.fire("Error", "Debes seleccionar una colonia", "warning");
+  }
+
+  if (!form.direccion.trim()) {
+    return Swal.fire("Error", "La dirección es obligatoria", "warning");
+  }
+
+  if (!form.descripcion.trim() || form.descripcion.length < 5 ) {
+    return Swal.fire("Error", "La descripción debe tener al menos 5 caracteres", "warning");
+  }
+
+  if (form.capacidad < 1) {
+    return Swal.fire("Error", "La capacidad debe ser al menos 1 persona", "warning");
+  }
+
+  if (form.incluyeServicios && form.servicios.length === 0) {
+    return Swal.fire("Error", "Selecciona al menos un servicio", "warning");
+  }
+
+  if (form.imagen.length === 0) {
+    return Swal.fire("Error", "Debes subir al menos una imagen", "warning");
+  }
+
+  // 🔥 CONFIRMACIÓN
+  const confirm = await Swal.fire({
+    title: "¿Guardar cambios?",
+    text: "Verifica que la información sea correcta",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonText: "Sí, guardar",
+    confirmButtonColor: "#a855f7"
+  });
+
+  if (!confirm.isConfirmed) return;
+
+  // 🚀 ENVÍO
+  try {
+    await onSubmit({
+      ...form,
+      propietario: userId,
+      publicado: true
+    });
+
+    Swal.fire({
+      icon: "success",
+      title: mode === "edit" ? "¡Cuarto actualizado!" : "¡Cuarto guardado!",
+      text: mode === "edit"
+        ? "La información se actualizó correctamente"
+        : "El cuarto se registró correctamente",
+      confirmButtonColor: "#a855f7"
+    });
+
+    onClose();
+
+  } catch (error) {
+    console.error(error);
+
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: mode === "edit"
+        ? "No se pudo actualizar el cuarto"
+        : "No se pudo guardar el cuarto"
+    });
+  }
+};
   useEffect(() => {
     if (isOpen) {
       if (mode === "edit" && roomData) {
@@ -81,7 +179,7 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit, user, roomData, mode }) => {
       } else {
         setForm({
           titulo: "", colonia: "", direccion: "", descripcion: "", precio: 0,
-          capacidad: 1, servicios: ["agua", "luz", "gas"], estado: "disponible",
+          capacidad: 1, servicios: ["agua", "luz", "gas"], status: "disponible",
           tipoRenta: "mensual", imagen: [], referencias: "", incluyeServicios: false, amueblado: false
         });
       }
@@ -148,16 +246,24 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit, user, roomData, mode }) => {
               </div>
             </div>
 
-            <label className="inputLabel">Estado de disponibilidad</label>
-            <div style={{ padding: "5px 0" }}>
-              <label className="checkItem">
-                <input type="checkbox" checked={form.estado === "disponible"} 
-                  onChange={(e) => setForm({...form, estado: e.target.checked ? "disponible" : "no disponible"})} />
-                <span style={{ marginLeft: "8px", color: "#666" }}>
-                  {form.estado === "disponible" ? "Disponible ahora" : "No disponible"}
-                </span>
-              </label>
-            </div>
+<label className="inputLabel">Estado de disponibilidad</label>
+<div style={{ padding: "5px 0" }}>
+  <label className="checkItem">
+    <input
+      type="checkbox"
+      checked={form.status === "disponible"}
+      onChange={(e) =>
+        setForm({
+          ...form,
+          status: e.target.checked ? "disponible" : "no disponible"
+        })
+      }
+    />
+    <span style={{ marginLeft: "8px", color: "#666" }}>
+      {form.status === "disponible" ? "Disponible ahora" : "No disponible"}
+    </span>
+  </label>
+</div>
 
             <label className="inputLabel">Referencias de ubicación</label>
             <div className="inputField">
@@ -209,8 +315,9 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit, user, roomData, mode }) => {
           </div>
 
           <div className="buttonGroup">
-            <button type="submit" className="mainBtn">Guardar cuarto</button>
-            <button type="button" className="secondaryBtn" onClick={onClose}>Cancelar</button>
+<button type="submit" className="mainBtn">
+  {mode === "edit" ? "Actualizar cuarto" : "Guardar cuarto"}
+</button>            <button type="button" className="secondaryBtn" onClick={onClose}>Cancelar</button>
           </div>
         </form>
       </div>

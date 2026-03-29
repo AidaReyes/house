@@ -59,10 +59,10 @@ await fetch(`http://localhost:3000/api/comment/eliminar/${id}`, {
           {/* LADO IZQUIERDO: IMAGEN */}
 <div className="detail-image-section">
   <div className="main-image-wrapper">
-    <img 
+    <img
       src={imagenes[activeImgIndex] || "https://via.placeholder.com/500"} 
-      className="detail-main-img" 
-      alt="Room" 
+      className="detail-main-img"
+      alt="Room"
     />
   </div>
 
@@ -119,11 +119,11 @@ await fetch(`http://localhost:3000/api/comment/eliminar/${id}`, {
 
           {/* LADO DERECHO: INFO Y COMENTARIOS */}
           <div className="detail-info-section">
-            <span className={`status-pill ${room.estado === "disponible" ? "disponible" : "no-disponible"}`}>
-              {room.estado}
+            <span className={`status-pill ${room.status === "disponible" ? "disponible" : "no-disponible"}`}>
+              {room.status}
                </span>
             <h2 className="detail-title">{room.titulo}</h2>
-            <p className="detail-location"><MdLocationOn /> {room.direccion}</p>
+            <p className="detail-location"><MdLocationOn /> {room.direccion}, {room.colonia}</p>
             
             <div className="detail-price-box">
               <span className="amount">${room.precio}</span>
