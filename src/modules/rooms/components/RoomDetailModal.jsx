@@ -119,9 +119,9 @@ await fetch(`http://localhost:3000/api/comment/eliminar/${id}`, {
 
           {/* LADO DERECHO: INFO Y COMENTARIOS */}
           <div className="detail-info-section">
-            <span className={`status-pill ${room.status === "disponible" ? "disponible" : "no-disponible"}`}>
-              {room.status}
-               </span>
+            <span className={`status-pill ${room.status?.toLowerCase() === "disponible" ? "disponible" : "no-disponible"}`}>
+  {room.status}
+</span>
             <h2 className="detail-title">{room.titulo}</h2>
             <p className="detail-location"><MdLocationOn /> {room.direccion}, {room.colonia}</p>
             

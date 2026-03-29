@@ -42,7 +42,6 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit, user, roomData, mode }) => {
  const handleChange = (e) => {
   const { name, value, type, checked } = e.target;
 
-  // 🔥 CASO ESPECIAL: incluyeServicios
   if (name === "incluyeServicios") {
     setForm(prev => ({
       ...prev,
@@ -57,7 +56,6 @@ const RoomFormModal = ({ isOpen, onClose, onSubmit, user, roomData, mode }) => {
     [name]: type === "checkbox" ? checked : value
   }));
 };
-//aqui termina
   const handleServiciosChange = (e) => {
     const { value, checked } = e.target;
     setForm(prev => ({

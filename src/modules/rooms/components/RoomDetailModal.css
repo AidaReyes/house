@@ -246,6 +246,63 @@
   background: #cbd5e1;
   border-radius: 10px;
 }
+/*Disponibilidad*/
+/* Base del pill */
+.status-pill {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  text-transform: capitalize;
+}
+
+/* Disponible (verde) */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: capitalize;
+}
+
+/* Disponible */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: capitalize;
+}
+
+/* Disponible */
+.status-pill.disponible {
+  background-color: #22c55e20;
+  color: #16a34a;
+  border: 1px solid #22c55e;
+}
+
+/* No disponible */
+.status-pill.no-disponible {
+  background-color: #ef444420;
+  color: #dc2626;
+  border: 1px solid #ef4444;
+}
+
+/* Puntito indicador */
+.status-pill::before {
+  content: "●";
+  font-size: 10px;
+}
 /* Responsive */
 @media (max-width: 900px) {
   .detail-grid { grid-template-columns: 1fr; height: auto; }
