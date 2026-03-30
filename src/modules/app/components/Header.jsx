@@ -5,7 +5,9 @@ import {
   FaHouse,
   FaShieldHalved,
   FaChevronDown,
-  FaUserShield,
+  FaGear,
+  FaHandshake,
+  FaHouse,
   FaKey,
   FaBuilding,
   FaClipboardCheck,
@@ -14,7 +16,6 @@ import {
   FaUsers,
   FaUserTie,
   FaMoon,
-  FaGear,
   FaRightFromBracket,
 } from "react-icons/fa6";
 
@@ -174,8 +175,38 @@ const Header = () => {
             to="/usuarios"
             className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
           >
-            <FaUsers />
-            <span>Usuarios</span>
+            <FaHouse />
+            <span>Cuartos</span>
+          </NavLink>
+        </Can>
+        <Can permiso="RENT_LIST">
+          <NavLink
+            to="/CuartosPublicados"
+            className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
+          >
+            <FaHouse />
+            <span>Cuartos Publicados</span>
+          </NavLink>
+        </Can>
+
+        {/* ← NUEVOS */}
+        <Can permiso="SOLICITUD_LIST">
+          <NavLink
+            to="/solicitudes"
+            className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
+          >
+            <FaFileContract />
+            <span>Solicitudes</span>
+          </NavLink>
+        </Can>
+
+        <Can permiso="PAGO_LIST">
+          <NavLink
+            to="/pagos"
+            className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
+          >
+            <FaMoneyBillWave />
+            <span>Pagos</span>
           </NavLink>
         </Can>
 
@@ -203,6 +234,9 @@ const Header = () => {
             src={user?.foto || perfil}
             alt="Usuario"
             className="header-avatar"
+            onError={(e) => {
+              e.target.src = perfil;
+            }}
           />
 
           <div className="header-user-info">
@@ -215,10 +249,7 @@ const Header = () => {
 
         {showUserMenu && (
           <>
-            <div
-              className="header-menu-overlay"
-              onClick={() => setShowUserMenu(false)}
-            />
+            <div className="header-menu-overlay" onClick={closeMenu} />
 
             <div className="header-menu">
               <button

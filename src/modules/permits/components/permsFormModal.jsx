@@ -37,6 +37,11 @@ const PermFormModal = ({
           <option value="USER">USER</option>
           <option value="ROL">ROL</option>
           <option value="PERMISOS">PERMISOS</option>
+          <option value="RENT">RENT</option>
+          <option value="ROOM">ROOM</option>
+          <option value="SOLICITUD">SOLICITUD</option>
+          <option value="PAGO">PAGO</option>
+          <option value="COMMENT">COMMENT</option>
         </select>
 
         <label>Acción</label>
@@ -47,6 +52,7 @@ const PermFormModal = ({
         >
           <option value="">Selecciona una acción</option>
           <option value="CREATE">CREATE</option>
+          <option value="READ">READ</option>
           <option value="UPDATE">UPDATE</option>
           <option value="DELETE">DELETE</option>
           <option value="LIST">LIST</option>

@@ -166,10 +166,11 @@ const DashboardPage = () => {
   return (
     <div className="dashboard-page">
       <div className="dashboard-header-box">
-        <h1 className="dashboard-header-title">Inicio</h1>
-        <p className="dashboard-header-sub">
-          Resumen general del sistema de renta de cuartos
-        </p>
+        <h1 className="dashboard-header-title">Hola, bienvenido a la pagina 404 NOT FOUND</h1>
+        <p className="dashboard-header-sub">Resumen del sistema</p>
+      </div>
+
+      <div className="dashboard-actions">
       </div>
 
       {loading && <p className="muted">Cargando datos de inicio...</p>}
@@ -286,8 +287,8 @@ const DashboardPage = () => {
                       rent?.status === 'activa'
                         ? 'success'
                         : rent?.status === 'cancelada'
-                        ? 'danger'
-                        : 'neutral'
+                          ? 'danger'
+                          : 'neutral'
 
                     return (
                       <div
