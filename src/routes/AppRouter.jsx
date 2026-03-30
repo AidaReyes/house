@@ -18,6 +18,10 @@ import RentPage from '../modules/rents/pages/rentpage.jsx';
 import RolePage from '../modules/role/pages/rolePage.jsx';
 import PerfilArrendador from '../modules/app/pages/PerfilArrendador.jsx';
 
+// ← NUEVAS
+import SolicitudPage from '../modules/solicitudes/components/SolicitudPage.jsx';
+import PagoPage from '../modules/pagos/components/PagoPage.jsx';
+
 // Pages públicas
 import LoginPage from '../modules/app/pages/LoginPage.jsx';
 import RegisterPage from '../modules/app/pages/RegisterPage.jsx';
@@ -118,7 +122,8 @@ export default function AppRouter() {
               </Can>
             }
           />
-          {/* Rentas */}
+
+          {/* Cuartos Publicados */}
           <Route
             path="/CuartosPublicados"
             element={
@@ -127,6 +132,27 @@ export default function AppRouter() {
               </Can>
             }
           />
+
+          {/* Solicitudes ← NUEVA */}
+          <Route
+            path="/solicitudes"
+            element={
+              <Can permiso="SOLICITUD_LIST" fellback={<Navigate to="/no-autorizado" replace />}>
+                <SolicitudPage />
+              </Can>
+            }
+          />
+
+          {/* Pagos ← NUEVA */}
+          <Route
+            path="/pagos"
+            element={
+              <Can permiso="PAGO_LIST" fellback={<Navigate to="/no-autorizado" replace />}>
+                <PagoPage />
+              </Can>
+            }
+          />
+
         </Route>
 
         {/* ❌ No autorizado */}

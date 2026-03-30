@@ -4,11 +4,13 @@ import { toggleTheme } from "../../../utils/theme.js";
 import {
   FaBoxesStacked,
   FaChevronDown,
+  FaFileContract,
   FaGear,
   FaHandshake,
   FaHouse,
   FaKey,
   FaMoon,
+  FaMoneyBillWave,
   FaRightFromBracket,
   FaUsers,
   FaUserShield,
@@ -114,6 +116,7 @@ const Header = () => {
             <span>Cuartos</span>
           </NavLink>
         </Can>
+
         <Can permiso="RENT_LIST">
           <NavLink
             to="/CuartosPublicados"
@@ -121,6 +124,27 @@ const Header = () => {
           >
             <FaHouse />
             <span>Cuartos Publicados</span>
+          </NavLink>
+        </Can>
+
+        {/* ← NUEVOS */}
+        <Can permiso="SOLICITUD_LIST">
+          <NavLink
+            to="/solicitudes"
+            className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
+          >
+            <FaFileContract />
+            <span>Solicitudes</span>
+          </NavLink>
+        </Can>
+
+        <Can permiso="PAGO_LIST">
+          <NavLink
+            to="/pagos"
+            className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
+          >
+            <FaMoneyBillWave />
+            <span>Pagos</span>
           </NavLink>
         </Can>
 
@@ -159,9 +183,7 @@ const Header = () => {
             src={user?.foto || perfil}
             alt={user?.nombre || user?.usuario || "Usuario"}
             className="header-avatar"
-            onError={(e) => {
-              e.target.src = perfil;
-            }}
+            onError={(e) => { e.target.src = perfil; }}
           />
 
           <div className="header-user-info">
@@ -181,7 +203,6 @@ const Header = () => {
         {showUserMenu && (
           <>
             <div className="header-menu-overlay" onClick={closeMenu} />
-
             <div className="header-menu">
               <button
                 type="button"

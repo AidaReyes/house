@@ -33,7 +33,7 @@ const DashboardPage = () => {
     <div className="dashboard-page">
 
       <div className="dashboard-header-box">
-        <h1 className="dashboard-header-title">Hola, bienvenido a la pagina 404 NOT FOUND</h1>
+        <h1 className="dashboard-header-title">Hola, bienvenido a Cozzy House</h1>
         <p className="dashboard-header-sub">Resumen del sistema</p>
       </div>
 
