@@ -17,4 +17,8 @@ export const pagoService = {
     const { data } = await api.delete(`/pagos/eliminar/${id}`);
     return data;
   },
+  async enviarOrden(id) {
+    const { data } = await api.post(`/pagos/enviar-orden/${id}`);
+    return data;
+  },
 };

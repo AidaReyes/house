@@ -12,6 +12,7 @@ const PagoPage = () => {
   const [selected, setSelected] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+  const [enviando, setEnviando] = useState(null); // ← NUEVO
 
   const cargar = async () => {
     try {
@@ -29,6 +30,7 @@ const PagoPage = () => {
 
   const handleNuevo = () => { setSelected(null); setShowForm(true); };
   const openEdit = (p) => { setSelected(p); setShowForm(true); };
+
   const eliminar = async () => {
     try {
       await pagoService.delete(deleteId);
@@ -36,6 +38,19 @@ const PagoPage = () => {
       cargar();
     } catch {
       alert("Error al eliminar pago");
+    }
+  };
+
+  // ← NUEVO
+  const enviarOrden = async (id) => {
+    try {
+      setEnviando(id);
+      await pagoService.enviarOrden(id);
+      alert("✅ Orden de pago enviada al propietario correctamente");
+    } catch {
+      alert("❌ Error al enviar la orden de pago");
+    } finally {
+      setEnviando(null);
     }
   };
 
@@ -82,6 +97,14 @@ const PagoPage = () => {
                   <Can permiso="PAGO_DELETE">
                     <button className="btn btn-sm btn-danger" onClick={() => setDeleteId(p._id)}>Eliminar</button>
                   </Can>
+                  {/* ← NUEVO */}
+                  <button
+                    className="btn btn-sm btn-correo"
+                    onClick={() => enviarOrden(p._id)}
+                    disabled={enviando === p._id}
+                  >
+                    {enviando === p._id ? "Enviando..." : "Enviar orden"}
+                  </button>
                 </div>
               </td>
             </tr>
