@@ -2,12 +2,12 @@
 
 .header {
   height: 64px;
-  padding: 0 20px;
+  padding: 0 16px;
   background: var(--color-surface);
   color: var(--color-text);
   border-bottom: 1px solid var(--color-border);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 20px;
   position: relative;
@@ -25,6 +25,7 @@
   display: flex;
   align-items: center;
   text-decoration: none;
+  padding-right: 100px;
 }
 
 .header-logo img {
@@ -33,7 +34,8 @@
   display: block;
 }
 
-/* ESTE ES EL QUE SCROLLEA */
+/* ================= NAV WRAPPER ================= */
+
 .header-nav-wrapper {
   flex: 1;
   min-width: 0;
@@ -41,22 +43,27 @@
   overflow-y: visible;
   scrollbar-width: none;
   position: relative;
+  display: flex;
+  justify-content: flex-start; /* 🔥 FIX */
 }
 
 .header-nav-wrapper::-webkit-scrollbar {
   display: none;
 }
 
-/* ESTE YA NO DEBE RECORTAR */
+/* ================= NAV ================= */
+
 .header-nav {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; 
   gap: 8px;
   min-width: max-content;
   position: relative;
   overflow: visible;
 }
+
+/* ================= LINKS ================= */
 
 .header-link {
   display: inline-flex;

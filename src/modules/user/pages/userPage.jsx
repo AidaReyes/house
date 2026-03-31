@@ -30,8 +30,7 @@ export default function UsersPage() {
       id.includes(queryLower) ||
       nombre.includes(queryLower) ||
       usuario.includes(queryLower) ||
-      telefono.includes(queryLower)
-    );
+      telefono.includes(queryLower)     );
   });
 
   if (loading) return <p>Cargando usuarios...</p>;
@@ -95,6 +94,7 @@ export default function UsersPage() {
             <th>Nombre</th>
             <th>Usuario</th>
             <th>Telefono</th>
+            <th>Verificado</th>
             <th>Rol</th>
             <Can permisos={["USER_UPDATE", "USER_DELETE"]}>
               <th>Acciones</th>
@@ -104,11 +104,14 @@ export default function UsersPage() {
 
         <tbody>
           {(usersFiltrados || []).map((u) => (
+
             <tr key={u.id ?? u._id}>
+
               <td>{u.id ?? u._id}</td>
               <td>{u.nombre}</td>
               <td>{u.usuario}</td>
               <td>{u.telefono || "Sin telefono"}</td>
+              <td>{u.estado ? "Sí" : "No"}</td>
               <td>
                 {u.roles?.nombre || "Sin rol"}
               </td>

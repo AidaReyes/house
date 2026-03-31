@@ -96,9 +96,8 @@ const Header = () => {
           <div className="header-dropdown">
             <button
               type="button"
-              className={`header-link header-dropdown-toggle ${
-                isPropertiesActive || showPropertiesMenu ? "active" : ""
-              }`}
+              className={`header-link header-dropdown-toggle ${isPropertiesActive || showPropertiesMenu ? "active" : ""
+                }`}
               onClick={togglePropertiesMenu}
             >
               <FaBuilding />
@@ -108,15 +107,16 @@ const Header = () => {
 
             {showPropertiesMenu && (
               <div className="header-dropdown-menu">
-                <NavLink
-                  to="/cuartos"
-                  className="header-dropdown-item"
-                  onClick={closeAllMenus}
-                >
-                  <FaClipboardCheck />
-                  <span>Revisión de propiedades</span>
-                </NavLink>
-
+                <Can permiso="USER_LIST" >
+                  <NavLink
+                    to="/cuartos"
+                    className="header-dropdown-item"
+                    onClick={closeAllMenus}
+                  >
+                    <FaClipboardCheck />
+                    <span>Revisión de propiedades</span>
+                  </NavLink>
+                </Can>
                 <NavLink
                   to="/CuartosPublicados"
                   className="header-dropdown-item"
@@ -142,17 +142,18 @@ const Header = () => {
             <span>Solicitudes de renta</span>
           </NavLink>
         </Can>
-
-        <NavLink
-          to="/usuarios"
-          className={({ isActive }) =>
-            `header-link ${isActive ? "active" : ""}`
-          }
-          onClick={closeAllMenus}
-        >
-          <FaUsers />
-          <span>Usuarios</span>
-        </NavLink>
+        <Can permiso="USER_LIST">
+          <NavLink
+            to="/usuarios"
+            className={({ isActive }) =>
+              `header-link ${isActive ? "active" : ""}`
+            }
+            onClick={closeAllMenus}
+          >
+            <FaUsers />
+            <span>Usuarios</span>
+          </NavLink>
+        </Can>
 
         <NavLink
           to="/arrendador"
@@ -191,9 +192,8 @@ const Header = () => {
           <div className="header-dropdown">
             <button
               type="button"
-              className={`header-link header-dropdown-toggle ${
-                isAccessActive || showAccessMenu ? "active" : ""
-              }`}
+              className={`header-link header-dropdown-toggle ${isAccessActive || showAccessMenu ? "active" : ""
+                }`}
               onClick={toggleAccessMenu}
             >
               <FaShieldHalved />

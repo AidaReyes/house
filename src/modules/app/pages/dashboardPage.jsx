@@ -1,5 +1,26 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
+import {
+  FaUsers,
+  FaUserTie,
+  FaBuilding,
+  FaFileContract,
+  FaShieldHalved,
+  FaKey,
+  FaCircleCheck,
+  FaClock,
+  FaTriangleExclamation,
+  FaChartLine,
+  FaHouse,
+  FaArrowRight,
+  FaSpinner,
+  FaCheckDouble,
+  FaUserPlus,
+  FaCalendarDays,
+  FaEye,
+  FaThumbsUp,
+} from 'react-icons/fa6'
+
 import { userService } from '../../user/service/user.service'
 import { rolService } from '../../role/service/rolService'
 import { rentService } from '../../rents/service/rents.service'
@@ -18,353 +39,248 @@ const DashboardPage = () => {
 
   const [loading, setLoading] = useState(true)
   const [errors, setErrors] = useState([])
+  const [refreshing, setRefreshing] = useState(false)
 
-  useEffect(() => {
-    const load = async () => {
-      setLoading(true)
-      setErrors([])
+  const loadDashboardData = useCallback(async () => {
+    setErrors([])
 
-      const results = await Promise.allSettled([
-        userService.getAll(),
-        rolService.getAll(),
-        rentService.getAll(),
-        permisoService.getAll(),
-        roomsService.getAll(),
-      ])
+    const results = await Promise.allSettled([
+      userService.getAll(),
+      rolService.getAll(),
+      rentService.getAll(),
+      permisoService.getAll(),
+      roomsService.getAll(),
+    ])
 
-      const [usersRes, rolesRes, rentsRes, permitsRes, roomsRes] = results
-      const newErrors = []
+    const [usersRes, rolesRes, rentsRes, permitsRes, roomsRes] = results
+    const newErrors = []
 
-      const users =
-        usersRes.status === 'fulfilled'
-          ? usersRes.value || []
-          : (newErrors.push('No se pudieron cargar los usuarios'), [])
+    const users = usersRes.status === 'fulfilled' ? usersRes.value || [] : []
+    if (usersRes.status !== 'fulfilled') newErrors.push('No se pudieron cargar los usuarios')
 
-      const roles =
-        rolesRes.status === 'fulfilled'
-          ? rolesRes.value || []
-          : (newErrors.push('No se pudieron cargar los roles'), [])
+    const roles = rolesRes.status === 'fulfilled' ? rolesRes.value || [] : []
+    if (rolesRes.status !== 'fulfilled') newErrors.push('No se pudieron cargar los roles')
 
-      const rents =
-        rentsRes.status === 'fulfilled'
-          ? rentsRes.value || []
-          : (newErrors.push('No se pudieron cargar las rentas'), [])
+    const rents = rentsRes.status === 'fulfilled' ? rentsRes.value || [] : []
+    if (rentsRes.status !== 'fulfilled') newErrors.push('No se pudieron cargar las rentas')
 
-      const permits =
-        permitsRes.status === 'fulfilled'
-          ? permitsRes.value || []
-          : (newErrors.push('No se pudieron cargar los permisos'), [])
+    const permits = permitsRes.status === 'fulfilled' ? permitsRes.value || [] : []
+    if (permitsRes.status !== 'fulfilled') newErrors.push('No se pudieron cargar los permisos')
 
-      const rooms =
-        roomsRes.status === 'fulfilled'
-          ? roomsRes.value || []
-          : (newErrors.push('No se pudieron cargar las propiedades'), [])
+    const rooms = roomsRes.status === 'fulfilled' ? roomsRes.value || [] : []
+    if (roomsRes.status !== 'fulfilled') newErrors.push('No se pudieron cargar las propiedades')
 
-      setData({
-        users,
-        roles,
-        rents,
-        permits,
-        rooms,
-      })
-
-      setErrors(newErrors)
-      setLoading(false)
-    }
-
-    load()
+    setData({ users, roles, rents, permits, rooms })
+    setErrors(newErrors)
   }, [])
 
-  const getDateValue = (item) => {
-    return item?.createdAt || item?.updatedAt || 0
-  }
-
-  const getUserName = (user) => {
-    return user?.nombre || user?.usuario || 'Sin nombre'
-  }
-
-  const getRoomTitle = (room) => {
-    return room?.titulo || 'Propiedad sin título'
-  }
-
-  const getRoomOwner = (room) => {
-    if (typeof room?.propietario === 'object' && room?.propietario !== null) {
-      return room.propietario.nombre || room.propietario.usuario || 'Sin propietario'
+  const loadData = useCallback(async (refresh = false) => {
+    if (refresh) {
+      setRefreshing(true)
+      await loadDashboardData()
+      setRefreshing(false)
+    } else {
+      setLoading(true)
+      await loadDashboardData()
+      setLoading(false)
     }
-    return 'Propietario no disponible'
-  }
+  }, [loadDashboardData])
 
-  const getRentUser = (rent) => {
-    if (typeof rent?.usuario === 'object' && rent?.usuario !== null) {
-      return rent.usuario.nombre || rent.usuario.usuario || 'Sin usuario'
-    }
-    return 'Usuario no disponible'
-  }
+  useEffect(() => {
+    loadData()
+  }, [loadData])
 
-  const getRentRoom = (rent) => {
-    if (typeof rent?.cuarto === 'object' && rent?.cuarto !== null) {
-      return rent.cuarto.titulo || 'Propiedad sin título'
-    }
-    return 'Propiedad no disponible'
-  }
+  const formatDate = (date) =>
+    date ? new Date(date).toLocaleDateString('es-ES') : ''
 
   const stats = useMemo(() => {
     const users = data.users || []
     const rooms = data.rooms || []
     const rents = data.rents || []
-    const roles = data.roles || []
-    const permits = data.permits || []
 
-    const publishedRooms = rooms.filter((room) => room?.publicado === true)
-    const pendingRooms = rooms.filter((room) => room?.publicado === false)
-
-    const activeRents = rents.filter((rent) => rent?.status === 'activa')
-    const finishedRents = rents.filter((rent) => rent?.status === 'finalizada')
-    const canceledRents = rents.filter((rent) => rent?.status === 'cancelada')
-
-    const landlords = users.filter((user) => user?.tipoUsuario === 'arrendador')
-    const clients = users.filter((user) => user?.tipoUsuario === 'cliente')
-    const activeUsers = users.filter((user) => user?.estado === true)
-
-    const recentPendingRooms = [...pendingRooms]
-      .sort((a, b) => new Date(getDateValue(b)) - new Date(getDateValue(a)))
-      .slice(0, 5)
-
-    const recentPublishedRooms = [...publishedRooms]
-      .sort((a, b) => new Date(getDateValue(b)) - new Date(getDateValue(a)))
-      .slice(0, 5)
-
-    const recentRents = [...rents]
-      .sort((a, b) => new Date(getDateValue(b)) - new Date(getDateValue(a)))
-      .slice(0, 5)
-
-    const recentUsers = [...users]
-      .sort((a, b) => new Date(getDateValue(b)) - new Date(getDateValue(a)))
-      .slice(0, 5)
+    const activeUsers = users.filter(u => u?.estado === true)
+    const pendingRooms = rooms.filter(r => !r?.publicado)
+    const publishedRooms = rooms.filter(r => r?.publicado)
+    const activeRents = rents.filter(r => r?.status === 'activa')
 
     return {
       totalUsers: users.length,
       activeUsers: activeUsers.length,
-      totalRoles: roles.length,
-      totalPermits: permits.length,
       totalRooms: rooms.length,
-      publishedRooms,
       pendingRooms,
+      publishedRooms,
       totalRents: rents.length,
       activeRents,
-      finishedRents,
-      canceledRents,
-      landlords,
-      clients,
-      recentPendingRooms,
-      recentPublishedRooms,
-      recentRents,
-      recentUsers,
     }
   }, [data])
 
+  const ListItem = ({ title, subtitle, badge, date }) => (
+    <div className="dashboard-list-item">
+      <div>
+        <p className="item-title">{title}</p>
+        <p className="item-subtitle">{subtitle}</p>
+        {date && (
+          <p className="item-date">
+            <FaClock /> {formatDate(date)}
+          </p>
+        )}
+      </div>
+      {badge && <span className={`item-badge ${badge.type}`}>{badge.text}</span>}
+    </div>
+  )
+
+  if (loading) {
+    return (
+      <div className="dashboard-page">
+        <FaSpinner className="spin" />
+        <p>Cargando...</p>
+      </div>
+    )
+  }
+
   return (
     <div className="dashboard-page">
-      <div className="dashboard-header-box">
-        <h1 className="dashboard-header-title">Hola, bienvenido a la pagina 404 NOT FOUND</h1>
-        <p className="dashboard-header-sub">Resumen del sistema</p>
+
+      {/* HEADER */}
+      <div className="dashboard-header">
+        <div>
+          <h1>Panel de Control</h1>
+          <p>Resumen general del sistema</p>
+        </div>
+
+        <button onClick={() => loadData(true)}>
+          <FaSpinner className={refreshing ? 'spin' : ''} />
+          Actualizar
+        </button>
       </div>
 
-      <div className="dashboard-actions">
-      </div>
-
-      {loading && <p className="muted">Cargando datos de inicio...</p>}
-
+      {/* ERRORES */}
       {errors.length > 0 && (
-        <div className="dashboard-warnings">
-          {errors.map((err, index) => (
-            <p key={index} className="error">{err}</p>
+        <div className="dashboard-alerts">
+          {errors.map((err, i) => (
+            <div key={i} className="dashboard-alert">
+              <FaTriangleExclamation /> {err}
+            </div>
           ))}
         </div>
       )}
 
-      {!loading && (
-        <>
-          <div className="welcome-card">
-            <h2 className="welcome-title">Panel principal</h2>
-            <p className="welcome-desc">
-              Consulta rápidamente propiedades en revisión, propiedades publicadas,
-              rentas activas y usuarios del sistema.
-            </p>
-          </div>
+      {/* STATS */}
+      <div className="dashboard-stats-grid">
+        <div className="stat-card">
+          <FaUsers />
+          <span>Usuarios</span>
+          <strong>{stats.totalUsers}</strong>
+        </div>
 
-          <div className="card--container">
-            <div className="stat-card">
-              <div className="stat-title">Propiedades en revisión</div>
-              <div className="stat-value">{stats.pendingRooms.length}</div>
-              <Link to="/cuartos" className="stat-link">
-                Revisar propiedades
-              </Link>
+        <div className="stat-card">
+          <FaBuilding />
+          <span>Propiedades</span>
+          <strong>{stats.totalRooms}</strong>
+        </div>
+
+        <div className="stat-card">
+          <FaFileContract />
+          <span>Rentas activas</span>
+          <strong>{stats.activeRents.length}</strong>
+        </div>
+
+        <div className="stat-card">
+          <FaChartLine />
+          <span>Activos</span>
+          <strong>{stats.activeUsers}</strong>
+        </div>
+      </div>
+
+      {/* LISTAS */}
+      <div className="dashboard-main-grid">
+
+        <div className="dashboard-panel">
+          <h3>Propiedades en revisión</h3>
+
+          {stats.pendingRooms.length > 0 ? (
+            stats.pendingRooms.slice(0, 5).map((room, i) => (
+              <ListItem
+                key={i}
+                title={room?.titulo}
+                subtitle="Pendiente"
+                badge={{ text: 'En revisión', type: 'warning' }}
+                date={room?.createdAt}
+              />
+            ))
+          ) : (
+            <div className="empty-box">
+              <FaCircleCheck />
+              <p>Todo revisado</p>
             </div>
+          )}
+        </div>
 
-            <div className="stat-card">
-              <div className="stat-title">Propiedades publicadas</div>
-              <div className="stat-value">{stats.publishedRooms.length}</div>
-              <Link to="/CuartosPublicados" className="stat-link">
-                Ver publicadas
-              </Link>
+        <div className="dashboard-panel">
+          <h3>Últimas rentas</h3>
+
+          {stats.totalRents > 0 ? (
+            stats.activeRents.slice(0, 5).map((rent, i) => (
+              <ListItem
+                key={i}
+                title="Renta"
+                subtitle="Activa"
+                badge={{ text: 'Activa', type: 'success' }}
+                date={rent?.createdAt}
+              />
+            ))
+          ) : (
+            <div className="empty-box">
+              <FaFileContract />
+              <p>No hay rentas</p>
             </div>
+          )}
+        </div>
 
-            <div className="stat-card">
-              <div className="stat-title">Rentas activas</div>
-              <div className="stat-value">{stats.activeRents.length}</div>
-              <Link to="/renta" className="stat-link">
-                Ver rentas
-              </Link>
+      </div>
+
+      {/* RESUMEN */}
+      <div className="dashboard-bottom-grid">
+
+        <div className="dashboard-panel">
+          <h3>Usuarios</h3>
+          <div className="mini-stats">
+            <div>
+              <FaUsers />
+              <span>Total</span>
+              <strong>{stats.totalUsers}</strong>
             </div>
-
-            <div className="stat-card">
-              <div className="stat-title">Usuarios registrados</div>
-              <div className="stat-value">{stats.totalUsers}</div>
-              <Link to="/usuarios" className="stat-link">
-                Ver usuarios
-              </Link>
-            </div>
-
-            <div className="stat-card">
-              <div className="stat-title">Propietarios</div>
-              <div className="stat-value">{stats.landlords.length}</div>
-              <Link to="/arrendador" className="stat-link">
-                Ver propietarios
-              </Link>
-            </div>
-
-            <div className="stat-card">
-              <div className="stat-title">Clientes</div>
-              <div className="stat-value">{stats.clients.length}</div>
-              <Link to="/usuarios" className="stat-link">
-                Ver clientes
-              </Link>
-            </div>
-          </div>
-
-          <div className="dashboard-grid">
-            <div className="dashboard-panel">
-              <div className="dashboard-panel-header">
-                <h3>Propiedades en revisión</h3>
-                <Link to="/cuartos" className="panel-link">Ver todas</Link>
-              </div>
-
-              {stats.recentPendingRooms.length > 0 ? (
-                <div className="dashboard-list">
-                  {stats.recentPendingRooms.map((room, index) => (
-                    <div
-                      className="dashboard-list-item"
-                      key={room?._id || index}
-                    >
-                      <div>
-                        <p className="item-title">{getRoomTitle(room)}</p>
-                        <p className="item-subtitle">
-                          Propietario: {getRoomOwner(room)}
-                        </p>
-                      </div>
-                      <span className="item-badge warning">En revisión</span>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="empty-state">
-                  No hay propiedades en revisión.
-                </p>
-              )}
-            </div>
-
-            <div className="dashboard-panel">
-              <div className="dashboard-panel-header">
-                <h3>Últimas rentas</h3>
-                <Link to="/renta" className="panel-link">Ver todas</Link>
-              </div>
-
-              {stats.recentRents.length > 0 ? (
-                <div className="dashboard-list">
-                  {stats.recentRents.map((rent, index) => {
-                    const badgeClass =
-                      rent?.status === 'activa'
-                        ? 'success'
-                        : rent?.status === 'cancelada'
-                          ? 'danger'
-                          : 'neutral'
-
-                    return (
-                      <div
-                        className="dashboard-list-item"
-                        key={rent?._id || index}
-                      >
-                        <div>
-                          <p className="item-title">{getRentUser(rent)}</p>
-                          <p className="item-subtitle">
-                            Propiedad: {getRentRoom(rent)}
-                          </p>
-                        </div>
-                        <span className={`item-badge ${badgeClass}`}>
-                          {rent?.status || 'sin estado'}
-                        </span>
-                      </div>
-                    )
-                  })}
-                </div>
-              ) : (
-                <p className="empty-state">
-                  No hay rentas registradas.
-                </p>
-              )}
+            <div>
+              <FaUserTie />
+              <span>Activos</span>
+              <strong>{stats.activeUsers}</strong>
             </div>
           </div>
+        </div>
 
-          <div className="dashboard-grid">
-            <div className="dashboard-panel">
-              <div className="dashboard-panel-header">
-                <h3>Resumen de propiedades</h3>
-              </div>
-
-              <div className="mini-stats">
-                <div className="mini-stat">
-                  <span className="mini-stat-label">Total</span>
-                  <strong className="mini-stat-value">{stats.totalRooms}</strong>
-                </div>
-
-                <div className="mini-stat">
-                  <span className="mini-stat-label">En revisión</span>
-                  <strong className="mini-stat-value">{stats.pendingRooms.length}</strong>
-                </div>
-
-                <div className="mini-stat">
-                  <span className="mini-stat-label">Publicadas</span>
-                  <strong className="mini-stat-value">{stats.publishedRooms.length}</strong>
-                </div>
-              </div>
+        <div className="dashboard-panel">
+          <h3>Sistema</h3>
+          <div className="mini-stats">
+            <div>
+              <FaShieldHalved />
+              <span>Roles</span>
+              <strong>{data.roles.length}</strong>
             </div>
-
-            <div className="dashboard-panel">
-              <div className="dashboard-panel-header">
-                <h3>Resumen de usuarios</h3>
-              </div>
-
-              <div className="mini-stats">
-                <div className="mini-stat">
-                  <span className="mini-stat-label">Activos</span>
-                  <strong className="mini-stat-value">{stats.activeUsers}</strong>
-                </div>
-
-                <div className="mini-stat">
-                  <span className="mini-stat-label">Propietarios</span>
-                  <strong className="mini-stat-value">{stats.landlords.length}</strong>
-                </div>
-
-                <div className="mini-stat">
-                  <span className="mini-stat-label">Clientes</span>
-                  <strong className="mini-stat-value">{stats.clients.length}</strong>
-                </div>
-              </div>
+            <div>
+              <FaKey />
+              <span>Permisos</span>
+              <strong>{data.permits.length}</strong>
+            </div>
+            <div>
+              <FaCalendarDays />
+              <span>Rentas</span>
+              <strong>{stats.totalRents}</strong>
             </div>
           </div>
-        </>
-      )}
+        </div>
+
+      </div>
+
     </div>
   )
 }

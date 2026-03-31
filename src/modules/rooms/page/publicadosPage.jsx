@@ -30,13 +30,13 @@ export default function PublicadoPage() {
     const [filterPrecio, setFilterPrecio] = useState("");
     const loadRooms = async () => {
         try {
-            const data = await roomsService.getCatalog();
-             console.log("ROOMS DESDE BACK:", data);
+            const data = await roomsService.getPublished();
+            //  console.log("ROOMS DESDE BACK:", data);
 
             setRooms(data || []);
 
         } catch (error) {
-            console.error("Error cargando cuartos", error);
+            // console.error("Error cargando cuartos", error);
         } finally {
             setLoading(false);
         }
@@ -341,21 +341,6 @@ export default function PublicadoPage() {
                                 </div>
 
 
-                                <div className="room-actions">
-                                    <button
-                                        className="edit-btn"
-                                        onClick={() => openEditModal(room)}
-                                    >
-                                        Editar
-                                    </button>
-
-                                    <button
-                                        className="delete-btn"
-                                        onClick={() => openDeleteModal(room)}
-                                    >
-                                        Eliminar
-                                    </button>
-                                </div>
                                 <div className="room-buttons">
                                     <button
                                         className="btn btn-sm btn-primary"

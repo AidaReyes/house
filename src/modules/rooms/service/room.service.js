@@ -9,29 +9,17 @@ export const roomsService = {
   },
 
   // 🔹 Obtener con filtros (🔥 ESTE ES EL IMPORTANTE)
-  async getFiltered(params = {}) {
-    const query = new URLSearchParams(params).toString();
-    const { data } = await api.get(`/Room/listar?${query}`);
-    return data.data || [];
-  },
-
+async getFiltered(params = {}) {
+  const query = new URLSearchParams(params).toString();
+  const { data } = await api.get(`/Room?${query}`);
+  return data.data || [];
+},
   // 🔹 Obtener solo publicados
   async getPublished() {
     return this.getFiltered({ publicado: true });
   },
 
-  // 🔹 Obtener disponibles
-  async getAvailable() {
-    return this.getFiltered({ estado: "disponible" });
-  },
 
-  // 🔹 Obtener publicados y disponibles (CATÁLOGO)
-  async getCatalog() {
-    return this.getFiltered({
-      publicado: true,
-      estado: "disponible"
-    });
-  },
 
   // 🔹 Obtener por propietario (manual)
   async getByOwner(propietarioId) {
@@ -53,6 +41,11 @@ export const roomsService = {
   // 🔹 Actualizar Room
   async update(id, room) {
     const { data } = await api.patch(`/Room/actualizar/${id}`, room);
+    return data;
+  },
+  // 🔹 Actualizar Room
+  async patch(id, room) {
+    const { data } = await api.patch(`/Room/publicar/${id}`, room);
     return data;
   },
 
