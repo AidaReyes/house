@@ -6,18 +6,14 @@
   background: var(--color-surface);
   color: var(--color-text);
   border-bottom: 1px solid var(--color-border);
-
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-
   position: relative;
-  z-index: 50;
+  z-index: 100;
   overflow: visible;
 }
-
-/* ================= LEFT ================= */
 
 .header-left {
   display: flex;
@@ -37,37 +33,45 @@
   display: block;
 }
 
-/* ================= NAV ================= */
-
-.header-nav {
+/* ESTE ES EL QUE SCROLLEA */
+.header-nav-wrapper {
   flex: 1;
   min-width: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  scrollbar-width: none;
+  position: relative;
+}
+
+.header-nav-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+/* ESTE YA NO DEBE RECORTAR */
+.header-nav {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.header-nav::-webkit-scrollbar {
-  display: none;
+  min-width: max-content;
+  position: relative;
+  overflow: visible;
 }
 
 .header-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-
   padding: 7px 10px;
   border-radius: 10px;
-
+  border: none;
+  background: transparent;
   text-decoration: none;
   color: var(--color-text-light);
   white-space: nowrap;
   font-size: 13px;
   font-weight: 500;
-
+  cursor: pointer;
   transition:
     background-color var(--transition-fast),
     color var(--transition-fast),
@@ -89,7 +93,7 @@
   color: var(--color-text);
 }
 
-/* ================= ACCESS DROPDOWN ================= */
+/* ================= DROPDOWN ================= */
 
 .header-dropdown {
   position: relative;
@@ -103,33 +107,29 @@
   cursor: pointer;
 }
 
-.header-dropdown-arrow {
-  font-size: 12px !important;
-  transition: transform var(--transition-fast);
+.header-dropdown-toggle svg:last-child,
+.header-profile svg:last-child {
+  transition: transform 0.2s ease;
 }
 
-.header-dropdown-arrow.rotated {
+.rotated {
   transform: rotate(180deg);
 }
 
 .header-dropdown-menu {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 10px);
   left: 0;
-
-  min-width: 220px;
+  min-width: 230px;
   padding: 8px;
-
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 14px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
-
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.14);
   display: flex;
   flex-direction: column;
   gap: 4px;
-
-  z-index: 999;
+  z-index: 9999;
 }
 
 .header-dropdown-item {
@@ -137,16 +137,13 @@
   display: flex;
   align-items: center;
   gap: 10px;
-
   padding: 10px 12px;
   border-radius: 10px;
   text-decoration: none;
-
   color: var(--color-text);
   font-size: 14px;
   font-weight: 500;
   white-space: nowrap;
-
   transition:
     background-color var(--transition-fast),
     color var(--transition-fast);
@@ -173,9 +170,8 @@
   align-items: center;
   gap: 10px;
   flex-shrink: 0;
+  position: relative;
 }
-
-/* ================= THEME BUTTON ================= */
 
 .header-theme-btn {
   width: 40px;
@@ -188,7 +184,6 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-
   transition:
     background-color var(--transition-fast),
     border-color var(--transition-fast),
@@ -203,17 +198,14 @@
   font-size: 16px;
 }
 
-/* ================= PROFILE ================= */
-
 .header-profile {
   display: flex;
   align-items: center;
   gap: 10px;
-
   padding: 6px 10px;
   border-radius: 12px;
   cursor: pointer;
-
+  user-select: none;
   transition: background-color var(--transition-fast);
 }
 
@@ -248,62 +240,36 @@
   line-height: 1.2;
 }
 
-.header-arrow {
-  font-size: 12px;
-  color: var(--color-text-light);
-  transition: transform var(--transition-fast);
-}
-
-.header-arrow.rotated {
-  transform: rotate(180deg);
-}
-
-/* ================= MENU ================= */
-
-.header-menu-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 90;
-}
-
 .header-menu {
   position: absolute;
   top: calc(100% + 8px);
-  right: 20px;
-  z-index: 100;
-
+  right: 0;
+  z-index: 9999;
   width: 220px;
   padding: 8px;
-
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 14px;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
-
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
-
-/* ================= MENU ITEMS ================= */
 
 .header-menu-item {
   width: 100%;
   display: flex;
   align-items: center;
   gap: 10px;
-
   padding: 10px 12px;
   border: none;
   border-radius: 10px;
   background: transparent;
-
   color: var(--color-text);
   font-size: 14px;
   font-weight: 500;
   text-align: left;
   cursor: pointer;
-
   transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
@@ -322,7 +288,6 @@
 
 /* ================= RESPONSIVE ================= */
 
-/* Pantallas medianas: solo iconos, sin texto */
 @media (max-width: 1300px) {
   .header-link span {
     display: none;
@@ -364,20 +329,18 @@
 
   .header-nav {
     justify-content: flex-start;
-    overflow-x: auto;
-    overflow-y: visible;
   }
 
   .header-profile {
     padding: 4px;
   }
 
-  .header-arrow {
-    display: none;
-  }
-
   .header-dropdown-menu {
     left: 0;
     min-width: 190px;
+  }
+
+  .header-menu {
+    width: 200px;
   }
 }

@@ -87,7 +87,7 @@ export default function UsersPage() {
         </form>
 
       </div>
-
+    <div className="table-container">
       <table className="users-table" border="0" cellPadding="8">
         <thead>
           <tr>
@@ -129,6 +129,7 @@ export default function UsersPage() {
           ))}
         </tbody>
       </table>
+      </div>
 
       {/* MODAL CREAR/EDITAR */}
       {showForm && (

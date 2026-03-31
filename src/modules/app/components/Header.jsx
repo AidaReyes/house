@@ -4,10 +4,9 @@ import { toggleTheme } from "../../../utils/theme.js";
 import {
   FaHouse,
   FaShieldHalved,
+  FaMoneyBillWave,
   FaChevronDown,
-  FaGear,
-  FaHandshake,
-  FaHouse,
+  FaUserShield,
   FaKey,
   FaBuilding,
   FaClipboardCheck,
@@ -16,6 +15,7 @@ import {
   FaUsers,
   FaUserTie,
   FaMoon,
+  FaGear,
   FaRightFromBracket,
 } from "react-icons/fa6";
 
@@ -70,31 +70,130 @@ const Header = () => {
 
   return (
     <header className="header">
-      {/* LOGO */}
       <div className="header-left">
-        <NavLink to="/dashboard" className="header-logo" onClick={closeAllMenus}>
+        <NavLink
+          to="/dashboard"
+          className="header-logo"
+          onClick={closeAllMenus}
+        >
           <img src="/logo.png" alt="Logo" />
         </NavLink>
       </div>
 
-      {/* NAV */}
       <nav className="header-nav">
-        {/* Inicio */}
         <NavLink
           to="/dashboard"
-          className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
+          className={({ isActive }) =>
+            `header-link ${isActive ? "active" : ""}`
+          }
           onClick={closeAllMenus}
         >
           <FaHouse />
           <span>Inicio</span>
         </NavLink>
 
-        {/* ACCESOS */}
+        <Can permiso="RENT_LIST">
+          <div className="header-dropdown">
+            <button
+              type="button"
+              className={`header-link header-dropdown-toggle ${
+                isPropertiesActive || showPropertiesMenu ? "active" : ""
+              }`}
+              onClick={togglePropertiesMenu}
+            >
+              <FaBuilding />
+              <span>Propiedades</span>
+              <FaChevronDown className={showPropertiesMenu ? "rotated" : ""} />
+            </button>
+
+            {showPropertiesMenu && (
+              <div className="header-dropdown-menu">
+                <NavLink
+                  to="/cuartos"
+                  className="header-dropdown-item"
+                  onClick={closeAllMenus}
+                >
+                  <FaClipboardCheck />
+                  <span>Revisión de propiedades</span>
+                </NavLink>
+
+                <NavLink
+                  to="/CuartosPublicados"
+                  className="header-dropdown-item"
+                  onClick={closeAllMenus}
+                >
+                  <FaBullhorn />
+                  <span>Propiedades publicadas</span>
+                </NavLink>
+              </div>
+            )}
+          </div>
+        </Can>
+
+        <Can permiso="RENT_LIST">
+          <NavLink
+            to="/renta"
+            className={({ isActive }) =>
+              `header-link ${isActive ? "active" : ""}`
+            }
+            onClick={closeAllMenus}
+          >
+            <FaFileContract />
+            <span>Solicitudes de renta</span>
+          </NavLink>
+        </Can>
+
+        <NavLink
+          to="/usuarios"
+          className={({ isActive }) =>
+            `header-link ${isActive ? "active" : ""}`
+          }
+          onClick={closeAllMenus}
+        >
+          <FaUsers />
+          <span>Usuarios</span>
+        </NavLink>
+
+        <NavLink
+          to="/arrendador"
+          className={({ isActive }) =>
+            `header-link ${isActive ? "active" : ""}`
+          }
+          onClick={closeAllMenus}
+        >
+          <FaUserTie />
+          <span>Propietarios</span>
+        </NavLink>
+
+        <NavLink
+          to="/solicitudes"
+          className={({ isActive }) =>
+            `header-link ${isActive ? "active" : ""}`
+          }
+          onClick={closeAllMenus}
+        >
+          <FaFileContract />
+          <span>Solicitudes</span>
+        </NavLink>
+
+        <NavLink
+          to="/pagos"
+          className={({ isActive }) =>
+            `header-link ${isActive ? "active" : ""}`
+          }
+          onClick={closeAllMenus}
+        >
+          <FaMoneyBillWave />
+          <span>Pagos</span>
+        </NavLink>
+
         <Can permisos={["ROL_LIST", "PERMISOS_LIST"]}>
           <div className="header-dropdown">
             <button
-              className={`header-link header-dropdown-toggle ${isAccessActive || showAccessMenu ? "active" : ""
-                }`}
+              type="button"
+              className={`header-link header-dropdown-toggle ${
+                isAccessActive || showAccessMenu ? "active" : ""
+              }`}
               onClick={toggleAccessMenu}
             >
               <FaShieldHalved />
@@ -105,14 +204,22 @@ const Header = () => {
             {showAccessMenu && (
               <div className="header-dropdown-menu">
                 <Can permiso="ROL_LIST">
-                  <NavLink to="/roles" className="header-dropdown-item">
+                  <NavLink
+                    to="/roles"
+                    className="header-dropdown-item"
+                    onClick={closeAllMenus}
+                  >
                     <FaUserShield />
                     <span>Roles</span>
                   </NavLink>
                 </Can>
 
                 <Can permiso="PERMISOS_LIST">
-                  <NavLink to="/perms" className="header-dropdown-item">
+                  <NavLink
+                    to="/perms"
+                    className="header-dropdown-item"
+                    onClick={closeAllMenus}
+                  >
                     <FaKey />
                     <span>Permisos</span>
                   </NavLink>
@@ -121,108 +228,14 @@ const Header = () => {
             )}
           </div>
         </Can>
-
-        {/* PROPIEDADES */}
-        <Can permiso="RENT_LIST">
-          <div className="header-dropdown">
-            <button
-              className={`header-link header-dropdown-toggle ${isPropertiesActive || showPropertiesMenu ? "active" : ""
-                }`}
-              onClick={togglePropertiesMenu}
-            >
-              <FaBuilding />
-              <span>Propiedades</span>
-              <FaChevronDown className={showPropertiesMenu ? "rotated" : ""} />
-            </button>
-
-            {showPropertiesMenu && (
-              <div className="header-dropdown-menu">
-                <Can permiso="USER_LIST">
-                  <NavLink to="/cuartos" className="header-dropdown-item">
-                    <FaClipboardCheck />
-                    <span>Revisión de propiedades</span>
-                  </NavLink>
-                </Can>
-
-                <Can permiso="ROOM_LIST">
-
-                  <NavLink to="/CuartosPublicados" className="header-dropdown-item">
-                    <FaBullhorn />
-                    <span>Propiedades publicadas</span>
-                  </NavLink>
-                </Can>
-              </div>
-            )}
-          </div>
-        </Can>
-
-        {/* SOLICITUDES */}
-        <Can permiso="RENT_LIST">
-          <NavLink
-            to="/renta"
-            className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
-            onClick={closeAllMenus}
-          >
-            <FaFileContract />
-            <span>Solicitudes de renta</span>
-          </NavLink>
-        </Can>
-
-        {/* USUARIOS */}
-        <Can permiso="USER_LIST">
-
-          <NavLink
-            to="/usuarios"
-            className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
-          >
-            <FaHouse />
-            <span>Cuartos</span>
-          </NavLink>
-        </Can>
-        <Can permiso="RENT_LIST">
-          <NavLink
-            to="/CuartosPublicados"
-            className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
-          >
-            <FaHouse />
-            <span>Cuartos Publicados</span>
-          </NavLink>
-        </Can>
-
-        {/* ← NUEVOS */}
-        <Can permiso="SOLICITUD_LIST">
-          <NavLink
-            to="/solicitudes"
-            className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
-          >
-            <FaFileContract />
-            <span>Solicitudes</span>
-          </NavLink>
-        </Can>
-
-        <Can permiso="PAGO_LIST">
-          <NavLink
-            to="/pagos"
-            className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
-          >
-            <FaMoneyBillWave />
-            <span>Pagos</span>
-          </NavLink>
-        </Can>
-
-        {/* PROPIETARIOS */}
-        <NavLink
-          to="/arrendador"
-          className={({ isActive }) => `header-link ${isActive ? "active" : ""}`}
-        >
-          <FaUserTie />
-          <span>Propietarios</span>
-        </NavLink>
       </nav>
 
-      {/* DERECHA */}
       <div className="header-right">
-        <button className="header-theme-btn" onClick={toggleTheme}>
+        <button
+          type="button"
+          className="header-theme-btn"
+          onClick={toggleTheme}
+        >
           <FaMoon />
         </button>
 
@@ -234,9 +247,6 @@ const Header = () => {
             src={user?.foto || perfil}
             alt="Usuario"
             className="header-avatar"
-            onError={(e) => {
-              e.target.src = perfil;
-            }}
           />
 
           <div className="header-user-info">
@@ -249,10 +259,14 @@ const Header = () => {
 
         {showUserMenu && (
           <>
-            <div className="header-menu-overlay" onClick={closeMenu} />
+            <div
+              className="header-menu-overlay"
+              onClick={() => setShowUserMenu(false)}
+            />
 
             <div className="header-menu">
               <button
+                type="button"
                 className="header-menu-item"
                 onClick={() => {
                   setShowProfile(true);
@@ -264,6 +278,7 @@ const Header = () => {
               </button>
 
               <button
+                type="button"
                 className="header-menu-item logout"
                 onClick={handleLogout}
               >
