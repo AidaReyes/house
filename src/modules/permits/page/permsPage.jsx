@@ -175,165 +175,165 @@ const PermsPage = () => {
 
   return (
     <div className="providers-page professional">
-<div className="crud-actions">
+        <div className="crud-actions">
 
-  <div className="providers-header">
-    <Can permiso="PERMISOS_CREATE">
-      <button
-        className="btn btn-primary"
-        onClick={handleNuevo}
-      >
-        Nuevo permiso
-      </button>
-    </Can>
-  </div>
+          <div className="providers-header">
+            <Can permiso="PERMISOS_CREATE">
+              <button
+                className="btn btn-primary"
+                onClick={handleNuevo}
+              >
+                Nuevo permiso
+              </button>
+            </Can>
+          </div>
 
-  <form className="search" onSubmit={(e) => e.preventDefault()}>
-    <input
-      type="text"
-      placeholder="Buscar permiso..."
-      value={query}
-      onChange={onSearchChange}
-      className="search-input"
-    />
+          <form className="search" onSubmit={(e) => e.preventDefault()}>
+            <input
+              type="text"
+              placeholder="Buscar permiso..."
+              value={query}
+              onChange={onSearchChange}
+              className="search-input"
+            />
 
-    <button
-      type="button"
-      className="search-clear"
-      onClick={clearSearch}
-    >
-      Limpiar
-    </button>
-  </form>
+            <button
+              type="button"
+              className="search-clear"
+              onClick={clearSearch}
+            >
+              Limpiar
+            </button>
+          </form>
 
-</div>
-      {loading && <p className="muted">Cargando permisos...</p>}
-      {error && <p className="error">{error}</p>}
+        </div>
+        {loading && <p className="muted">Cargando permisos...</p>}
+        {error && <p className="error">{error}</p>}
 
-      {!loading && !error && (
+        {!loading && !error && (
 
-        <>
-          {permisosFiltrados.length === 0 ? (
+          <>
+            {permisosFiltrados.length === 0 ? (
 
-            <p className="muted">
-              No hay permisos que coincidan con la búsqueda.
-            </p>
+              <p className="muted">
+                No hay permisos que coincidan con la búsqueda.
+              </p>
 
-          ) : (
+            ) : (
 
-            <div className="table-container">
+              <div className="table-container">
 
-              <table className="perms-table">
+                <table className="perms-table">
 
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Recurso</th>
-                    <th>Acción</th>
-                    <th>Descripción</th>
-                    <th>Estado</th>
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Recurso</th>
+                      <th>Acción</th>
+                      <th>Descripción</th>
+                      <th>Estado</th>
 
-                    <Can permisos={["PERMISOS_UPDATE", "PERMISOS_DELETE"]} mode="any">
-                      <th>Acciones</th>
-                    </Can>
-
-                  </tr>
-                </thead>
-
-                <tbody>
-
-                  {permisosFiltrados.map((p) => (
-
-                    <tr key={p._id}>
-
-                      <td>{p.nombre}</td>
-                      <td>{p.recurso}</td>
-                      <td>{p.accion}</td>
-                      <td>{p.descripcion}</td>
-
-
-                      <td>
-                        <span
-                          className={`role-badge ${
-                            p.activo
-                              ? "role-badge-active"
-                              : "role-badge-inactive"
-                          }`}
-                        >
-                          {p.activo ? "Activo" : "Inactivo"}
-                        </span>
-                      </td>
-
-                      <td>
-
-                        <div className="actions">
-
-                          <Can permiso="PERMISOS_UPDATE">
-                            <button
-                              className="btn btn-sm btn-primary"
-                              onClick={() => handleEditar(p)}
-                            >
-                              Editar
-                            </button>
-                          </Can>
-
-                          <Can permiso="PERMISOS_DELETE">
-                            <button
-                              className="btn btn-sm btn-danger"
-                              onClick={() => setDeleteId(p._id)}
-                            >
-                              Eliminar
-                            </button>
-                          </Can>
-
-                        </div>
-
-                      </td>
+                      <Can permisos={["PERMISOS_UPDATE", "PERMISOS_DELETE"]} mode="any">
+                        <th>Acciones</th>
+                      </Can>
 
                     </tr>
+                  </thead>
 
-                  ))}
+                  <tbody>
 
-                </tbody>
+                    {permisosFiltrados.map((p) => (
 
-              </table>
+                      <tr key={p._id}>
 
-            </div>
+                        <td>{p.nombre}</td>
+                        <td>{p.recurso}</td>
+                        <td>{p.accion}</td>
+                        <td>{p.descripcion}</td>
 
-          )}
-        </>
 
-      )}
+                        <td>
+                          <span
+                            className={`role-badge ${p.activo
+                              ? "role-badge-active"
+                              : "role-badge-inactive"
+                              }`}
+                          >
+                            {p.activo ? "Activo" : "Inactivo"}
+                          </span>
+                        </td>
 
-      <PermFormModal
-        open={showForm}
-        editing={editing}
-        formData={formData}
-        formError={formError}
-        formLoading={formLoading}
-        onClose={() => setShowForm(false)}
-        onChange={handleFormChange}
-        onSubmit={handleFormSubmit}
-      />
+                        <td>
 
-      <Modal
-        open={!!deleteId}
-        title="Eliminar permiso"
-        onClose={() => setDeleteId(null)}
-        onConfirm={async () => {
+                          <div className="actions">
 
-          await permisoService.delete(deleteId);
-          setDeleteId(null);
-          cargarPermisos();
+                            <Can permiso="PERMISOS_UPDATE">
+                              <button
+                                className="btn btn-sm btn-primary"
+                                onClick={() => handleEditar(p)}
+                              >
+                                Editar
+                              </button>
+                            </Can>
 
-        }}
-        confirmText="Eliminar"
-        showCancel
-      >
-        <p>¿Seguro que deseas eliminar este permiso?</p>
-      </Modal>
+                            <Can permiso="PERMISOS_DELETE">
+                              <button
+                                className="btn btn-sm btn-danger"
+                                onClick={() => setDeleteId(p._id)}
+                              >
+                                Eliminar
+                              </button>
+                            </Can>
 
-    </div>
+                          </div>
+
+                        </td>
+
+                      </tr>
+
+                    ))}
+
+                  </tbody>
+
+                </table>
+
+              </div>
+
+
+            )}
+          </>
+
+        )}
+
+        <PermFormModal
+          open={showForm}
+          editing={editing}
+          formData={formData}
+          formError={formError}
+          formLoading={formLoading}
+          onClose={() => setShowForm(false)}
+          onChange={handleFormChange}
+          onSubmit={handleFormSubmit}
+        />
+
+        <Modal
+          open={!!deleteId}
+          title="Eliminar permiso"
+          onClose={() => setDeleteId(null)}
+          onConfirm={async () => {
+
+            await permisoService.delete(deleteId);
+            setDeleteId(null);
+            cargarPermisos();
+
+          }}
+          confirmText="Eliminar"
+          showCancel
+        >
+          <p>¿Seguro que deseas eliminar este permiso?</p>
+        </Modal>
+
+      </div>
   );
 };
 
