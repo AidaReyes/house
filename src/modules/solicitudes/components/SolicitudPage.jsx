@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";    
+import React, { useEffect, useState } from "react";
 import Modal from "../../product/components/Modal";
 import Can from "../../../components/can";
 import SolicitudFormModal from "../components/SolicitudFormModal";
 import TableWrapper from "../../rents/components/TableWrapper";
+import { solicitudService } from "../service/Solicitud.Service";
 
 const SolicitudPage = () => {
   const [solicitudes, setSolicitudes] = useState([]);
@@ -12,12 +13,16 @@ const SolicitudPage = () => {
   const [showForm, setShowForm] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
 
-  const cargar = async () => {
+const cargar = async () => {
     try {
       setLoading(true);
       const data = await solicitudService.getAll();
       setSolicitudes(data || []);
-    } catch {
+    } catch (err) {
+      console.log("ERROR COMPLETO:", err);
+      console.log("RESPONSE:", err?.response);
+      console.log("STATUS:", err?.response?.status);
+      console.log("DATA:", err?.response?.data);
       setError("Error al cargar solicitudes");
     } finally {
       setLoading(false);
