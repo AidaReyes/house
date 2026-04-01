@@ -87,20 +87,7 @@
   box-shadow: 0 10px 22px rgba(0,0,0,0.12);
 }
 
-.btn-primary {
-  background: linear-gradient(120deg, #d9c7b3, #bfa384);
-  color: white;
-  border: 0;
-  padding: .85rem 1.25rem;
-  border-radius: 14px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: .55rem;
-  cursor: pointer;
-  box-shadow: 0 8px 22px rgba(0,0,0,0.12);
-  transition: transform .25s ease, box-shadow .25s ease;
-}
+
 
 .btn-primary:hover {
   transform: translateY(-3px) scale(1.03);

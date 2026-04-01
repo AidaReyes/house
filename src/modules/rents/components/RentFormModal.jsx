@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Modal from "../../product/components/Modal";
 import { rentService } from "../service/rents.service";
-import { roomsService } from "../../rooms/service/room.Service";
+import { roomsService } from "../../rooms/service/room.service";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const initialForm = {
   fechainicio: "",
@@ -18,7 +19,7 @@ const RentFormModal = ({ open, onClose, renta, onSaved }) => {
 
   const [formData, setFormData] = useState(initialForm);
 
-  // Cargar cuartos solo cuando el modal esté abierto
+  // Cargar cuartos
   useEffect(() => {
     if (!open) return;
 
@@ -40,7 +41,7 @@ const RentFormModal = ({ open, onClose, renta, onSaved }) => {
     cargarDatos();
   }, [open]);
 
-  // Cargar datos cuando se abre en edición
+  // Cargar datos edición
   useEffect(() => {
     if (!open) return;
 
@@ -59,9 +60,7 @@ const RentFormModal = ({ open, onClose, renta, onSaved }) => {
   }, [open, renta]);
 
   const cuartosDisponibles = useMemo(() => {
-    if (renta) {
-      return cuartos;
-    }
+    if (renta) return cuartos;
 
     return cuartos.filter((c) => !c.estado || c.estado === "disponible");
   }, [cuartos, renta]);
@@ -74,23 +73,17 @@ const RentFormModal = ({ open, onClose, renta, onSaved }) => {
       [name]: value,
     }));
 
-    if (errorMsg) {
-      setErrorMsg("");
-    }
+    if (errorMsg) setErrorMsg("");
   };
 
   const validarFormulario = () => {
-    if (!formData.cuarto) {
-      return "Selecciona un cuarto.";
-    }
+    if (!formData.cuarto) return "Selecciona un cuarto.";
 
-    if (!formData.fechainicio || !formData.fechafin) {
+    if (!formData.fechainicio || !formData.fechafin)
       return "Selecciona la fecha de inicio y la fecha de fin.";
-    }
 
-    if (formData.fechafin <= formData.fechainicio) {
+    if (formData.fechafin <= formData.fechainicio)
       return "La fecha de fin debe ser mayor a la fecha de inicio.";
-    }
 
     return "";
   };
@@ -113,8 +106,6 @@ const RentFormModal = ({ open, onClose, renta, onSaved }) => {
         cuarto: formData.cuarto,
         estado: formData.estado,
       };
-
-      console.log("Datos enviados:", data);
 
       if (renta) {
         await rentService.update(renta._id, data);
@@ -148,67 +139,81 @@ const RentFormModal = ({ open, onClose, renta, onSaved }) => {
       confirmText={saving ? "Guardando..." : "Guardar"}
       showCancel
     >
-      <div className="rent-form">
-        {errorMsg && <div className="form-alert error">{errorMsg}</div>}
+      <div className="container-fluid">
 
-        <div className="form-group">
-          <label htmlFor="fechainicio">Fecha inicio</label>
-          <input
-            id="fechainicio"
-            type="date"
-            name="fechainicio"
-            value={formData.fechainicio}
-            onChange={handleChange}
-            disabled={saving}
-          />
-        </div>
+        {/* Error */}
+        {errorMsg && (
+          <div className="alert alert-danger text-center">
+            {errorMsg}
+          </div>
+        )}
 
-        <div className="form-group">
-          <label htmlFor="fechafin">Fecha fin</label>
-          <input
-            id="fechafin"
-            type="date"
-            name="fechafin"
-            value={formData.fechafin}
-            onChange={handleChange}
-            disabled={saving}
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="cuarto">Cuarto</label>
-          <select
-            id="cuarto"
-            name="cuarto"
-            value={formData.cuarto}
-            onChange={handleChange}
-            disabled={saving || loadingRooms}
-          >
-            <option value="">
-              {loadingRooms ? "Cargando cuartos..." : "Seleccionar cuarto"}
-            </option>
-
-            {cuartosDisponibles.map((c) => (
-              <option key={c._id} value={c._id}>
-                {c.titulo || c.numero || "Cuarto sin nombre"}
+        <div className="row g-3">
+          {/* Cuarto */}
+          <div className="col-12">
+            <label className="form-label">Cuarto</label>
+            <select
+              name="cuarto"
+              value={formData.cuarto}
+              onChange={handleChange}
+              className="form-select"
+              disabled={saving || loadingRooms}
+            >
+              <option value="">
+                {loadingRooms ? "Cargando cuartos..." : "Seleccionar cuarto"}
               </option>
-            ))}
-          </select>
-        </div>
 
-        <div className="form-group">
-          <label htmlFor="estado">Estado</label>
-          <select
-            id="estado"
-            name="estado"
-            value={formData.estado}
-            onChange={handleChange}
-            disabled={saving}
-          >
-            <option value="activa">Activa</option>
-            <option value="finalizada">Finalizada</option>
-            <option value="cancelada">Cancelada</option>
-          </select>
+              {cuartosDisponibles.map((c) => (
+                <option key={c._id} value={c._id}>
+                  {c.titulo || c.numero || "Cuarto sin nombre"}
+                </option>
+              ))}
+            </select>
+          </div>
+          {/* Fecha inicio */}
+          <div className="col-4">
+            <label className="form-label">Fecha inicio</label>
+            <input
+              type="date"
+              name="fechainicio"
+              value={formData.fechainicio}
+              onChange={handleChange}
+              className="form-control"
+              disabled={saving}
+            />
+          </div>
+
+          {/* Fecha fin */}
+          <div className="col-4">
+            <label className="form-label">Fecha fin</label>
+            <input
+              type="date"
+              name="fechafin"
+              value={formData.fechafin}
+              onChange={handleChange}
+              className="form-control"
+              disabled={saving}
+            />
+          </div>
+
+
+
+          {/* Estado */}
+          <div className="col-4">
+            <label className="form-label">Estado</label>
+            <select
+              name="estado"
+              value={formData.estado}
+              onChange={handleChange}
+              className="form-select"
+              disabled={saving}
+            >
+              <option value="activa">Activa</option>
+              <option value="finalizada">Finalizada</option>
+              <option value="cancelada">Cancelada</option>
+            </select>
+          </div>
+
         </div>
       </div>
     </Modal>

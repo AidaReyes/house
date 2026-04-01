@@ -1,8 +1,24 @@
-body{
-margin:0;
-font-family:Inter, sans-serif;
-background:var(--color-background);
+
+h1,h2,h3,h4{
 color:var(--color-text);
+}
+
+p{
+color:var(--color-text-light);
+}
+
+a{
+text-decoration:none;
+color:inherit;
+}
+
+.page{
+padding:20px;
+}
+
+.container{
+max-width:auto;
+margin:auto;
 }
 
 h1,h2,h3,h4{
@@ -25,4 +41,102 @@ padding:20px;
 .container{
 max-width:auto;
 margin:auto;
+}
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.rooms-page {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+.room-card {
+  background: var(--color-card);
+  border: 1px solid var(--border-color);
+  color: var(--color-text);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.room-card-body,
+.room-title,
+.room-location,
+.services-tag,
+.price-val,
+.price-type,
+.publish-label {
+  color: var(--color-text);
+}
+
+.room-location,
+.price-type,
+.service-item small {
+  color: var(--color-text-light);
+}
+
+.feature-badge,
+.service-item {
+  background: var(--hover-bg);
+  border: 1px solid var(--border-color);
+  color: var(--color-text);
+}
+
+.room-price-section {
+  border-top: 1px solid var(--border-color);
+}
+
+.room-actions,
+.header-menu,
+.header-dropdown-menu {
+  background: var(--color-card);
+  border: 1px solid var(--border-color);
+}
+
+.edit-btn,
+.delete-btn {
+  background: transparent !important;
+}
+
+.edit-btn:hover,
+.delete-btn:hover {
+  background: var(--hover-bg) !important;
+}
+
+/* Bootstrap overrides */
+.card {
+  background-color: var(--color-card) !important;
+  color: var(--color-text) !important;
+  border-color: var(--border-color) !important;
+}
+
+.card-body {
+  background-color: var(--color-card) !important;
+  color: var(--color-text) !important;
+}
+
+.form-control,
+.form-select {
+  background-color: var(--bg-card) !important;
+  color: var(--color-text) !important;
+  border-color: var(--border-color) !important;
+}
+
+.form-control::placeholder {
+  color: var(--color-text-light) !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: var(--bg-card) !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15) !important;
+}
+
+.alert-light {
+  background-color: var(--color-card) !important;
+  color: var(--color-text) !important;
+  border-color: var(--border-color) !important;
 }

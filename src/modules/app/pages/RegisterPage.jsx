@@ -88,9 +88,9 @@ export default function RegisterPage() {
 
     // Redirección según tipo
     if (form.type_User === false) {
-      navigate("/"); // arrendador
+      navigate("/login"); // arrendador
     } else {
-      navigate("/"); // usuario normal
+      navigate("/login"); // usuario normal
     }
   };
 

@@ -15,7 +15,6 @@ import DeleteRoomModal from "../components/DeleteRoomModal";
 import RoomDetailModal from "../components/RoomDetailModal";
 import RoomFormModal from "../components/RoomFormModal";
 import { roomsService } from "../service/room.service";
-import "./RoomsPage.css";
 
 export default function RoomsPage() {
   const [rooms, setRooms] = useState([]);
@@ -221,219 +220,248 @@ export default function RoomsPage() {
     "Barrio de Jesús",
   ];
 
-  if (loading) return <p>Cargando cuartos...</p>;
+  if (loading) {
+    return (
+      <div className="container-fluid py-4">
+        <div className="d-flex justify-content-center align-items-center py-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Cargando cuartos...</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="rooms-page">
-      <div className="rooms-header">
-        <div className="rooms-title">
-          <select
-            className="search-input"
-            value={filterColonia}
-            onChange={(e) => setFilterColonia(e.target.value)}
-          >
-            <option value="">Todas las colonias</option>
-            {colonias.map((col, index) => (
-              <option key={index} value={col}>
-                {col}
-              </option>
-            ))}
-          </select>
+    <div className="container-fluid py-4 rooms-page">
+      <div className="card border-0 shadow-sm mb-4">
+        <div className="card-body p-3 p-md-4">
+          <div className="row g-3 align-items-end">
+            <div className="col-12 col-lg-3">
+              <label className="form-label fw-semibold">Colonia</label>
+              <select
+                className="form-select"
+                value={filterColonia}
+                onChange={(e) => setFilterColonia(e.target.value)}
+              >
+                <option value="">Todas las colonias</option>
+                {colonias.map((col, index) => (
+                  <option key={index} value={col}>
+                    {col}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <input
-            type="number"
-            placeholder="Precio máximo..."
-            className="search-input"
-            value={filterPrecio}
-            onChange={(e) => setFilterPrecio(e.target.value)}
-          />
-        </div>
+            <div className="col-12 col-md-6 col-lg-2">
+              <label className="form-label fw-semibold">Precio máximo</label>
+              <input
+                type="number"
+                placeholder="Ej. 3000"
+                className="form-control"
+                value={filterPrecio}
+                onChange={(e) => setFilterPrecio(e.target.value)}
+              />
+            </div>
 
-        <button
-          className="btn btn-sm btn-primary"
-          onClick={() => {
-            setFilterColonia("");
-            setFilterPrecio("");
-          }}
-        >
-          Limpiar filtros
-        </button>
+            <div className="col-12 col-md-6 col-lg-3">
+              <label className="form-label fw-semibold">Buscar cuarto</label>
+              <input
+                type="text"
+                placeholder="Buscar cuarto..."
+                className="form-control"
+                value={query}
+                onChange={onSearchChange}
+              />
+            </div>
 
-        <button
-          className="btn btn-sm btn-primary"
-          onClick={() => setApplyFilter(!applyFilter)}
-        >
-          Aplicar filtros
-        </button>
+            <div className="col-12 col-lg-4">
+              <div className="d-flex flex-wrap gap-2 justify-content-lg-end">
+                <button
+                  className="btn btn-outline-secondary"
+                  onClick={() => {
+                    setFilterColonia("");
+                    setFilterPrecio("");
+                  }}
+                >
+                  Limpiar filtros
+                </button>
 
-        <div className="header-right">
-          <input
-            type="text"
-            placeholder="Buscar cuarto..."
-            className="search-input"
-            value={query}
-            onChange={onSearchChange}
-          />
+                <button
+                  className={`btn ${
+                    applyFilter ? "btn-success" : "btn-primary"
+                  }`}
+                  onClick={() => setApplyFilter(!applyFilter)}
+                >
+                  {applyFilter ? "Filtros activos" : "Aplicar filtros"}
+                </button>
 
-          <button className="btn btn-sm btn-primary" onClick={clearSearch}>
-            Limpiar
-          </button>
+                <button className="btn btn-outline-primary" onClick={clearSearch}>
+                  Limpiar búsqueda
+                </button>
 
-          <button
-            className="btn btn-sm btn-primary"
-            onClick={openCreateModal}
-          >
-            Nuevo cuarto
-          </button>
+                <button className="btn btn-success" onClick={openCreateModal}>
+                  Nuevo cuarto
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="rooms-container">
-        {roomsFinal.length === 0 ? (
-          <p>No hay cuartos registrados</p>
-        ) : (
-          roomsFinal.map((room) => {
+      {roomsFinal.length === 0 ? (
+        <div className="alert alert-light border text-center">
+          No hay cuartos registrados
+        </div>
+      ) : (
+        <div className="row g-4">
+          {roomsFinal.map((room) => {
             const roomId = room._id || room.id;
             const isPublishing = publishingId === roomId;
             const isMenuOpen = openMenuId === roomId;
 
             return (
-              <div className="room-card" key={roomId}>
-                <div className="room-card-image">
-                  <img
-                    src={
-                      room.imagen?.[0] ||
-                      "https://via.placeholder.com/300x200?text=Cozzy+Rental"
-                    }
-                    alt={room.titulo}
-                  />
+              <div key={roomId} className="col-12 col-md-6 col-xl-3">
+                <div className="room-card h-100">
+                  <div className="room-card-image">
+                    <img
+                      src={
+                        room.imagen?.[0] ||
+                        "https://via.placeholder.com/300x200?text=Cozzy+Rental"
+                      }
+                      alt={room.titulo}
+                    />
 
-                  <button
-                    className="favorite-btn"
-                    title="Guardar en favoritos"
-                  >
-                    <MdFavoriteBorder />
-                  </button>
+                    <button
+                      className="favorite-btn"
+                      title="Guardar en favoritos"
+                      type="button"
+                    >
+                      <MdFavoriteBorder />
+                    </button>
 
-                  <button
-                    type="button"
-                    className="room-menu-trigger"
-                    onClick={() => toggleMenu(roomId)}
-                    title="Más opciones"
-                  >
-                    <MdMoreVert />
-                  </button>
+                    <button
+                      type="button"
+                      className="room-menu-trigger"
+                      onClick={() => toggleMenu(roomId)}
+                      title="Más opciones"
+                    >
+                      <MdMoreVert />
+                    </button>
 
-                  {isMenuOpen && (
-                    <div className="room-actions">
+                    {isMenuOpen && (
+                      <div className="room-actions">
+                        <button
+                          type="button"
+                          className="edit-btn"
+                          onClick={() => openEditModal(room)}
+                        >
+                          Editar
+                        </button>
+
+                        <button
+                          type="button"
+                          className="delete-btn"
+                          onClick={() => openDeleteModal(room)}
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+                    )}
+
+                    <div
+                      className={`room-status ${
+                        room.status === "disponible"
+                          ? "status-online"
+                          : "status-offline"
+                      }`}
+                    >
+                      {room.status}
+                    </div>
+
+                    <label
+                      className={`publish-switch ${
+                        room.publicado ? "is-on" : "is-off"
+                      } ${isPublishing ? "is-loading" : ""}`}
+                      title={room.publicado ? "Despublicar" : "Publicar"}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={!!room.publicado}
+                        onChange={() => handleTogglePublicado(room)}
+                        disabled={isPublishing}
+                      />
+                      <span className="publish-slider"></span>
+                      <span className="publish-label">
+                        {room.publicado ? "Publicado" : "Oculto"}
+                      </span>
+                    </label>
+                  </div>
+
+                  <div className="room-card-body d-flex flex-column">
+                    <h3 className="room-title">{room.titulo}</h3>
+
+                    <p className="room-location">
+                      <MdLocationOn className="text-icon" />
+                      {room.colonia || "Ubicación no especificada"}
+                    </p>
+
+                    <p className="room-location">
+                      <MdLocationOn className="text-icon" />
+                      {room.direccion || "Dirección no especificada"}
+                    </p>
+
+                    <div className="room-features">
+                      <span className="feature-badge">
+                        <MdPeople /> {room.capacidad || 1} pers.
+                      </span>
+
+                      {room.amueblado && (
+                        <span className="feature-badge">
+                          <MdChair /> Amueblado
+                        </span>
+                      )}
+                    </div>
+
+                    {room.incluyeServicios && (
+                      <span className="services-tag">Servicios incluidos:</span>
+                    )}
+
+                    <div className="room-services-list">
+                      {room.servicios?.map((serv, index) => (
+                        <span key={index} className="service-item">
+                          {renderServiceIcon(serv)}
+                          <small>{serv}</small>
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="room-price-section mt-auto">
+                      <span className="price-val">${room.precio}</span>
+                      <span className="price-type">
+                        / {room.tipoRenta || "mes"}
+                      </span>
+                    </div>
+
+                    <div className="room-buttons d-flex flex-wrap gap-2">
                       <button
-                        className="edit-btn"
-                        onClick={() => openEditModal(room)}
+                        className="btn btn-primary btn-sm"
+                        onClick={() => handleOpenDetail(room)}
                       >
-                        Editar
+                        Detalles
                       </button>
 
-                      <button
-                        className="delete-btn"
-                        onClick={() => openDeleteModal(room)}
-                      >
-                        Eliminar
+                      <button className="btn btn-outline-primary btn-sm">
+                        Información
                       </button>
                     </div>
-                  )}
-
-                  <div
-                    className={`room-status ${
-                      room.status === "disponible"
-                        ? "status-online"
-                        : "status-offline"
-                    }`}
-                  >
-                    {room.status}
-                  </div>
-
-                  <label
-                    className={`publish-switch ${
-                      room.publicado ? "is-on" : "is-off"
-                    } ${isPublishing ? "is-loading" : ""}`}
-                    title={room.publicado ? "Despublicar" : "Publicar"}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={!!room.publicado}
-                      onChange={() => handleTogglePublicado(room)}
-                      disabled={isPublishing}
-                    />
-                    <span className="publish-slider"></span>
-                    <span className="publish-label">
-                      {room.publicado ? "Publicado" : "Oculto"}
-                    </span>
-                  </label>
-                </div>
-
-                <div className="room-card-body">
-                  <h3 className="room-title">{room.titulo}</h3>
-
-                  <p className="room-location">
-                    <MdLocationOn className="text-icon" />
-                    {room.colonia || "Ubicación no especificada"}
-                  </p>
-
-                  <p className="room-location">
-                    <MdLocationOn className="text-icon" />
-                    {room.direccion || "Direccion no especificada"}
-                  </p>
-
-                  <div className="room-features">
-                    <span className="feature-badge">
-                      <MdPeople /> {room.capacidad || 1} pers.
-                    </span>
-
-                    {room.amueblado && (
-                      <span className="feature-badge">
-                        <MdChair /> Amueblado
-                      </span>
-                    )}
-                  </div>
-
-                  {room.incluyeServicios && (
-                    <span className="services-tag">Servicios incluidos:</span>
-                  )}
-
-                  <div className="room-services-list">
-                    {room.servicios?.map((serv, index) => (
-                      <span key={index} className="service-item">
-                        {renderServiceIcon(serv)}
-                        <small>{serv}</small>
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="room-price-section">
-                    <span className="price-val">${room.precio}</span>
-                    <span className="price-type">
-                      / {room.tipoRenta || "mes"}
-                    </span>
-                  </div>
-
-                  <div className="room-buttons">
-                    <button
-                      className="btn btn-sm btn-primary"
-                      onClick={() => handleOpenDetail(room)}
-                    >
-                      Detalles
-                    </button>
-
-                    <button className="btn btn-sm btn-primary">
-                      Información
-                    </button>
                   </div>
                 </div>
               </div>
             );
-          })
-        )}
-      </div>
+          })}
+        </div>
+      )}
 
       <RoomFormModal
         isOpen={showForm}

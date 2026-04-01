@@ -3,7 +3,6 @@ import ProductoForm from '../components/productForm'
 import { productService } from '../service/productService'
 import Modal from '../components/Modal'
 import { BiPlus } from 'react-icons/bi'
-import './productStyle.css'
 import Can from "../../../components/can";//para poder ocultar boton de acuerdo al permiso
 
 import { useSearch } from "../hooks/useSearch";
