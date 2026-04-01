@@ -56,7 +56,7 @@ const RentPage = () => {
     <div className="rent-page">
 
       <div className="providers-header">
-        <h2>Gestión de Rentas</h2>
+        <h2>Gestión de solicitudes</h2>
       </div>
 
       <div className="crud-actions">
@@ -101,11 +101,10 @@ const RentPage = () => {
 
               <td>
                 <span
-                  className={`role-badge ${
-                    r.estado === "activa"
+                  className={`role-badge ${r.estado === "activa"
                       ? "role-badge-active"
                       : "role-badge-inactive"
-                  }`}
+                    }`}
                 >
                   {r.estado}
                 </span>

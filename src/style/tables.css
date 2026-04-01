@@ -1,37 +1,33 @@
 .table-container {
+  width: 100%;
   max-width: 100%;
   margin: 0 auto;
   padding: 20px;
-
-  min-height: 100vh;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  overflow-x: auto;
 }
 
-table{
-width:90%;
-border-collapse:collapse;
-background:var(--color-card);
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-card);
 }
 
-th{
-background:var(--table-header);
-padding:10px;
-text-align:left;
-border-bottom:1px solid var(--table-border);
+th {
+  background: var(--table-header);
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--table-border);
 }
 
-td{
-padding:10px;
-border-bottom:1px solid var(--table-border);
+td {
+  padding: 10px;
+  border-bottom: 1px solid var(--table-border);
 }
 
-tr{
-background:var(--table-row);
+tr {
+  background: var(--table-row);
 }
 
-tbody tr:hover{
-background:var(--color-background);
+tbody tr:hover {
+  background: var(--color-background);
 }
