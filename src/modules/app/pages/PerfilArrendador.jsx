@@ -7,25 +7,16 @@ import {
   MdLocationOn,
   MdPeople,
   MdWaterDrop,
-  MdWifi
+  MdWifi,
+  MdMoreVert,
 } from "react-icons/md";
-
-// ✅ HOOK
 import { useSearch } from "../../product/hooks/useSearch";
-
-// ✅ COMPONENTES
 import DeleteRoomModal from "../../rooms/components/DeleteRoomModal";
 import RoomDetailModal from "../../rooms/components/RoomDetailModal";
 import RoomFormModal from "../../rooms/components/RoomFormModal";
-
-// ✅ SERVICE
 import { roomsService } from "../../rooms/service/room.service";
 
-// ✅ CSS
-import "../../rooms/page/RoomsPage.css";
-
-export default function PerfilArrendador() {
-
+export default function RoomsPage() {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showDelete, setShowDelete] = useState(false);
@@ -37,10 +28,21 @@ export default function PerfilArrendador() {
   const [user, setUser] = useState(null);
   const [filterColonia, setFilterColonia] = useState("");
   const [filterPrecio, setFilterPrecio] = useState("");
+  const [publishingId, setPublishingId] = useState(null);
+  const [openMenuId, setOpenMenuId] = useState(null);
 
   const loadRooms = async () => {
     try {
-      const data = await roomsService.getCatalog();
+      setLoading(true);
+
+      const propietarioId = user?._id || user?.id;
+
+      if (!propietarioId) {
+        setRooms([]);
+        return;
+      }
+
+      const data = await roomsService.getByOwner(propietarioId);
       setRooms(data || []);
     } catch (error) {
       console.error("Error cargando cuartos", error);
@@ -50,10 +52,15 @@ export default function PerfilArrendador() {
   };
 
   useEffect(() => {
-    loadRooms();
     const storedUser = JSON.parse(localStorage.getItem("user"));
     setUser(storedUser);
   }, []);
+
+  useEffect(() => {
+    if (user?._id || user?.id) {
+      loadRooms();
+    }
+  }, [user]);
 
   const {
     query,
@@ -63,21 +70,25 @@ export default function PerfilArrendador() {
   } = useSearch(rooms || [], (r, q) => {
     const queryLower = q.toLowerCase();
 
+    const id = String(r._id ?? r.id ?? "").toLowerCase();
+    const titulo = String(r.titulo ?? "").toLowerCase();
+    const colonia = String(r.colonia ?? "").toLowerCase();
+    const direccion = String(r.direccion ?? "").toLowerCase();
+    const descripcion = String(r.descripcion ?? "").toLowerCase();
+
     return (
-      String(r.titulo ?? "").toLowerCase().includes(queryLower) ||
-      String(r.colonia ?? "").toLowerCase().includes(queryLower) ||
-      String(r.direccion ?? "").toLowerCase().includes(queryLower) ||
-      String(r.descripcion ?? "").toLowerCase().includes(queryLower)
+      id.includes(queryLower) ||
+      titulo.includes(queryLower) ||
+      colonia.includes(queryLower) ||
+      direccion.includes(queryLower) ||
+      descripcion.includes(queryLower)
     );
   });
 
   const roomsFinal = roomsFiltrados.filter((room) => {
     if (!applyFilter) return true;
 
-    const coloniaMatch = filterColonia
-      ? room.colonia === filterColonia
-      : true;
-
+    const coloniaMatch = filterColonia ? room.colonia === filterColonia : true;
     const precioMatch = filterPrecio
       ? Number(room.precio) <= Number(filterPrecio)
       : true;
@@ -85,15 +96,13 @@ export default function PerfilArrendador() {
     return coloniaMatch && precioMatch;
   });
 
-  if (loading) return <p>Cargando cuartos...</p>;
-
   const handleSave = async (data) => {
     try {
       const userId = user?._id || user?.id;
 
       const dataFinal = {
         ...data,
-        propietario: userId
+        propietario: userId,
       };
 
       if (mode === "create") {
@@ -107,24 +116,48 @@ export default function PerfilArrendador() {
       await loadRooms();
       setShowForm(false);
       setSelectedRoom(null);
-
     } catch (error) {
       console.error("ERROR:", error);
+    }
+  };
+
+  const handleTogglePublicado = async (room) => {
+    try {
+      const id = room?._id || room?.id;
+      if (!id) return;
+
+      setPublishingId(id);
+
+      await roomsService.patch(id, {
+        publicado: !room.publicado,
+      });
+
+      setRooms((prev) =>
+        prev.map((item) =>
+          (item._id || item.id) === id
+            ? { ...item, publicado: !item.publicado }
+            : item
+        )
+      );
+    } catch (error) {
+      console.error("Error cambiando publicación:", error);
+    } finally {
+      setPublishingId(null);
     }
   };
 
   const renderServiceIcon = (service) => {
     switch (service) {
       case "agua":
-        return <MdWaterDrop />;
+        return <MdWaterDrop className="service-icon" />;
       case "luz":
-        return <MdFlashOn />;
+        return <MdFlashOn className="service-icon" />;
       case "internet":
-        return <MdWifi />;
+        return <MdWifi className="service-icon" />;
       case "gas":
-        return <MdLocalFireDepartment />;
+        return <MdLocalFireDepartment className="service-icon" />;
       case "amueblado":
-        return <MdChair />;
+        return <MdChair className="service-icon" />;
       default:
         return null;
     }
@@ -140,11 +173,13 @@ export default function PerfilArrendador() {
     setSelectedRoom(room);
     setMode("edit");
     setShowForm(true);
+    setOpenMenuId(null);
   };
 
   const openDeleteModal = (room) => {
     setSelectedRoom(room);
     setShowDelete(true);
+    setOpenMenuId(null);
   };
 
   const handleOpenDetail = (room) => {
@@ -156,148 +191,296 @@ export default function PerfilArrendador() {
     try {
       const id = selectedRoom?._id || selectedRoom?.id;
 
-      if (!id) return;
+      if (!id) {
+        console.error("No hay ID");
+        return;
+      }
 
       await roomsService.delete(id);
       await loadRooms();
 
       setShowDelete(false);
       setSelectedRoom(null);
-
     } catch (error) {
       console.error("Error eliminando:", error);
     }
   };
 
+  const toggleMenu = (roomId) => {
+    setOpenMenuId((prev) => (prev === roomId ? null : roomId));
+  };
+
   const colonias = [
-    "Centro","10 de Mayo","Chililiapa","Cacala","Cosapa","La Victoria",
-    "López Mateos","Lindavista","La Otra Banda","Cortadura",
-    "Flor del Campo","Garita","Vista Hermosa","Las Cuevas",
-    "Tenantipa","Tepeyac","Fraccionamiento Hidalgo",
-    "Fraccionamiento San Francisco","El Rastro","Barrio de Jesús"
+    "Centro",
+    "10 de Mayo",
+    "Chililiapa",
+    "Cacala",
+    "Cosapa",
+    "La Victoria",
+    "López Mateos",
+    "Lindavista",
+    "La Otra Banda",
+    "Cortadura",
+    "Flor del Campo",
+    "Garita",
+    "Vista Hermosa",
+    "Las Cuevas",
+    "Tenantipa",
+    "Tepeyac",
+    "Fraccionamiento Hidalgo",
+    "Fraccionamiento San Francisco",
+    "El Rastro",
+    "Barrio de Jesús",
   ];
 
-  return (
-    <div className="rooms-page">
-
-      {/* 🔥 HEADER */}
-      <div className="rooms-header">
-
-        <h2>Mis Propiedades</h2>
-
-        <div className="rooms-title">
-          <select
-            className="search-input"
-            value={filterColonia}
-            onChange={(e) => setFilterColonia(e.target.value)}
-          >
-            <option value="">Todas las colonias</option>
-            {colonias.map((col, i) => (
-              <option key={i} value={col}>{col}</option>
-            ))}
-          </select>
-
-          <input
-            type="number"
-            placeholder="Precio máximo..."
-            className="search-input"
-            value={filterPrecio}
-            onChange={(e) => setFilterPrecio(e.target.value)}
-          />
-        </div>
-
-        <button onClick={() => { setFilterColonia(""); setFilterPrecio(""); }}>
-          Limpiar filtros
-        </button>
-
-        <button onClick={() => setApplyFilter(!applyFilter)}>
-          Aplicar filtros
-        </button>
-
-        <div className="header-right">
-          <input
-            type="text"
-            placeholder="Buscar..."
-            value={query}
-            onChange={onSearchChange}
-          />
-
-          <button onClick={clearSearch}>Limpiar</button>
-
-          <button onClick={openCreateModal}>
-            + Nueva Propiedad
-          </button>
+  if (loading) {
+    return (
+      <div className="container-fluid py-4">
+        <div className="d-flex justify-content-center align-items-center py-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Cargando cuartos...</span>
+          </div>
         </div>
       </div>
+    );
+  }
 
-      {/* 🔥 CARDS */}
-      <div className="rooms-container">
-        {roomsFinal.length === 0 ? (
-          <p>No hay propiedades</p>
-        ) : (
-          roomsFinal.map((room) => (
-            <div className="room-card" key={room._id}>
+  return (
+    <div className="container-fluid py-4 rooms-page">
+      <div className="card border-0 shadow-sm mb-4">
+        <div className="card-body p-3 p-md-4">
+          <div className="row g-3 align-items-end">
+            <div className="col-12 col-lg-3">
+              <label className="form-label fw-semibold">Colonia</label>
+              <select
+                className="form-select"
+                value={filterColonia}
+                onChange={(e) => setFilterColonia(e.target.value)}
+              >
+                <option value="">Todas las colonias</option>
+                {colonias.map((col, index) => (
+                  <option key={index} value={col}>
+                    {col}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-              <div className="room-card-image">
-                <img
-                  src={room.imagen?.[0] || "https://via.placeholder.com/300x200"}
-                  alt={room.titulo}
-                />
+            <div className="col-12 col-md-6 col-lg-2">
+              <label className="form-label fw-semibold">Precio máximo</label>
+              <input
+                type="number"
+                placeholder="Ej. 3000"
+                className="form-control"
+                value={filterPrecio}
+                onChange={(e) => setFilterPrecio(e.target.value)}
+              />
+            </div>
 
-                <button className="favorite-btn">
-                  <MdFavoriteBorder />
+            <div className="col-12 col-md-6 col-lg-3">
+              <label className="form-label fw-semibold">Buscar cuarto</label>
+              <input
+                type="text"
+                placeholder="Buscar cuarto..."
+                className="form-control"
+                value={query}
+                onChange={onSearchChange}
+              />
+            </div>
+
+            <div className="col-12 col-lg-4">
+              <div className="d-flex flex-wrap gap-2 justify-content-lg-end">
+                <button
+                  className="btn btn-outline-secondary"
+                  onClick={() => {
+                    setFilterColonia("");
+                    setFilterPrecio("");
+                  }}
+                >
+                  Limpiar filtros
                 </button>
 
-                <div className={`room-status ${room.estado === "disponible" ? "status-online" : "status-offline"}`}>
-                  {room.estado}
-                </div>
-              </div>
+                <button
+                  className={`btn ${
+                    applyFilter ? "btn-success" : "btn-primary"
+                  }`}
+                  onClick={() => setApplyFilter(!applyFilter)}
+                >
+                  {applyFilter ? "Filtros activos" : "Aplicar filtros"}
+                </button>
 
-              <div className="room-card-body">
+                <button
+                  className="btn btn-outline-primary"
+                  onClick={clearSearch}
+                >
+                  Limpiar búsqueda
+                </button>
 
-                <h3 className="room-title">{room.titulo}</h3>
-
-                <p className="room-location">
-                  <MdLocationOn /> {room.colonia}
-                </p>
-
-                <p className="room-location">
-                  <MdLocationOn /> {room.direccion}
-                </p>
-
-                <div className="room-features">
-                  <span><MdPeople /> {room.capacidad || 1}</span>
-                  {room.amueblado && <span><MdChair /> Amueblado</span>}
-                </div>
-
-                <div className="room-services-list">
-                  {room.servicios?.map((s, i) => (
-                    <span key={i}>
-                      {renderServiceIcon(s)} {s}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="room-price-section">
-                  <span className="price-val">${room.precio}</span>
-                </div>
-
-                <div className="room-buttons">
-                  <button onClick={() => openEditModal(room)}>Editar</button>
-                  <button onClick={() => openDeleteModal(room)}>Eliminar</button>
-                  <button onClick={() => handleOpenDetail(room)}>Detalles</button>
-                </div>
-
+                <button className="btn btn-success" onClick={openCreateModal}>
+                  Nuevo cuarto
+                </button>
               </div>
             </div>
-          ))
-        )}
+          </div>
+        </div>
       </div>
 
-      {/* 🔥 MODALES */}
+      {roomsFinal.length === 0 ? (
+        <div className="alert alert-light border text-center">
+          No hay cuartos registrados
+        </div>
+      ) : (
+        <div className="row g-4">
+          {roomsFinal.map((room) => {
+            const roomId = room._id || room.id;
+            const isPublishing = publishingId === roomId;
+            const isMenuOpen = openMenuId === roomId;
+
+            return (
+              <div key={roomId} className="col-12 col-md-6 col-xl-3">
+                <div className="room-card h-100">
+                  <div className="room-card-image">
+                    <img
+                      src={
+                        room.imagen?.[0] ||
+                        "https://via.placeholder.com/300x200?text=Cozzy+Rental"
+                      }
+                      alt={room.titulo}
+                    />
+
+                    <button
+                      className="favorite-btn"
+                      title="Guardar en favoritos"
+                      type="button"
+                    >
+                      <MdFavoriteBorder />
+                    </button>
+
+                    <button
+                      type="button"
+                      className="room-menu-trigger"
+                      onClick={() => toggleMenu(roomId)}
+                      title="Más opciones"
+                    >
+                      <MdMoreVert />
+                    </button>
+
+                    {isMenuOpen && (
+                      <div className="room-actions">
+                        <button
+                          type="button"
+                          className="edit-btn"
+                          onClick={() => openEditModal(room)}
+                        >
+                          Editar
+                        </button>
+
+                        <button
+                          type="button"
+                          className="delete-btn"
+                          onClick={() => openDeleteModal(room)}
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+                    )}
+
+                    <div
+                      className={`room-status ${
+                        room.status === "disponible"
+                          ? "status-online"
+                          : "status-offline"
+                      }`}
+                    >
+                      {room.status}
+                    </div>
+                  </div>
+
+                  <div className="room-card-body d-flex flex-column">
+                    <h3 className="room-title">{room.titulo}</h3>
+
+                    <p className="room-location">
+                      <MdLocationOn className="text-icon" />
+                      {room.colonia || "Ubicación no especificada"}
+                    </p>
+
+                    <p className="room-location">
+                      <MdLocationOn className="text-icon" />
+                      {room.direccion || "Dirección no especificada"}
+                    </p>
+
+                    <div className="room-features">
+                      <span className="feature-badge">
+                        <MdPeople /> {room.capacidad || 1} pers.
+                      </span>
+
+                      {room.amueblado && (
+                        <span className="feature-badge">
+                          <MdChair /> Amueblado
+                        </span>
+                      )}
+                    </div>
+
+                    {room.incluyeServicios && (
+                      <span className="services-tag">Servicios incluidos:</span>
+                    )}
+
+                    <div className="room-services-list">
+                      {room.servicios?.map((serv, index) => (
+                        <span key={index} className="service-item">
+                          {renderServiceIcon(serv)}
+                          <small>{serv}</small>
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="room-price-section mt-auto">
+                      <span className="price-val">${room.precio}</span>
+                      <span className="price-type">
+                        / {room.tipoRenta || "mes"}
+                      </span>
+                    </div>
+
+                    <div className="room-buttons d-flex flex-wrap gap-2">
+                      <button
+                        className="btn btn-primary btn-sm"
+                        onClick={() => handleOpenDetail(room)}
+                      >
+                        Detalles
+                      </button>
+
+                      <button className="btn btn-outline-primary btn-sm">
+                        Información
+                      </button>
+
+                      <button
+                        className={`btn btn-sm ${
+                          room.publicado ? "btn-warning" : "btn-success"
+                        }`}
+                        onClick={() => handleTogglePublicado(room)}
+                        disabled={isPublishing}
+                      >
+                        {isPublishing
+                          ? "Procesando..."
+                          : room.publicado
+                          ? "Ocultar"
+                          : "Publicar"}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
       <RoomFormModal
         isOpen={showForm}
-        onClose={() => setShowForm(false)}
+        onClose={() => {
+          setShowForm(false);
+          setSelectedRoom(null);
+        }}
         onSubmit={handleSave}
         roomData={selectedRoom}
         mode={mode}
@@ -306,7 +489,10 @@ export default function PerfilArrendador() {
 
       <DeleteRoomModal
         isOpen={showDelete}
-        onClose={() => setShowDelete(false)}
+        onClose={() => {
+          setShowDelete(false);
+          setSelectedRoom(null);
+        }}
         onConfirm={handleDelete}
       />
 

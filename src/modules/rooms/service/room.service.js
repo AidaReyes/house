@@ -9,11 +9,11 @@ export const roomsService = {
   },
 
   // 🔹 Obtener con filtros (🔥 ESTE ES EL IMPORTANTE)
-async getFiltered(params = {}) {
-  const query = new URLSearchParams(params).toString();
-  const { data } = await api.get(`/Room?${query}`);
-  return data.data || [];
-},
+  async getFiltered(params = {}) {
+    const query = new URLSearchParams(params).toString();
+    const { data } = await api.get(`/Room?${query}`);
+    return data.data || [];
+  },
   // 🔹 Obtener solo publicados
   async getPublished() {
     return this.getFiltered({ publicado: true });
@@ -23,6 +23,7 @@ async getFiltered(params = {}) {
 
   // 🔹 Obtener por propietario (manual)
   async getByOwner(propietarioId) {
+    if (!propietarioId) return [];
     return this.getFiltered({ propietario: propietarioId });
   },
 

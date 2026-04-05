@@ -6,7 +6,7 @@ import RentFormModal from "../components/RentFormModal";
 import TableWrapper from "../components/TableWrapper";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const RentPage = () => {
+const SolicitudPage = () => {
 
   const [rentas, setRentas] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -173,4 +173,4 @@ const RentPage = () => {
   );
 };
 
-export default RentPage;
+export default SolicitudPage;

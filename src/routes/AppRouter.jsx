@@ -14,12 +14,12 @@ import ProductsPage from '../modules/product/pages/productPage.jsx';
 import ProvidersPage from '../modules/provider/pages/providerPage.jsx';
 import UsersPage from '../modules/user/pages/userPage.jsx';
 import Permspage from '../modules/permits/page/permsPage.jsx';
-import RentPage from '../modules/rents/pages/rentpage.jsx';
+import SolicitudPage from '../modules/rents/pages/solicitudpage.jsx';
+import RentaPage from '../modules/rents/pages/rentaspage.jsx';
 import RolePage from '../modules/role/pages/rolePage.jsx';
 import PerfilArrendador from '../modules/app/pages/PerfilArrendador.jsx';
 
 // ← NUEVAS
-import SolicitudPage from '../modules/solicitudes/components/SolicitudPage.jsx';
 import PagoPage from '../modules/pagos/components/PagoPage.jsx';
 
 // Pages públicas
@@ -115,10 +115,10 @@ export default function AppRouter() {
 
           {/* Rentas */}
           <Route
-            path="/renta"
+            path="/Solicitudes"
             element={
               <Can permiso="RENT_LIST" fellback={<Navigate to="/no-autorizado" replace />}>
-                <RentPage />
+                <SolicitudPage />
               </Can>
             }
           />
@@ -135,13 +135,13 @@ export default function AppRouter() {
 
           {/* Solicitudes ← NUEVA */}
           <Route
-            path="/solicitudes"
+            path="/rentas"
             element={
-              <Can permiso="SOLICITUD_LIST" fellback={<Navigate to="/no-autorizado" replace />}>
-                <SolicitudPage />
+              <Can permiso="RENT_LIST" fellback={<Navigate to="/no-autorizado" replace />}>
+                <RentaPage />
               </Can>
             }
-          />
+          /> 
 
           {/* Pagos ← NUEVA */}
           <Route
