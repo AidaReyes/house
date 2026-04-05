@@ -41,6 +41,7 @@ const PermFormModal = ({
           <option value="ROOM">ROOM</option>
           <option value="SOLICITUD">SOLICITUD</option>
           <option value="PAGO">PAGO</option>
+          <option value="ADMIN">ADMIN</option>
           <option value="COMMENT">COMMENT</option>
         </select>
 

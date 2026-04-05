@@ -1,27 +1,33 @@
-import api from '../../../api/config';
+import api from "../../../api/config";
 
 export const rentService = {
-  //  Obtener todos los Rentas
-  async getAll() {
-    const { data } = await api.get('/rentas/listar');
+  // Obtener rentas con filtro por tipo y opcionalmente por status
+  async getAll({ tipo = "todos", status = "" } = {}) {
+    let url = `/rentas/listar?tipo=${tipo}`;
+
+    if (status) {
+      url += `&status=${status}`;
+    }
+
+    const { data } = await api.get(url);
     return data.data || [];
   },
 
-  //  Obtener Renta por ID
+  // Obtener renta por ID
   async getById(id) {
     const { data } = await api.get(`/rentas/buscarid/${id}`);
     return data.data;
   },
 
-  //  Crear Rentas
-  async create(Rentas) {
-    const { data } = await api.post('/rentas/guardarRegistro', Rentas);
+  // Crear renta / solicitud
+  async create(renta) {
+    const { data } = await api.post("/rentas/guardarRegistro", renta);
     return data;
   },
 
-  //  Actualizar Rentas
-  async update(id, Rentas) {
-    const { data } = await api.patch(`/rentas/actualizar/${id}`, Rentas);
+  // Actualizar renta
+  async update(id, renta) {
+    const { data } = await api.patch(`/rentas/actualizar/${id}`, renta);
     return data;
   },
 
