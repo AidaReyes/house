@@ -1,103 +1,318 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MdClose,
-  MdLocationOn
+   MdLocationOn,
+  MdArrowBackIos,
+   MdAttachMoney,
+  MdCalendarMonth,
+   MdInfo, MdImage,
+   MdChat,
+   MdNotificationsActive,
+  MdStarBorder,
+   MdDelete, MdEdit, MdSend,
+  MdWifi, MdOpacity, MdLightbulb, MdAcUnit, MdKitchen, MdDesktopWindows
 } from "react-icons/md";
-import CommentsSection from "../../comment/components/CommentsSection";
 import "./RoomDetailModal.css";
+
 const RoomDetailModal = ({ isOpen, onClose, room }) => {
+  const [activeTab, setActiveTab] = useState("galeria");
   const [activeImgIndex, setActiveImgIndex] = useState(0);
 
-  // Resetear índice de imagen al abrir
+  // Control del scroll del body
   useEffect(() => {
-    setActiveImgIndex(0);
-  }, [room, isOpen]);
-
+    document.body.style.overflow = isOpen ? "hidden" : "unset";
+  }, [isOpen]);
 
   if (!isOpen || !room) return null;
 
-  const imagenes = room.imagen || [];
+  const imagenes = room.imagen || ["https://via.placeholder.com/800x450"];
 
+  const tabs = [
+    { key: "galeria", label: "Galería", icon: <MdImage /> },
+    { key: "informacion", label: "Información", icon: <MdInfo /> },
+    { key: "comentarios", label: "Comentarios", icon: <MdChat /> },
+    { key: "pagos", label: "Pagos", icon: <MdAttachMoney /> },
+    { key: "calendario", label: "Calendario", icon: <MdCalendarMonth /> }
+  ];
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content detail-modal">
-        <button className="close-button" onClick={onClose}><MdClose size={24} /></button>
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content-container" onClick={(e) => e.stopPropagation()}>
 
-        <div className="detail-grid">
-          {/* LADO IZQUIERDO: IMAGEN */}
-<div className="detail-image-section">
-  <div className="main-image-wrapper">
-    <img
-      src={imagenes[activeImgIndex] || "https://via.placeholder.com/500"} 
-      className="detail-main-img"
-      alt="Room"
-    />
-  </div>
+        {/* Header */}
+        <header className="modal-header-main">
+          <div className="header-inner">
+            <button className="back-link" onClick={onClose}>
+              <MdArrowBackIos /> Volver
+            </button>
+            <div className="header-text-box">
+              <h1>Detalles del Cuarto</h1>
+              <p>Gestiona la información de la habitación</p>
+            </div>
+          </div>
+          <button className="close-x-btn" onClick={onClose}>
+            <MdClose />
+          </button>
+        </header>
 
-  {/* --- NUEVA SECCIÓN DE MINIATURAS --- */}
-  {imagenes.length > 1 && (
-    <div className="thumbnail-container">
-      {imagenes.map((img, index) => (
-        <div 
-          key={index} 
-          className={`thumbnail-item ${activeImgIndex === index ? 'active' : ''}`}
-          onClick={() => setActiveImgIndex(index)}
-        >
-          <img src={img} alt={`Thumbnail ${index}`} />
-        </div>
-      ))}
-    </div>
-  )}
-  <CommentsSection roomId={room._id} />
-  </div>
-          {/* LADO DERECHO: INFO Y COMENTARIOS */}
-          <div className="detail-info-section">
-            <span className={`status-pill ${room.status?.toLowerCase() === "disponible" ? "disponible" : "no-disponible"}`}>
-  {room.status}
+        {/* Tabs */}
+        <nav className="tab-navigation-bar">
+          {tabs.map(tab => (
+            <button
+              key={tab.key}
+              className={activeTab === tab.key ? "tab-item active" : "tab-item"}
+              onClick={() => setActiveTab(tab.key)}
+            >
+              {tab.icon} {tab.label}
+            </button>
+          ))}
+        </nav>
+
+        {/* Contenido */}
+        <div className="modal-scroll-area">
+
+          {/* Galería */}
+          {activeTab === "galeria" && (
+            <div className="gallery-layout animate-fade">
+              <div className="main-display">
+                <img src={imagenes[activeImgIndex]} alt="cuarto" />
+                <div className="counter-tag">
+                  {activeImgIndex + 1} / {imagenes.length}
+                </div>
+              </div>
+
+              <div className="thumb-row">
+                {imagenes.map((img, i) => (
+                  <img
+                    key={i}
+                    src={img}
+                    className={activeImgIndex === i ? "thumb active" : "thumb"}
+                    onClick={() => setActiveImgIndex(i)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Información */}
+          {activeTab === "informacion" && (
+            <div className="info-layout animate-fade">
+              <div className="white-card">
+
+                <div className="card-top">
+                  <div>
+                    <h2 className="room-title">{room.titulo}</h2>
+                   <p className="room-loc">
+                     <MdLocationOn /> {room.direccion || "Colonia no especificada"}
+                    </p>
+                     <p className="room-loc">
+  <MdLocationOn /> {room.colonia || "Sin colonia"}
+</p> 
+                  </div>
+                  <span className="status-pill">
+  {room.status || "No disponible"}
 </span>
-            <h2 className="detail-title">{room.titulo}</h2>
-            <p className="detail-location"><MdLocationOn /> {room.direccion}, {room.colonia}</p>
-            
-            <div className="detail-price-box">
-              <span className="amount">${room.precio}</span>
-              
-              <span className="period">/ {room.tipoRenta}</span>
-               <h3>Descripción</h3>
-              <p className="description-text">{room.descripcion}</p>
-                <div className="specs-container">
-                <div className="spec-tile">
-               <div className="icon-wrapper">👤</div>
-                   <div className="spec-info">
-                    <span>Capacidad</span>
-                    <strong>{room.capacidad} Personas</strong>
-                       </div>
-               </div>
+                </div>
 
-  <div className="spec-tile">
-    <div className="icon-wrapper">🛏️</div>
-    <div className="spec-info">
-      <span>Amueblado</span>
-      <strong>{room.amueblado ? "Sí" : "No"}</strong>
-    </div>
-  </div>
+                <div className="grid-details">
+                  <div className="detail-box"><span>Precio</span><strong>${room.precio?.toLocaleString() || "Precio no disponible"}</strong></div>
+                  <div className="detail-box">
+  <span>Capacidad</span>
+  <strong>{room.capacidad || 1} personas</strong>
 </div>
-{room.incluyeServicios && (
-  <div className="detail-block">
-    <h3>Servicios incluidos</h3>
-    <div className="services-flex">
-      {room.servicios.map((s, i) => (
-        <span key={i} className="service-tag">{s}</span>
+ {room.amueblado && (
+  <div className="detail-box">
+    <span>Amueblado</span>
+    <strong>Sí</strong>
+  </div>
+)}
+<div className="detail-box">
+  <span>Tipo</span>
+  <strong>{room.tipoRenta || "mensual"}</strong>
+</div>
+
+                </div>
+
+                <div className="content-block">
+                  <h3>Descripción</h3>
+                   <p>{room.descripcion || "Sin descripción"}</p>
+                </div>
+
+ {room.incluyeServicios && (
+  <div className="content-block">
+    <h3>Servicios:</h3>
+
+    <div className="tag-cloud">
+      {room.servicios?.map((serv, i) => (
+        <span key={i} className="amenity-tag">
+          {serv === "internet" && <MdWifi />}
+          {serv === "agua" && <MdOpacity />}
+          {serv === "luz" && <MdLightbulb />}
+          {serv === "gas" && <MdAcUnit />}
+          {serv === "amueblado" && <MdKitchen />}
+          {serv}
+        </span>
       ))}
     </div>
   </div>
 )}
-</div>
+          {/* aqui */}
 
-            <div className="detail-divider"></div>
+              </div>
+            </div>
+          )}
 
- 
+          {/* Comentarios */}
+          {activeTab === "comentarios" && (
+            <div className="comments-layout animate-fade">
+              <div className="white-card">
+
+                <div className="card-header-icon">
+                  <MdChat /> Comentarios
+                </div>
+
+                <div className="comment-box-input">
+                  <textarea placeholder="Escribe un comentario..." />
+                  <div className="input-actions">
+                    <div className="stars-row">
+                      {[...Array(5)].map((_, i) => <MdStarBorder key={i} />)}
+                    </div>
+                    <button className="btn-publish-gray">
+                      <MdSend /> Publicar
+                    </button>
+                  </div>
+                </div>
+
+                <div className="comment-list">
+                  {[
+                    { name: "Juan Pérez", date: "15 Mar 2026", text: "Excelente ubicación.", initial: "JP" },
+                    { name: "Maria Garcia", date: "28 Feb 2026", text: "Muy recomendable.", initial: "MG" }
+                  ].map((c, i) => (
+                    <div key={i} className="comment-card-item">
+                      <div className="avatar-circle">{c.initial}</div>
+                      <div className="comment-right">
+                        <div className="user-info">
+                          <strong>{c.name}</strong> <span>{c.date}</span>
+                        </div>
+                        <p>{c.text}</p>
+                        <div className="action-buttons">
+                          <button><MdEdit /> Editar</button>
+                          <button className="del"><MdDelete /> Eliminar</button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+              </div>
+            </div>
+          )}
+
+          {/* Pagos */}
+          {activeTab === "pagos" && (
+            <div className="payments-layout animate-fade">
+              <div className="white-card">
+
+                <div className="payments-header">
+                  <div className="card-header-icon">
+                    <MdAttachMoney /> Historial
+                  </div>
+                  <div className="total-label">
+                    Total <span className="green-text">$42,500</span>
+                  </div>
+                </div>
+
+                {["Abril", "Marzo", "Febrero"].map((mes, i) => (
+                  <div key={i} className="payment-entry">
+                    <div>
+                      <span className="p-pill">Pagado</span>
+                      <span className="p-date">1 {mes} 2026</span>
+                    </div>
+                    <strong>$8,500</strong>
+                  </div>
+                ))}
+
+              </div>
+            </div>
+          )}
+
+          {/* Calendario */}
+ {/* Calendario */}
+{activeTab === "calendario" && (
+  <div className="calendar-layout animate-fade">
+    <div className="white-card no-padding">
+      <div className="calendar-container">
+        
+        {/* Header con Icono */}
+        <div className="card-header-icon section-title">
+          <MdCalendarMonth /> Calendario de pagos
+        </div>
+
+        {/* Hero Card Azul */}
+        <div className="blue-hero-card">
+          <div className="hero-content">
+            <div className="hero-icon-wrapper">
+              <MdNotificationsActive className="notification-icon" />
+            </div>
+            <div className="hero-text">
+              <span className="hero-label">Próximo pago</span>
+              <h2 className="hero-title-main">Renta Mayo 2026</h2>
+              <div className="hero-date-row">
+                <span className="hero-date">Fecha: 1/05/2026</span>
+                <span className="days-badge">En 26 días</span>
+              </div>
+            </div>
+            <div className="hero-price-large">${room.precio?.toLocaleString() || "8,500"}</div>
           </div>
+          <button className="black-pay-btn">Pagar ahora</button>
+        </div>
+
+        {/* Pagos Programados */}
+        <div className="scheduled-section">
+          <div className="card-header-icon sub-section">
+            <MdInfo /> Pagos programados
+          </div>
+          
+          <div className="scheduled-list">
+            {[
+              { month: "Mayo 2026", date: "1/05/2026", days: "26 días", current: true },
+              { month: "Junio 2026", date: "1/06/2026", days: "57 días" },
+              { month: "Julio 2026", date: "1/07/2026", days: "87 días" },
+              { month: "Agosto 2026", date: "1/08/2026", days: "118 días" },
+            ].map((item, idx) => (
+              <div key={idx} className={`scheduled-item ${item.current ? 'active-item' : ''}`}>
+                <div className="sched-left">
+                  <div className="sched-title-row">
+                    <strong>Renta {item.month}</strong>
+                    {item.current && <span className="mini-status-pill">Próximo</span>}
+                  </div>
+                  <span className="sched-date">{item.date}</span>
+                </div>
+                <div className="sched-right">
+                  <span className="sched-price">${room.precio?.toLocaleString() || "8,500"}</span>
+                  <span className="sched-days-label">{item.days}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Recordatorios Automáticos */}
+        <div className="automation-box">
+          <h4 className="automation-title">Recordatorios automáticos</h4>
+          <p className="automation-text">Recibirás notificaciones 3 días antes de cada fecha de pago</p>
+          <div className="next-notif-bar">
+            <span>Próxima notificación: <strong>28 abr</strong></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+)}
+                    {/* aqui */}
+
+
         </div>
       </div>
     </div>

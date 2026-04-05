@@ -3,7 +3,8 @@ import { MdStar } from "react-icons/md";
 import { deleteComment, getCommentsByRoom } from "../service/comment.service";
 const CommentsSection = ({ roomId }) => {
   const [comentarios, setComentarios] = useState([]);
-
+  const [nuevoComentario, setNuevoComentario] = useState("");
+  const [calificacion, setCalificacion] = useState(5); 
 useEffect(() => {
   const cargarComentarios = async () => {
     if (roomId) {
@@ -24,53 +25,108 @@ useEffect(() => {
     setComentarios((prev) => prev.filter((c) => c._id !== id));
   }
 };
+   const enviarComentario = async () => {
+  if (!nuevoComentario.trim()) return;
 
-  return (
+  const nuevo = {
+    texto: nuevoComentario,
+    calificacion,
+    roomId
+  };
+
+  // Aquí deberías conectar con tu API (createComment)
+  console.log("Enviando:", nuevo);
+
+  // Simulación (para que se vea en pantalla)
+  setComentarios((prev) => [
+    {
+      ...nuevo,
+      _id: Date.now(),
+      userId: { nombre: "Usuario" },
+      createdAt: new Date()
+    },
+    ...prev
+  ]);
+
+  setNuevoComentario("");
+  setCalificacion(5);
+};
+   return (
     <section className="comments-section">
       <h3>Comentarios ({comentarios.length})</h3>
 
+      {/* MENSAJE SI NO HAY */}
+      {comentarios.length === 0 && (
+        <p className="no-comments">No hay comentarios aún.</p>
+      )}
+
+      {/* CAJA DE NUEVO COMENTARIO (SIEMPRE VISIBLE) */}
+      <div className="nuevo-comentario-box">
+          <div className="input-wrapper">
+    <textarea
+      placeholder="Nuevo comentario..."
+      value={nuevoComentario}
+      onChange={(e) => setNuevoComentario(e.target.value)}
+      className="input-comentario"
+    />
+
+    <button onClick={enviarComentario} className="btn-enviar">
+      ➤
+    </button>
+  </div>
+        <div className="stars-input">
+          {[...Array(5)].map((_, i) => (
+            <MdStar
+              key={i}
+              onClick={() => setCalificacion(i + 1)}
+              color={i < calificacion ? "#ffb400" : "#ccc"}
+              style={{ cursor: "pointer" }}
+            />
+          ))}
+        </div>
+
+
+      </div>
+
+      {/* LISTA DE COMENTARIOS */}
       <div className="comments-list">
-        {comentarios.length > 0 ? (
-          comentarios.map((c) => (
-            <div className="comment-item" key={c._id}>
-              <div className="comment-user-row">
-                <div className="user-info-meta">
-                  <div className="avatar-circle">
-                    {c.userId?.nombre?.charAt(0) || "U"}
-                  </div>
-
-                  <div className="user-details">
-                    <strong>{c.userId?.nombre}</strong>
-
-                    <div className="stars">
-                      {[...Array(5)].map((_, i) => (
-                        <MdStar
-                          key={i}
-                          color={i < c.calificacion ? "#ffb400" : "#ccc"}
-                        />
-                      ))}
-                    </div>
-                  </div>
+        {comentarios.map((c) => (
+          <div className="comment-item" key={c._id}>
+            <div className="comment-user-row">
+              <div className="user-info-meta">
+                <div className="avatar-circle">
+                  {c.userId?.nombre?.charAt(0) || "U"}
                 </div>
 
-                <button
-                  className="btn-delete"
-                  onClick={() => eliminarComentario(c._id)}
-                >
-                  Eliminar
-                </button>
+                <div className="user-details">
+                  <strong>{c.userId?.nombre}</strong>
+
+                  <div className="stars">
+                    {[...Array(5)].map((_, i) => (
+                      <MdStar
+                        key={i}
+                        color={i < c.calificacion ? "#ffb400" : "#ccc"}
+                      />
+                    ))}
+                  </div>
+                </div>
               </div>
 
-              <p className="comment-text">{c.texto}</p>
-
-              <small className="comment-date">
-                {new Date(c.createdAt).toLocaleDateString()}
-              </small>
+              <button
+                className="btn-delete"
+                onClick={() => eliminarComentario(c._id)}
+              >
+                Eliminar
+              </button>
             </div>
-          ))
-        ) : (
-          <p className="no-comments">No hay comentarios aún.</p>
-        )}
+
+            <p className="comment-text">{c.texto}</p>
+
+            <small className="comment-date">
+              {new Date(c.createdAt).toLocaleDateString()}
+            </small>
+          </div>
+        ))}
       </div>
     </section>
   );
