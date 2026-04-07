@@ -13,12 +13,27 @@ import {
   MdWifi, MdOpacity, MdLightbulb, MdAcUnit, MdKitchen, MdDesktopWindows
 } from "react-icons/md";
 import "./RoomDetailModal.css";
+import { getCommentsByRoom, createComment, deleteComment, updateComment } from "../../comment/service/comment.service";
 
 const RoomDetailModal = ({ isOpen, onClose, room }) => {
   const [activeTab, setActiveTab] = useState("galeria");
   const [activeImgIndex, setActiveImgIndex] = useState(0);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+  const [rating, setRating] = useState(0);
+  const [editingId, setEditingId] = useState(null);  // Control del scroll del body
+  useEffect(() => {
+  if (room && activeTab === "comentarios") {
+    loadComments();
+  }
+}, [room, activeTab]);
 
-  // Control del scroll del body
+const loadComments = async () => {
+  if (!room?._id) return;
+
+  const data = await getCommentsByRoom(room._id);
+  setComments(data);
+};
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "unset";
   }, [isOpen]);
@@ -35,6 +50,61 @@ const RoomDetailModal = ({ isOpen, onClose, room }) => {
     { key: "calendario", label: "Calendario", icon: <MdCalendarMonth /> }
   ];
 
+ const handleCreate = async () => {
+  if (!newComment.trim()) return;
+
+  if (editingId) {
+    const res = await updateComment(editingId, {
+      texto: newComment,
+      calificacion: rating,
+    });
+
+    console.log("RESPUESTA UPDATE:", res);
+
+    if (res?.status === "success") {
+      setEditingId(null);
+      setNewComment("");
+      setRating(0);
+      loadComments();
+    } else {
+      // 👉 IMPORTANTE: salir del modo edición si falla
+      setEditingId(null);
+    }
+
+  } else {
+const comment = {
+  roomId: room._id,
+  texto: newComment,
+  calificacion: rating,
+};
+
+    const res = await createComment(comment);
+
+    if (res?.status === "success") {
+      setNewComment("");
+      setRating(0);
+
+      // 👉 asegúrate de resetear también aquí
+      setEditingId(null);
+
+      loadComments();
+    }
+  }
+};
+//aqui
+const handleDelete = async (id) => {
+  const ok = await deleteComment(id);
+  if (ok) {
+    loadComments();
+  }
+};
+const handleEdit = (comment) => {
+  setNewComment(comment.texto);
+  setRating(comment.calificacion);
+  
+  // Guardamos el id que se está editando
+  setEditingId(comment._id);
+};
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content-container" onClick={(e) => e.stopPropagation()}>
@@ -141,7 +211,6 @@ const RoomDetailModal = ({ isOpen, onClose, room }) => {
  {room.incluyeServicios && (
   <div className="content-block">
     <h3>Servicios:</h3>
-
     <div className="tag-cloud">
       {room.servicios?.map((serv, i) => (
         <span key={i} className="amenity-tag">
@@ -156,8 +225,6 @@ const RoomDetailModal = ({ isOpen, onClose, room }) => {
     </div>
   </div>
 )}
-          {/* aqui */}
-
               </div>
             </div>
           )}
@@ -172,38 +239,69 @@ const RoomDetailModal = ({ isOpen, onClose, room }) => {
                 </div>
 
                 <div className="comment-box-input">
-                  <textarea placeholder="Escribe un comentario..." />
-                  <div className="input-actions">
+<textarea
+  placeholder="Escribe un comentario..."
+  value={newComment}
+  onChange={(e) => setNewComment(e.target.value)}
+/>                  <div className="input-actions">
                     <div className="stars-row">
-                      {[...Array(5)].map((_, i) => <MdStarBorder key={i} />)}
-                    </div>
-                    <button className="btn-publish-gray">
-                      <MdSend /> Publicar
-                    </button>
+<div className="stars-row">
+  {[1, 2, 3, 4, 5].map((star) => (
+    <MdStarBorder
+      key={star}
+      onClick={() => setRating(star)}
+      style={{
+        cursor: "pointer",
+        color: star <= rating ? "#ffc107" : "#ccc",
+        fontSize: "22px"
+      }}
+    />
+  ))}
+</div>
+ </div>
+<button className="btn-publish-gray" onClick={handleCreate}>
+  <MdSend /> {editingId ? "Actualizar" : "Publicar"}
+</button>
                   </div>
                 </div>
 
-                <div className="comment-list">
-                  {[
-                    { name: "Juan Pérez", date: "15 Mar 2026", text: "Excelente ubicación.", initial: "JP" },
-                    { name: "Maria Garcia", date: "28 Feb 2026", text: "Muy recomendable.", initial: "MG" }
-                  ].map((c, i) => (
-                    <div key={i} className="comment-card-item">
-                      <div className="avatar-circle">{c.initial}</div>
-                      <div className="comment-right">
-                        <div className="user-info">
-                          <strong>{c.name}</strong> <span>{c.date}</span>
-                        </div>
-                        <p>{c.text}</p>
-                        <div className="action-buttons">
-                          <button><MdEdit /> Editar</button>
-                          <button className="del"><MdDelete /> Eliminar</button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+ {comments.map((c) => (
+  <div key={c._id} className="comment-card-item">
+    <div className="avatar-circle">
+      {c.userId?.nombre?.charAt(0) || "U"}
+    </div>
 
+    <div className="comment-right">
+      <div className="user-info">
+        <strong>{c.userId?.nombre}</strong>
+        <span>{new Date(c.createdAt).toLocaleDateString()}</span>
+      </div>
+
+      <p>{c.texto}</p>
+       <div className="stars-row">
+  {[1, 2, 3, 4, 5].map((star) => (
+    <MdStarBorder
+      key={star}
+      style={{
+        color: star <= c.calificacion ? "#ffc107" : "#ccc",
+        fontSize: "18px"
+      }}
+    />
+  ))}
+</div>
+<div className="action-buttons">
+  <button className="del" onClick={() => handleDelete(c._id)}>
+    <MdDelete /> Eliminar
+  </button>
+
+  <button className="edit" onClick={() => handleEdit(c)}>
+    <MdEdit /> Editar
+  </button>
+</div>
+
+    </div>
+  </div>
+))}
               </div>
             </div>
           )}
@@ -310,9 +408,6 @@ const RoomDetailModal = ({ isOpen, onClose, room }) => {
     </div>
   </div>
 )}
-                    {/* aqui */}
-
-
         </div>
       </div>
     </div>

@@ -25,7 +25,7 @@ useEffect(() => {
     setComentarios((prev) => prev.filter((c) => c._id !== id));
   }
 };
-   const enviarComentario = async () => {
+const enviarComentario = async () => {
   if (!nuevoComentario.trim()) return;
 
   const nuevo = {
@@ -34,19 +34,10 @@ useEffect(() => {
     roomId
   };
 
-  // Aquí deberías conectar con tu API (createComment)
-  console.log("Enviando:", nuevo);
+  await createComment(nuevo);
 
-  // Simulación (para que se vea en pantalla)
-  setComentarios((prev) => [
-    {
-      ...nuevo,
-      _id: Date.now(),
-      userId: { nombre: "Usuario" },
-      createdAt: new Date()
-    },
-    ...prev
-  ]);
+  const data = await getCommentsByRoom(roomId);
+  setComentarios(data);
 
   setNuevoComentario("");
   setCalificacion(5);

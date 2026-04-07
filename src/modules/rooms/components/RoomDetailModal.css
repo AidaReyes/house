@@ -36,11 +36,23 @@
 
 .back-link,
 .close-x-btn,
-.action-buttons button {
-  border: none;
-  cursor: pointer;
+
+
+.action-buttons .del {
+  color: #ef4444;
 }
 
+.action-buttons .edit {
+  color: #3b82f6;
+}
+
+.action-buttons .del:hover {
+  background: #fee2e2;
+}
+
+.action-buttons .edit:hover {
+  background: #dbeafe;
+}
 .back-link {
   background: none;
   color: #888;
@@ -277,8 +289,13 @@
 
 .action-buttons button {
   font-size: 12px;
-  color: #aaa;
   background: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: 0.2s;
 }
 
 .action-buttons .del:hover { color: #ef4444; }
