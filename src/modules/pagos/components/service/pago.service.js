@@ -6,8 +6,13 @@ export const pagoService = {
     return data.data || [];
   },
   async create(pago) {
-    const { data } = await api.post('/pagos/guardar', pago);
-    return data;
+    try {
+      const { data } = await api.post('/pagos/guardar', pago);
+      return data;
+    } catch (error) {
+      console.error("Error creando pago:", error.response?.data || error.message);
+      throw error.response?.data || { message: "Error al crear pago" };
+    }
   },
   async update(id, pago) {
     const { data } = await api.patch(`/pagos/actualizar/${id}`, pago);
@@ -21,4 +26,5 @@ export const pagoService = {
     const { data } = await api.post(`/pagos/enviar-orden/${id}`);
     return data;
   },
+  
 };

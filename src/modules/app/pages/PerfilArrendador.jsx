@@ -453,7 +453,7 @@ export default function RoomsPage() {
                         Información
                       </button>
 
-                      <button
+                      {/* <button
                         className={`btn btn-sm ${
                           room.publicado ? "btn-warning" : "btn-success"
                         }`}
@@ -465,9 +465,9 @@ export default function RoomsPage() {
                           : room.publicado
                           ? "Ocultar"
                           : "Publicar"}
-                      </button>
+                      </button> */}
                     </div>
-                  </div>
+                  </div>ñ
                 </div>
               </div>
             );

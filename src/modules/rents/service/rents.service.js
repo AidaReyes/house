@@ -36,4 +36,9 @@ export const rentService = {
     const { data } = await api.delete(`/rentas/eliminar/${id}`);
     return data;
   },
+
+  async getMiRentaPorCuarto(cuartoId) {
+    const { data } = await api.get(`/rentas/mi-renta/cuarto/${cuartoId}`);
+    return data;
+  },
 };

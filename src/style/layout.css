@@ -22,3 +22,6 @@ color:var(--color-text-light);
 .main-content{
 padding:20px;
 }
+.swal2-container {
+  z-index: 99999 !important;
+}
