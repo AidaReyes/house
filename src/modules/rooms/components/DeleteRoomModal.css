@@ -1,33 +1,70 @@
+/* ============================= */
+/* OVERLAY                       */
+/* ============================= */
+
 .delete-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 9999;
+  animation: rzFadeIn 0.2s ease;
 }
+
+/* ============================= */
+/* MODAL                         */
+/* ============================= */
 
 .delete-modal {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  width: 320px;
+  background: var(--color-card);
+  border: 1px solid var(--border-color);
+  padding: 28px 24px;
+  border-radius: 20px;
+  width: 340px;
   text-align: center;
-  animation: fadeIn 0.25s ease;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+  animation: rzSlideUp 0.25s ease;
 }
 
+/* ============================= */
+/* ICONO DE ADVERTENCIA          */
+/* ============================= */
+
+.delete-modal::before {
+  content: '⚠';
+  display: block;
+  font-size: 28px;
+  margin-bottom: 14px;
+  opacity: 0.85;
+}
+
+/* ============================= */
+/* TEXTOS                        */
+/* ============================= */
+
 .delete-title {
+  font-family: 'Playfair Display', serif;
   font-size: 18px;
-  margin-bottom: 10px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 8px;
 }
 
 .delete-text {
-  color: #6b7280;
-  margin-bottom: 20px;
+  color: var(--color-text-light);
+  font-size: 13.5px;
+  line-height: 1.65;
+  margin-bottom: 24px;
+  font-weight: 300;
 }
+
+/* ============================= */
+/* ACCIONES                      */
+/* ============================= */
 
 .delete-actions {
   display: flex;
@@ -36,23 +73,55 @@
 
 .cancel-btn {
   flex: 1;
-  background: #e5e7eb;
-  border: none;
-  padding: 10px;
-  border-radius: 8px;
+  background: var(--hover-bg);
+  border: 1px solid var(--border-color);
+  padding: 10px 16px;
+  border-radius: 11px;
   cursor: pointer;
+  color: var(--color-text-light);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background: var(--border-color);
+  color: var(--color-text);
 }
 
 .confirm-delete {
   flex: 1;
-  background: #ef4444;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 8px;
+  background: rgba(var(--color-danger-rgb), 0.15);
+  border: 1px solid rgba(var(--color-danger-rgb), 0.35);
+  color: var(--color-danger);
+  padding: 10px 16px;
+  border-radius: 11px;
   cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: all 0.22s ease;
 }
 
 .confirm-delete:hover {
-  background: #dc2626;
+  background: rgba(var(--color-danger-rgb), 0.28);
+  border-color: rgba(var(--color-danger-rgb), 0.55);
+  color: var(--color-danger);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(var(--color-danger-rgb), 0.2);
+}
+
+/* ============================= */
+/* ANIMACIONES                   */
+/* ============================= */
+
+@keyframes rzFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes rzSlideUp {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
 }

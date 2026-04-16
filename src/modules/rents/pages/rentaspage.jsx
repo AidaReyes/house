@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import { useSearch } from "../../product/hooks/useSearch";
 import { rentService } from "../service/rents.service";
 import Can from "../../../components/can";
+import "./rentaspage.css";
 
 export default function RentasPage() {
     const [rentas, setRentas] = useState([]);

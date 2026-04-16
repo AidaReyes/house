@@ -437,9 +437,7 @@ export default function RoomsPage() {
                         Detalles
                       </button>
 
-                      <button className="btn btn-outline-primary btn-sm">
-                        Información
-                      </button>
+        
                     </div>
                   </div>
                 </div>

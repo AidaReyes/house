@@ -2,6 +2,10 @@
 .rooms-page {
   position: relative;
   padding: 20px;
+  background: #1c1510;
+  min-height: 100%;
+  font-family: 'DM Sans', sans-serif;
+  color: #fdfaf6;
 }
 
 /* ===== HEADER ===== */
@@ -17,6 +21,10 @@
   display: flex;
   gap: 10px;
   align-items: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fdfaf6;
 }
 
 .header-right {
@@ -29,27 +37,43 @@
 /* ===== INPUTS ===== */
 .search-input {
   width: 200px;
-  background-color: #f3f4f6;
-  border: 1px solid #e5e7eb;
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(193, 98, 47, 0.25);
   padding: 10px 15px;
   border-radius: 8px;
   outline: none;
+  color: #fdfaf6;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.search-input:focus {
+  border-color: #e07a4f;
+  background-color: rgba(255, 255, 255, 0.09);
 }
 
 /* ===== BOTONES ===== */
 .btn {
-  background-color: #2563eb;
+  background: linear-gradient(135deg, #e07a4f, #c1622f);
   color: white;
   border: none;
   padding: 8px 16px;
   border-radius: 10px;
-  font-weight: 600;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
   cursor: pointer;
-  transition: 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(193, 98, 47, 0.35);
 }
 
 .btn:hover {
-  background-color: #1e40af;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(193, 98, 47, 0.5);
 }
 
 /* ===== GRID ===== */
@@ -58,15 +82,15 @@
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 25px;
   padding: 20px;
-  background-color: #f8f9fa;
+  background-color: transparent;
 }
 
 /* ===== CARD ===== */
 .room-card {
-  background: #ffffff;
+  background: rgba(193, 98, 47, 0.06);
   border-radius: 30px;
-  border: 1px solid #efefef;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(193, 98, 47, 0.18);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -76,7 +100,8 @@
 
 .room-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  border-color: rgba(193, 98, 47, 0.35);
 }
 
 /* ===== IMAGE ===== */
@@ -85,7 +110,7 @@
   height: 180px;
   border-radius: 20px;
   overflow: hidden;
-  background-color: #f0f0f0;
+  background-color: rgba(255, 255, 255, 0.05);
   position: relative;
 }
 
@@ -100,8 +125,8 @@
   position: absolute;
   top: 12px;
   left: 12px;
-  background-color: rgba(255, 255, 255, 0.8);
-  border: none;
+  background-color: rgba(28, 21, 16, 0.75);
+  border: 1px solid rgba(193, 98, 47, 0.3);
   border-radius: 50%;
   width: 32px;
   height: 32px;
@@ -110,12 +135,14 @@
   justify-content: center;
   cursor: pointer;
   transition: 0.3s;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .favorite-btn:hover {
-  background-color: #fff;
+  background-color: rgba(193, 98, 47, 0.25);
+  border-color: #e07a4f;
   transform: scale(1.1);
-  color: #e63946;
+  color: #e07a4f;
 }
 
 /* ===== STATUS ===== */
@@ -126,17 +153,19 @@
   padding: 6px 14px;
   border-radius: 12px;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .status-online {
-  background-color: #e6f6f0;
-  color: #2d7a5d;
+  background-color: rgba(74, 124, 89, 0.2);
+  color: #6dba85;
+  border: 1px solid rgba(74, 124, 89, 0.35);
 }
 
 .status-offline {
-  background-color: #fff1f1;
-  color: #d9534f;
+  background-color: rgba(185, 40, 40, 0.15);
+  color: #f08080;
+  border: 1px solid rgba(185, 40, 40, 0.3);
 }
 
 /* ===== BODY ===== */
@@ -148,7 +177,9 @@
 
 .room-title {
   font-size: 1.4rem;
-  font-weight: 800;
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  color: #fdfaf6;
   margin: 10px 0;
 }
 
@@ -158,7 +189,8 @@
   align-items: center;
   gap: 10px;
   font-size: 0.9rem;
-  color: #718096;
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 300;
 }
 
 /* ===== FEATURES ===== */
@@ -173,6 +205,8 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 /* ===== SERVICES ===== */
@@ -187,6 +221,11 @@
   display: flex;
   gap: 5px;
   font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 4px 10px;
+  border-radius: 99px;
 }
 
 /* ===== PRICE ===== */
@@ -195,18 +234,21 @@
   align-items: center;
   margin-top: 20px;
   padding-top: 15px;
-  border-top: 1px solid #f7f7f7;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
   gap: 8px;
 }
 
 .price-val {
   font-size: 1.6rem;
-  font-weight: 800;
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  color: #e07a4f;
 }
 
 .price-type {
   font-size: 0.9rem;
-  color: #a0aec0;
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 300;
 }
 
 /* ===== ACTIONS ===== */
@@ -220,9 +262,10 @@
   position: absolute;
   top: 50px;
   right: 15px;
-  background: white;
+  background: #2e1f14;
+  border: 1px solid rgba(193, 98, 47, 0.25);
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
 }
 
 /* ===== BOTONES CARD ===== */

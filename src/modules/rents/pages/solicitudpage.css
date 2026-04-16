@@ -1,0 +1,448 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ══════════════════════════════════════════
+   RESET SELECTIVO DE BOOTSTRAP
+══════════════════════════════════════════ */
+.rent-page *,
+.rent-page *::before,
+.rent-page *::after {
+  box-sizing: border-box;
+}
+
+/* ══════════════════════════════════════════
+   CONTENEDOR PRINCIPAL
+══════════════════════════════════════════ */
+.rent-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  padding: 28px;
+  background: #1c1510;
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  color: #fdfaf6;
+}
+
+/* ══════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════ */
+.providers-header {
+  background: rgba(193, 98, 47, 0.06);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 28px 36px;
+  border-radius: 20px;
+  border: 1px solid rgba(193, 98, 47, 0.22);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
+  animation: rzFadeUp 0.55s ease both;
+}
+
+.providers-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #fdfaf6;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* ══════════════════════════════════════════
+   BARRA DE ACCIONES (crud-actions)
+══════════════════════════════════════════ */
+.crud-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  background: rgba(193, 98, 47, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 18px 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(193, 98, 47, 0.18);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+  animation: rzFadeUp 0.6s 0.1s ease both;
+}
+
+/* ══════════════════════════════════════════
+   BOTONES — sobreescribe Bootstrap
+══════════════════════════════════════════ */
+.rent-page .btn,
+.rent-page .btn:focus,
+.rent-page .btn:active {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  border-radius: 11px;
+  transition: all 0.22s ease;
+  outline: none;
+  box-shadow: none;
+  letter-spacing: 0.01em;
+}
+
+/* Primario */
+.rent-page .btn-primary,
+.rent-page .btn.btn-primary {
+  padding: 9px 22px;
+  font-size: 13.5px;
+  background: linear-gradient(135deg, #e07a4f, #c1622f);
+  border: none;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(193, 98, 47, 0.32);
+}
+.rent-page .btn-primary:hover,
+.rent-page .btn.btn-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 26px rgba(193, 98, 47, 0.48);
+  background: linear-gradient(135deg, #e88055, #d06a35);
+  color: #fff;
+  border: none;
+}
+.rent-page .btn-primary:active {
+  transform: translateY(0) scale(0.99);
+}
+
+/* Small */
+.rent-page .btn-sm {
+  padding: 6px 14px;
+  font-size: 12px;
+  border-radius: 9px;
+}
+
+/* Danger */
+.rent-page .btn-danger,
+.rent-page .btn.btn-danger {
+  background: rgba(183, 60, 60, 0.18);
+  border: 1px solid rgba(220, 80, 80, 0.35);
+  color: #f08080;
+  font-size: 12px;
+}
+.rent-page .btn-danger:hover,
+.rent-page .btn.btn-danger:hover {
+  background: linear-gradient(135deg, #e05555, #b53030);
+  border-color: transparent;
+  color: #fff;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(180, 50, 50, 0.4);
+}
+
+/* ══════════════════════════════════════════
+   CONTENEDOR DE TABLA
+══════════════════════════════════════════ */
+.card-list-container,
+.rent-page > div:last-child {
+  background: rgba(193, 98, 47, 0.05);
+  border-radius: 20px;
+  padding: 8px 4px;
+  border: 1px solid rgba(193, 98, 47, 0.18);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
+  animation: rzFadeUp 0.65s 0.2s ease both;
+  overflow: hidden;
+}
+
+/* ══════════════════════════════════════════
+   TABLA — sobreescribe Bootstrap
+══════════════════════════════════════════ */
+.rent-page .table,
+.rent-page table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}
+
+.rent-page .table thead tr,
+.rent-page table thead tr {
+  border-bottom: 1px solid rgba(193, 98, 47, 0.2);
+}
+
+.rent-page .table thead th,
+.rent-page table thead th {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+  padding: 14px 20px;
+  background: transparent;
+  border: none;
+  white-space: nowrap;
+}
+
+.rent-page .table tbody tr,
+.rent-page table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.18s ease;
+}
+.rent-page .table tbody tr:last-child,
+.rent-page table tbody tr:last-child {
+  border-bottom: none;
+}
+.rent-page .table tbody tr:hover,
+.rent-page table tbody tr:hover {
+  background: rgba(193, 98, 47, 0.07);
+}
+
+.rent-page .table td,
+.rent-page table td {
+  padding: 13px 20px;
+  vertical-align: middle;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.rent-page .table td.cell-id,
+.rent-page table td.cell-id {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.25);
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ══════════════════════════════════════════
+   BADGES DE ESTADO
+══════════════════════════════════════════ */
+.rent-page .role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 99px;
+  letter-spacing: 0.04em;
+}
+
+.rent-page .role-badge::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.rent-page .role-badge-active {
+  background: rgba(74, 124, 89, 0.2);
+  color: #7ec89a;
+  border: 1px solid rgba(74, 124, 89, 0.35);
+}
+.rent-page .role-badge-active::before {
+  background: #7ec89a;
+  box-shadow: 0 0 5px rgba(126, 200, 154, 0.7);
+  animation: rzPulse 2s ease-in-out infinite;
+}
+
+.rent-page .role-badge-inactive {
+  background: rgba(140, 100, 60, 0.15);
+  color: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(140, 100, 60, 0.2);
+}
+.rent-page .role-badge-inactive::before {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ══════════════════════════════════════════
+   ACCIONES EN FILA
+══════════════════════════════════════════ */
+.rent-page .actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ══════════════════════════════════════════
+   ESTADOS: loading / error
+══════════════════════════════════════════ */
+.rent-page p.error {
+  color: #f08080;
+  font-size: 13.5px;
+  padding: 14px 20px;
+  background: rgba(183, 60, 60, 0.1);
+  border: 1px solid rgba(220, 80, 80, 0.25);
+  border-radius: 12px;
+  margin: 0;
+}
+
+.rent-page > p:not(.error) {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 13.5px;
+  padding: 14px 20px;
+  font-weight: 300;
+}
+
+/* ══════════════════════════════════════════
+   MODAL OVERLAY — sobreescribe Bootstrap
+══════════════════════════════════════════ */
+.rent-page .modal-backdrop,
+.modal-backdrop {
+  background: rgba(10, 6, 3, 0.82) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.rent-page .modal-content,
+.modal-content {
+  background: #2a1c14 !important;
+  border: 1px solid rgba(193, 98, 47, 0.25) !important;
+  border-radius: 20px !important;
+  color: #fdfaf6;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6) !important;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.rent-page .modal-header,
+.modal-header {
+  border-bottom: 1px solid rgba(193, 98, 47, 0.15) !important;
+  padding: 20px 24px !important;
+}
+
+.rent-page .modal-title,
+.modal-title {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: #fdfaf6 !important;
+}
+
+.rent-page .modal-body,
+.modal-body {
+  padding: 22px 24px !important;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.rent-page .modal-footer,
+.modal-footer {
+  border-top: 1px solid rgba(193, 98, 47, 0.12) !important;
+  padding: 16px 24px !important;
+  gap: 10px !important;
+}
+
+/* Botón cerrar modal */
+.rent-page .btn-close,
+.modal .btn-close {
+  filter: invert(1) !important;
+  opacity: 0.4 !important;
+  transition: opacity 0.2s;
+}
+.rent-page .btn-close:hover,
+.modal .btn-close:hover {
+  opacity: 0.8 !important;
+}
+
+/* ══════════════════════════════════════════
+   FORMULARIOS DENTRO DEL MODAL
+══════════════════════════════════════════ */
+.rent-page .form-label,
+.modal-content .form-label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  margin-bottom: 6px;
+}
+
+.rent-page .form-control,
+.rent-page .form-select,
+.modal-content .form-control,
+.modal-content .form-select {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(193, 98, 47, 0.22) !important;
+  border-radius: 12px !important;
+  color: #fdfaf6 !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 13.5px !important;
+  padding: 10px 14px !important;
+  transition: box-shadow 0.22s ease, border-color 0.22s ease !important;
+}
+
+.rent-page .form-control::placeholder,
+.modal-content .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.22) !important;
+}
+
+.rent-page .form-control:focus,
+.rent-page .form-select:focus,
+.modal-content .form-control:focus,
+.modal-content .form-select:focus {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: #e07a4f !important;
+  box-shadow: 0 0 0 3px rgba(193, 98, 47, 0.2) !important;
+  outline: none !important;
+  color: #fdfaf6 !important;
+}
+
+/* Opciones del select */
+.rent-page .form-select option,
+.modal-content .form-select option {
+  background: #2a1c14;
+  color: #fdfaf6;
+}
+
+/* ══════════════════════════════════════════
+   ANIMACIONES
+══════════════════════════════════════════ */
+@keyframes rzFadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rzPulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 5px rgba(126, 200, 154, 0.7); }
+  50%       { opacity: 0.5; box-shadow: 0 0 12px rgba(126, 200, 154, 0.25); }
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .crud-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.1rem;
+  }
+  .rent-page .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+  .rent-page .table thead {
+    display: none;
+  }
+  .rent-page .table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 16px;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+  .rent-page .table td::before {
+    content: attr(data-label);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.28);
+    flex-shrink: 0;
+    margin-right: 12px;
+  }
+  .rent-page .actions {
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 640px) {
+  .rent-page {
+    padding: 16px;
+    gap: 1.25rem;
+  }
+  .providers-header {
+    padding: 20px 22px;
+  }
+  .providers-header h2 {
+    font-size: 1.45rem;
+  }
+}

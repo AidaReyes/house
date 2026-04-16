@@ -7,52 +7,18 @@ import { useLogin } from "../hooks/useLogin";
 export default function LoginPage() {
   const navigate = useNavigate();
   const { login, loading, error } = useLogin();
-
-  const topRef = useRef(null);
+  const bgRef = useRef(null);
 
   const [showPassword, setShowPassword] = useState(false);
-  const [form, setForm] = useState({
-    usuario: "",
-    password: "",
-  });
+  const [form, setForm] = useState({ usuario: "", password: "" });
+  const [focused, setFocused] = useState("");
 
-  useEffect(() => {
-    const container = topRef.current;
-    if (!container) return;
+  /* partículas */
+ 
 
-    const createParticles = () => {
-      container.querySelectorAll(".particle").forEach((p) => p.remove());
 
-      for (let i = 0; i < 45; i++) {
-        const particle = document.createElement("div");
-        particle.className = "particle";
-
-        const size = Math.random() * 6 + 4;
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.top = `${Math.random() * 100}%`;
-
-        particle.style.opacity = Math.random() * 0.5 + 0.15;
-        particle.style.animationDuration = `${Math.random() * 8 + 6}s`;
-
-        container.appendChild(particle);
-      }
-    };
-
-    createParticles();
-    window.addEventListener("resize", createParticles);
-
-    return () => window.removeEventListener("resize", createParticles);
-  }, []);
-
-  const handleChange = (e) => {
-    setForm((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  const handleChange = (e) =>
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,63 +27,153 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="login-page">
-      <div className="top-section" ref={topRef}></div>
-      <div className="bottom-section"></div>
+    <div className="lp-root">
+      <div className="lp-full-glow" />
+      {/* ── LADO IZQUIERDO — branding ── */}
+      <div className="lp-left" ref={bgRef}>
+        <div className="lp-left-glow" />
+        <div className="lp-left-circle lp-left-circle--top" />
+        <div className="lp-left-circle lp-left-circle--bot" />
 
-      <div className="form-container">
-        <div className="brand-block">
-          <img src="/logo_Dark.png" alt="Logo" className="logo" />
-          <p className="brand-subtitle">Accede a tu panel y gestiona tu sistema</p>
-        </div>
+        <div className="lp-left-content">
 
-        <form className="auth-card" onSubmit={handleSubmit}>
-          <h2>Bienvenido</h2>
-          <p className="auth-subtitle">Inicia sesión para continuar</p>
-
-          <div className="input-group">
-            <BiEnvelope />
-            <input
-              type="email"
-              name="usuario"
-              placeholder="Correo"
-              value={form.usuario}
-              onChange={handleChange}
-              required
-            />
+          <div className="lp-logo">
+            <div className="lp-logo-icon">🏠</div>
+            <span className="lp-logo-name">Cozy House</span>
           </div>
 
-          <div className="input-group">
-            <BiLockAlt />
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Contraseña"
-              value={form.password}
-              onChange={handleChange}
-              required
-            />
-            <button
-              type="button"
-              className="toggle-password"
-              onClick={() => setShowPassword((prev) => !prev)}
-              aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
-            >
-              {showPassword ? <BiHide /> : <BiShow />}
-            </button>
+          <div className="lp-pill">
+            <span className="lp-pill-dot" />
+            Zacualtipan de Ángeles, Hidalgo
           </div>
 
-          {error && <p className="error">{error}</p>}
+          <h1 className="lp-headline">
+            Tu panel,<br />
+            tu <em>control</em><br />
+            total.
+          </h1>
 
-          <button className="btn btn-primary btn-block" disabled={loading}>
-            {loading ? "Cargando..." : "Entrar"}
-          </button>
-
-          <p className="switch">
-            ¿No tienes cuenta? <Link to="/register">Crear cuenta</Link>
+          <p className="lp-tagline">
+            Gestiona cuartos, arrendadores y estudiantes desde
+            un panel moderno, seguro y pensado para ti.
           </p>
-        </form>
+
+          <div className="lp-stats">
+            {[["40+", "Cuartos"], ["200+", "Estudiantes"], ["4.8★", "Calificación"]].map(
+              ([num, lbl]) => (
+                <div key={lbl} className="lp-stat">
+                  <span className="lp-stat-num">{num}</span>
+                  <span className="lp-stat-lbl">{lbl}</span>
+                </div>
+              )
+            )}
+          </div>
+
+          <div className="lp-badge">
+            <div className="lp-badge-icon">✅</div>
+            <div>
+              <div className="lp-badge-title">Cuartos verificados</div>
+              <div className="lp-badge-sub">Revisados por Cozy House</div>
+            </div>
+          </div>
+
+        </div>
       </div>
+
+      {/* ── LADO DERECHO — formulario ── */}
+      <div className="lp-right">
+        <div className="lp-right-blob" />
+
+        <div className="lp-form-wrap">
+
+          {/* logo solo en móvil */}
+          <div className="lp-mobile-logo">
+            <div className="lp-logo-icon">🏠</div>
+            <span className="lp-logo-name" style={{ color: "#1c1510" }}>Cozy House</span>
+          </div>
+
+          <div className="lp-form-head">
+            <h2 className="lp-form-title">Bienvenido</h2>
+            <p className="lp-form-sub">Inicia sesión para continuar</p>
+          </div>
+
+          <form onSubmit={handleSubmit} noValidate>
+
+            <div className="lp-field">
+              <label className="lp-label">Correo electrónico</label>
+              <div className={`lp-input-wrap ${focused === "usuario" ? "lp-input-wrap--focus" : ""}`}>
+                <BiEnvelope className="lp-icon" />
+                <input
+                  type="email"
+                  name="usuario"
+                  placeholder="tu@correo.com"
+                  value={form.usuario}
+                  onChange={handleChange}
+                  onFocus={() => setFocused("usuario")}
+                  onBlur={() => setFocused("")}
+                  className="lp-input"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="lp-field">
+              <label className="lp-label">Contraseña</label>
+              <div className={`lp-input-wrap ${focused === "password" ? "lp-input-wrap--focus" : ""}`}>
+                <BiLockAlt className="lp-icon" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="••••••••"
+                  value={form.password}
+                  onChange={handleChange}
+                  onFocus={() => setFocused("password")}
+                  onBlur={() => setFocused("")}
+                  className="lp-input"
+                  required
+                />
+                <button
+                  type="button"
+                  className="lp-eye"
+                  onClick={() => setShowPassword((p) => !p)}
+                  aria-label={showPassword ? "Ocultar" : "Mostrar"}
+                >
+                  {showPassword ? <BiHide /> : <BiShow />}
+                </button>
+              </div>
+            </div>
+
+            {error && (
+              <div className="lp-error">
+                <span>⚠</span> {error}
+              </div>
+            )}
+
+            <button type="submit" className="lp-btn" disabled={loading}>
+              {loading ? (
+                <span className="lp-spinner" />
+              ) : (
+                "Iniciar sesión →"
+              )}
+            </button>
+
+          </form>
+
+          <p className="lp-switch">
+            ¿No tienes cuenta?{" "}
+            <Link to="/register" className="lp-switch-link">
+              Crear cuenta gratis
+            </Link>
+          </p>
+
+          <div className="lp-footer-note">
+            <div className="lp-footer-icon">🏠</div>
+            <span>Cozy House · Zacualtipan, Hidalgo · 2025</span>
+          </div>
+
+        </div>
+      </div>
+
     </div>
   );
 }

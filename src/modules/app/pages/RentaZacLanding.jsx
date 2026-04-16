@@ -181,8 +181,9 @@ const RentaZacLanding = ({ onLogin, onRegister }) => {
       {/* ── NAVBAR ── */}
       <nav className="rz-nav">
         <div className="rz-nav-logo">
-          <div className="rz-nav-logo-icon">🏠</div>
-          <span className="rz-nav-logo-text">Cozy House</span>
+          {/* <div className="rz-nav-logo-icon">🏠</div>
+          <span className="rz-nav-logo-text">Cozy House</span> */}
+          <img src="../../../../public/logo_nodark.png" alt="Cozy House" style={{  width: '150px' }} />
         </div>
         <div className="rz-nav-links">
           <a href="#">Inicio</a>

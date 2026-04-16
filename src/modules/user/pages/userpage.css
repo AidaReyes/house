@@ -1,0 +1,308 @@
+/* =========================================
+   USERS PAGE - COZZY STYLE
+========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;700&display=swap');
+
+.users-page {
+  min-height: 100vh;
+  padding: 28px;
+  background: #1c1510;
+  color: #fdfaf6;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ===== CARD PRINCIPAL ===== */
+.users-page .card {
+  background: rgba(193, 98, 47, 0.05) !important;
+  border: 1px solid rgba(193, 98, 47, 0.22) !important;
+  border-radius: 22px !important;
+  overflow: hidden;
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(12px);
+}
+
+.users-page .card-body {
+  padding: 32px !important;
+}
+
+/* ===== TITULOS ===== */
+.users-page h1,
+.users-page .h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #fdfaf6;
+  margin-bottom: 6px;
+}
+
+.users-page p {
+  color: rgba(255,255,255,0.45);
+}
+
+/* ===== BOTONES ===== */
+.users-page .btn {
+  border-radius: 12px;
+  font-weight: 500;
+  transition: all .22s ease;
+  border: none;
+}
+
+.users-page .btn-primary {
+  background: linear-gradient(135deg, #e07a4f, #c1622f) !important;
+  color: #fff !important;
+  box-shadow: 0 6px 18px rgba(193,98,47,.35);
+}
+
+.users-page .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(193,98,47,.45);
+}
+
+.users-page .btn-danger {
+  background: rgba(185,40,40,.18) !important;
+  border: 1px solid rgba(185,40,40,.35) !important;
+  color: #f08080 !important;
+}
+
+.users-page .btn-danger:hover {
+  background: rgba(185,40,40,.35) !important;
+  color: #fff !important;
+}
+
+.users-page .btn-outline-secondary {
+  background: transparent !important;
+  border: 1px solid rgba(255,255,255,.15) !important;
+  color: rgba(255,255,255,.45) !important;
+}
+
+.users-page .btn-outline-secondary:hover {
+  background: rgba(255,255,255,.05) !important;
+  color: #fff !important;
+}
+
+/* ===== INPUTS ===== */
+.users-page .form-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: rgba(255,255,255,.38);
+  margin-bottom: 8px;
+}
+
+.users-page .form-control,
+.users-page .form-select {
+  background: rgba(255,255,255,.04) !important;
+  border: 1px solid rgba(193,98,47,.22) !important;
+  color: #fdfaf6 !important;
+  border-radius: 12px !important;
+  padding: 11px 14px;
+}
+
+.users-page .form-control::placeholder {
+  color: rgba(255,255,255,.25);
+}
+
+.users-page .form-control:focus,
+.users-page .form-select:focus {
+  box-shadow: 0 0 0 3px rgba(193,98,47,.18) !important;
+  border-color: #e07a4f !important;
+  background: rgba(255,255,255,.06) !important;
+}
+
+.users-page .form-select option {
+  background: #2a1c14;
+  color: #fff;
+}
+
+/* ===== TABLA ===== */
+.users-page .table-responsive {
+  margin-top: 10px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(193,98,47,.18);
+}
+
+.users-page .table {
+  margin: 0;
+  color: rgba(255,255,255,.75);
+  background: rgba(255,255,255,.02) !important;
+}
+
+.users-page .table thead,
+.users-page .table thead tr,
+.users-page .table-light {
+  background: rgba(193,98,47,.10) !important;
+}
+
+.users-page .table th {
+  border: none !important;
+  color: rgba(255,255,255,.38) !important;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  padding: 16px 18px;
+  white-space: nowrap;
+}
+
+.users-page .table td {
+  border: none !important;
+  border-top: 1px solid rgba(255,255,255,.04) !important;
+  padding: 15px 18px;
+  vertical-align: middle;
+  color: rgba(255,255,255,.72);
+}
+
+.users-page .table tbody tr:hover td {
+  background: rgba(193,98,47,.06) !important;
+}
+
+.users-page .text-muted {
+  color: rgba(255,255,255,.28) !important;
+}
+
+/* ===== BADGES ===== */
+.users-page .badge {
+  border-radius: 99px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.users-page .text-bg-success {
+  background: rgba(74,124,89,.18) !important;
+  color: #7bc592 !important;
+  border: 1px solid rgba(74,124,89,.30);
+}
+
+.users-page .text-bg-secondary {
+  background: rgba(255,255,255,.06) !important;
+  color: rgba(255,255,255,.45) !important;
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+/* ===== ALERT ===== */
+.users-page .alert-light {
+  background: rgba(193,98,47,.05) !important;
+  border: 1px solid rgba(193,98,47,.18) !important;
+  color: rgba(255,255,255,.45) !important;
+  border-radius: 14px;
+}
+
+/* ===== SPINNER ===== */
+.users-page .spinner-border {
+  color: #e07a4f !important;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+  .users-page {
+    padding: 18px;
+  }
+
+  .users-page .card-body {
+    padding: 22px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .users-page .table thead {
+    display: none;
+  }
+
+  .users-page .table tr {
+    display: block;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+  }
+
+  .users-page .table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 14px;
+  }
+
+  .users-page .table td::before {
+    content: attr(data-label);
+    color: rgba(255,255,255,.35);
+    font-size: 11px;
+    text-transform: uppercase;
+    margin-right: 12px;
+  }
+}
+/* PEGAR AL FINAL DEL CSS */
+
+/* =========================================
+   FIX DEFINITIVO BOOTSTRAP BLANCO
+========================================= */
+
+/* elimina fondos blancos globales de bootstrap dentro de users-page */
+.users-page .bg-white,
+.users-page .bg-light,
+.users-page .bg-body,
+.users-page .bg-body-secondary,
+.users-page .bg-body-tertiary,
+.users-page .table-light,
+.users-page .table-white,
+.users-page .card,
+.users-page .card-body,
+.users-page .table-responsive,
+.users-page .table,
+.users-page table,
+.users-page thead,
+.users-page tbody,
+.users-page tr,
+.users-page td,
+.users-page th {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* restablecemos diseño elegante */
+.users-page .card {
+  background: rgba(193, 98, 47, 0.05) !important;
+  border: 1px solid rgba(193, 98, 47, 0.22) !important;
+}
+
+.users-page .card-body {
+  background: transparent !important;
+}
+
+.users-page .table-responsive {
+  background: rgba(193, 98, 47, 0.04) !important;
+  border: 1px solid rgba(193, 98, 47, 0.18) !important;
+  border-radius: 18px !important;
+}
+
+.users-page .table {
+  background: transparent !important;
+}
+
+.users-page .table thead,
+.users-page .table thead tr,
+.users-page .table-light {
+  background: rgba(193, 98, 47, 0.10) !important;
+}
+
+.users-page .table td {
+  background: transparent !important;
+}
+
+.users-page .table tbody tr:hover td {
+  background: rgba(193, 98, 47, 0.06) !important;
+}
+
+/* alerts bootstrap */
+.users-page .alert,
+.users-page .alert-light {
+  background: rgba(193, 98, 47, 0.05) !important;
+  color: rgba(255,255,255,.45) !important;
+  border: 1px solid rgba(193, 98, 47, 0.18) !important;
+}
+
+/* modales bootstrap */
+.users-page .modal-content {
+  background: #2a1c14 !important;
+  border: 1px solid rgba(193,98,47,.22) !important;
+  color: #fff !important;
+}
