@@ -15,7 +15,7 @@ import RoomDetailModal from "../components/RoomDetailModal";
 import RoomFormModal from "../components/RoomFormModal";
 import { roomsService } from "../service/room.service";
 import { rentService } from "../../rents/service/rents.service";
-import "./RoomsPage.css";
+
 
 export default function RoomsPage() {
   const [rooms, setRooms] = useState([]);
