@@ -571,7 +571,7 @@ const handleCreate = async () => {
                             </span>
 
                             <button
-                              className="delete-payment-btn"
+                              className="hola-boton-eliminar"
                               onClick={() => handleDeletePago(item._id)}
                             >
                               Eliminar

@@ -71,6 +71,9 @@
   gap: 10px;
 }
 
+.sched-right{
+  background-color: red;
+}
 .cancel-btn {
   flex: 1;
   background: var(--hover-bg);
