@@ -19,6 +19,8 @@ import RentaPage from '../modules/rents/pages/rentaspage.jsx';
 import RolePage from '../modules/role/pages/rolePage.jsx';
 import PerfilArrendador from '../modules/app/pages/PerfilArrendador.jsx';
 
+import UserProfilePage from '../modules/user/components/UserProfileModal.jsx';
+
 // ← NUEVAS
 import PagoPage from '../modules/pagos/components/PagoPage.jsx';
 
@@ -59,6 +61,7 @@ export default function AppRouter() {
         >
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/arrendador" element={<PerfilArrendador />} />
+            <Route path="/perfil" element={<UserProfilePage />} />
 
           {/* Cuartos */}
           <Route path="/cuartos" element={<Cuartos />} />
