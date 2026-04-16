@@ -475,6 +475,7 @@ export default function RoomsPage() {
         onClose={() => setShowDetail(false)}
         room={selectedRoom}
          user={user}
+        view="mis-propiedades"
       />
     </div>
   );

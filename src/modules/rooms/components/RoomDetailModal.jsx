@@ -29,8 +29,6 @@ import PaymentFormModal from "./PaymentFormModal";
 import { rentService } from "../../rents/service/rents.service";
 import Swal from "sweetalert2";
 import { Filter } from "bad-words";const filter = new Filter();
-
-// Agregar palabras en español
 // Agregar palabras en español
 filter.addWords(
   "pendejo",
@@ -71,7 +69,6 @@ filter.addWords(
   "no mms",
   "nmms"
 );
-
 
 const RoomDetailModal = ({ isOpen, onClose, room, user,view   }) => {
   const [activeTab, setActiveTab] = useState("galeria");
