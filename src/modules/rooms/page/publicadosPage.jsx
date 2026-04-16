@@ -245,6 +245,7 @@ export default function RoomsPage() {
   }
 
   return (
+    //Publicados
     <div className="container-fluid py-4 rooms-page">
       <div className="card border-0 shadow-sm mb-4">
         <div className="card-body p-3 p-md-4">
@@ -374,19 +375,6 @@ export default function RoomsPage() {
                       )}
                     </div>
 
-                    {room.incluyeServicios && (
-                      <span className="services-tag">Servicios incluidos:</span>
-                    )}
-
-                    <div className="room-services-list">
-                      {room.servicios?.map((serv, index) => (
-                        <span key={index} className="service-item">
-                          {renderServiceIcon(serv)}
-                          <small>{serv}</small>
-                        </span>
-                      ))}
-                    </div>
-
                     <div className="room-price-section mt-auto">
                       <span className="price-val">${room.precio}</span>
                       <span className="price-type">
@@ -443,6 +431,8 @@ export default function RoomsPage() {
         isOpen={showDetail}
         onClose={() => setShowDetail(false)}
         room={selectedRoom}
+        user={user}
+
       />
     </div>
   );
