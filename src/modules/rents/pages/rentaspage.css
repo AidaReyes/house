@@ -1,0 +1,309 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ===== BASE ===== */
+.rentas-page {
+  font-family: 'DM Sans', sans-serif;
+  color: #fdfaf6;
+}
+
+.rentas-page h2 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  color: #fdfaf6;
+}
+
+/* ===== CUADROS / CONTENEDORES ===== */
+.rentas-page .card,
+.rentas-page .modal-content,
+.rentas-page .dropdown-menu,
+.rentas-page .table-responsive,
+.rentas-page .bg-white,
+.rentas-page .shadow,
+.rentas-page .shadow-sm,
+.rentas-page .shadow-lg,
+.rentas-page .container-box,
+.rentas-page .box,
+.rentas-page .panel {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(193, 98, 47, 0.25) !important;
+  color: #fdfaf6 !important;
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+}
+
+/* ===== MODAL ===== */
+.rentas-page .modal-header,
+.rentas-page .modal-footer {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.rentas-page .modal-title {
+  color: #fdfaf6;
+}
+
+.rentas-page .btn-close {
+  filter: invert(1);
+}
+
+/* ===== DROPDOWN ===== */
+.rentas-page .dropdown-item {
+  color: #fdfaf6;
+}
+
+.rentas-page .dropdown-item:hover {
+  background: rgba(193, 98, 47, 0.12);
+  color: #fff;
+}
+
+/* ===== BOTONES PRIMARIOS ===== */
+.rentas-page .btn-primary {
+  background: linear-gradient(135deg, #e07a4f, #c1622f);
+  border-color: transparent;
+  color: #fff;
+  font-weight: 500;
+  box-shadow: 0 4px 14px rgba(193, 98, 47, 0.35);
+}
+
+.rentas-page .btn-primary:hover,
+.rentas-page .btn-primary:focus,
+.rentas-page .btn-primary:active {
+  background: linear-gradient(135deg, #d06a3f, #b0521f) !important;
+  border-color: transparent !important;
+  box-shadow: 0 8px 22px rgba(193, 98, 47, 0.5) !important;
+}
+
+/* ===== BOTONES OUTLINE PRIMARY ===== */
+.rentas-page .btn-outline-primary {
+  border-color: rgba(193, 98, 47, 0.45);
+  color: #e07a4f;
+  background: transparent;
+  font-weight: 500;
+}
+
+.rentas-page .btn-outline-primary:hover,
+.rentas-page .btn-outline-primary:focus {
+  background: rgba(193, 98, 47, 0.14);
+  border-color: #e07a4f;
+  color: #fdfaf6;
+}
+
+/* ===== BOTONES OUTLINE SECONDARY ===== */
+.rentas-page .btn-outline-secondary {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.45);
+  background: transparent;
+}
+
+.rentas-page .btn-outline-secondary:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fdfaf6;
+}
+
+/* ===== BOTONES SUCCESS ===== */
+.rentas-page .btn-success {
+  background: rgba(74, 124, 89, 0.25);
+  border-color: rgba(74, 124, 89, 0.4);
+  color: #6dba85;
+  font-weight: 500;
+}
+
+.rentas-page .btn-success:hover {
+  background: rgba(74, 124, 89, 0.4);
+  border-color: rgba(74, 124, 89, 0.6);
+  color: #fff;
+}
+
+/* ===== BOTONES DANGER ===== */
+.rentas-page .btn-danger {
+  background: rgba(185, 40, 40, 0.22);
+  border-color: rgba(185, 40, 40, 0.4);
+  color: #f08080;
+  font-weight: 500;
+}
+
+.rentas-page .btn-danger:hover {
+  background: rgba(185, 40, 40, 0.38);
+  border-color: rgba(185, 40, 40, 0.6);
+  color: #fca5a5;
+}
+
+/* ===== BOTONES OUTLINE DANGER ===== */
+.rentas-page .btn-outline-danger {
+  border-color: rgba(185, 40, 40, 0.35);
+  color: #f08080;
+  background: transparent;
+}
+
+.rentas-page .btn-outline-danger:hover {
+  background: rgba(185, 40, 40, 0.18);
+  border-color: rgba(185, 40, 40, 0.5);
+  color: #fca5a5;
+}
+
+/* ===== INPUT / SELECT ===== */
+.rentas-page .form-control,
+.rentas-page .form-select {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(193, 98, 47, 0.22);
+  border-radius: 10px;
+  color: #fdfaf6;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+}
+
+.rentas-page .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.rentas-page .form-control:focus,
+.rentas-page .form-select:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #e07a4f;
+  box-shadow: 0 0 0 3px rgba(193, 98, 47, 0.2);
+  color: #fdfaf6;
+}
+
+.rentas-page .form-select option {
+  background: #2e1f14;
+  color: #fdfaf6;
+}
+
+/* ===== TABLA ===== */
+.rentas-page .table {
+  color: rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.rentas-page .table thead tr {
+  background: rgba(193, 98, 47, 0.12);
+}
+
+.rentas-page .table th {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  border-bottom: 1px solid rgba(193, 98, 47, 0.22);
+}
+
+.rentas-page .table td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.rentas-page .table-hover tbody tr:hover td {
+  background: rgba(193, 98, 47, 0.08);
+  color: #fdfaf6;
+}
+
+/* ===== BADGES ===== */
+.rentas-page .badge.bg-warning {
+  background: rgba(193, 98, 47, 0.2) !important;
+  color: #e07a4f !important;
+  border: 1px solid rgba(193, 98, 47, 0.35);
+}
+
+.rentas-page .badge.bg-info {
+  background: rgba(80, 140, 200, 0.18) !important;
+  color: #7ab8f5 !important;
+  border: 1px solid rgba(80, 140, 200, 0.3);
+}
+
+.rentas-page .badge.bg-danger {
+  background: rgba(185, 40, 40, 0.18) !important;
+  color: #f08080 !important;
+  border: 1px solid rgba(185, 40, 40, 0.3);
+}
+
+.rentas-page .badge.bg-success {
+  background: rgba(74, 124, 89, 0.18) !important;
+  color: #6dba85 !important;
+  border: 1px solid rgba(74, 124, 89, 0.3);
+}
+
+.rentas-page .badge.bg-secondary {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rentas-page .badge.bg-dark {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: rgba(255, 255, 255, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ===== SPINNER ===== */
+.rentas-page .spinner-border.text-primary {
+  color: #e07a4f !important;
+}
+
+/* ===== ALERT ===== */
+.rentas-page .alert-light {
+  background: rgba(193, 98, 47, 0.06);
+  border: 1px solid rgba(193, 98, 47, 0.2);
+  color: rgba(255, 255, 255, 0.4);
+  border-radius: 12px;
+}
+/* AGREGA ESTO AL FINAL DEL CSS QUE ME MANDASTE */
+
+/* ===== SOLUCIÓN DEFINITIVA TABLA BLANCA ===== */
+
+.rentas-page table,
+.rentas-page .table,
+.rentas-page .table-responsive,
+.rentas-page tbody,
+.rentas-page thead,
+.rentas-page tr,
+.rentas-page td,
+.rentas-page th {
+  background-color: transparent !important;
+}
+
+/* contenedor visual */
+.rentas-page .table-responsive,
+.rentas-page .card,
+.rentas-page .table-wrapper,
+.rentas-page .rent-table-container {
+  background: rgba(193, 98, 47, 0.05) !important;
+  border: 1px solid rgba(193, 98, 47, 0.22) !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+}
+
+/* encabezado */
+.rentas-page .table thead tr,
+.rentas-page table thead tr {
+  background: rgba(193, 98, 47, 0.10) !important;
+}
+
+/* columnas */
+.rentas-page .table th,
+.rentas-page table th {
+  color: rgba(255,255,255,0.38) !important;
+  border-bottom: 1px solid rgba(193,98,47,0.18) !important;
+}
+
+/* filas */
+.rentas-page .table td,
+.rentas-page table td {
+  color: rgba(255,255,255,0.72) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.04) !important;
+}
+
+/* hover */
+.rentas-page .table tbody tr:hover td,
+.rentas-page table tbody tr:hover td {
+  background: rgba(193, 98, 47, 0.08) !important;
+}
+
+/* bootstrap blancos forzados */
+.rentas-page .bg-white,
+.rentas-page .table-light,
+.rentas-page .bg-body,
+.rentas-page .bg-body-secondary,
+.rentas-page .bg-body-tertiary {
+  background: transparent !important;
+}

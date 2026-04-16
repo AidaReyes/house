@@ -4,6 +4,7 @@ import UserFormModal from "../components/UserFormModal.jsx";
 import UserDeleteModal from "../components/UserDeleteModal.jsx";
 import Can from "../../../components/can";
 import { useSearch } from "../../product/hooks/useSearch";
+import "./userPage.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function UsersPage() {

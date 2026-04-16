@@ -1,105 +1,144 @@
+/* ============================= */
+/* INPUTS BASE                   */
+/* ============================= */
+
 input,
 select,
-textarea{
+textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--color-card);
+  color: var(--color-text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+  outline: none;
+}
 
-width:100%;
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-text-light);
+}
 
-padding:8px 10px;
-
-border-radius:6px;
-
-border:1px solid var(--border-color);
-
-background:var(--color-card);
-
-color:var(--color-text);
-
+input:hover,
+select:hover,
+textarea:hover {
+  border-color: rgba(var(--color-primary-rgb), 0.4);
 }
 
 input:focus,
 select:focus,
-textarea:focus{
-
-outline:none;
-border-color:var(--color-primary);
-
+textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.15);
+  background: var(--color-card);
 }
 
-label{
-font-size:14px;
-color:var(--color-text-light);
-margin-bottom:4px;
-display:block;
+select option {
+  background: var(--color-card);
+  color: var(--color-text);
 }
 
-.form-group{
-margin-bottom:15px;
+textarea {
+  resize: vertical;
+  min-height: 90px;
 }
 
-.crud-actions{
+/* ============================= */
+/* LABEL                         */
+/* ============================= */
 
-display:flex;
-flex-direction:column;
-
-align-items:flex-end;
-
-gap:10px;
-
-margin-bottom:20px;
-
+label {
+  font-size: 11.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-light);
+  margin-bottom: 6px;
+  display: block;
 }
 
+/* ============================= */
+/* FORM GROUP                    */
+/* ============================= */
 
-/* BUSCADOR */
-
-.search{
-
-display:flex;
-gap:10px;
-
+.form-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
 }
 
+/* ============================= */
+/* CRUD ACTIONS                  */
+/* ============================= */
 
-/* INPUT */
-
-.search-input{
-
-height:38px;
-width:260px;
-
-padding:0 12px;
-
-border-radius:8px;
-
-border:1px solid var(--border-color);
-
-background:var(--color-card);
-
-color:var(--color-text);
-
+.crud-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 22px;
 }
 
+/* ============================= */
+/* BUSCADOR                      */
+/* ============================= */
 
-/* BOTON LIMPIAR */
-
-.search-clear{
-
-height:38px;
-
-padding:0 14px;
-
-border-radius:8px;
-
-border:1px solid var(--border-color);
-
-background:var(--color-card);
-
-cursor:pointer;
-
+.search {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
-.search-clear:hover{
+.search-input {
+  height: 38px;
+  width: 260px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--color-card);
+  color: var(--color-text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+  outline: none;
+}
 
-background:var(--hover-bg);
+.search-input::placeholder {
+  color: var(--color-text-light);
+}
 
+.search-input:hover {
+  border-color: rgba(var(--color-primary-rgb), 0.4);
+}
+
+.search-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.15);
+}
+
+/* ============================= */
+/* BOTÓN LIMPIAR                 */
+/* ============================= */
+
+.search-clear {
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--color-card);
+  color: var(--color-text-light);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.search-clear:hover {
+  background: var(--hover-bg);
+  border-color: rgba(var(--color-primary-rgb), 0.35);
+  color: var(--color-primary);
 }

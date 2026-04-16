@@ -449,10 +449,7 @@ export default function RoomsPage() {
                         Detalles
                       </button>
 
-                      <button className="btn btn-outline-primary btn-sm">
-                        Información
-                      </button>
-
+      
                       {/* <button
                         className={`btn btn-sm ${
                           room.publicado ? "btn-warning" : "btn-success"
@@ -467,7 +464,7 @@ export default function RoomsPage() {
                           : "Publicar"}
                       </button> */}
                     </div>
-                  </div>ñ
+                  </div>
                 </div>
               </div>
             );

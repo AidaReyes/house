@@ -1,72 +1,79 @@
+/* ============================= */
+/* BASE                          */
+/* ============================= */
 
-h1,h2,h3,h4{
-color:var(--color-text);
-}
-
-p{
-color:var(--color-text-light);
-}
-
-a{
-text-decoration:none;
-color:inherit;
-}
-
-.page{
-padding:20px;
-}
-
-.container{
-max-width:auto;
-margin:auto;
-}
-
-h1,h2,h3,h4{
-color:var(--color-text);
-}
-
-p{
-color:var(--color-text-light);
-}
-
-a{
-text-decoration:none;
-color:inherit;
-}
-
-.page{
-padding:20px;
-}
-
-.container{
-max-width:auto;
-margin:auto;
-}
 body {
   background-color: var(--color-background);
   color: var(--color-text);
+  font-family: 'DM Sans', sans-serif;
   transition: background-color 0.25s ease, color 0.25s ease;
 }
+
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+
+p {
+  color: var(--color-text-light);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+/* ============================= */
+/* LAYOUT                        */
+/* ============================= */
+
+.page {
+  padding: 28px;
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ============================= */
+/* ROOMS PAGE                    */
+/* ============================= */
 
 .rooms-page {
   background-color: var(--color-background);
   color: var(--color-text);
 }
 
+/* ============================= */
+/* ROOM CARD                     */
+/* ============================= */
+
 .room-card {
   background: var(--color-card);
   border: 1px solid var(--border-color);
   color: var(--color-text);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  border-radius: 18px;
+  box-shadow: var(--glass-shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
+}
+
+.room-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(var(--color-primary-rgb), 0.12);
 }
 
 .room-card-body,
-.room-title,
-.room-location,
-.services-tag,
-.price-val,
-.price-type,
-.publish-label {
+.room-title {
   color: var(--color-text);
 }
 
@@ -74,6 +81,19 @@ body {
 .price-type,
 .service-item small {
   color: var(--color-text-light);
+  font-size: 12.5px;
+}
+
+.services-tag,
+.price-val,
+.publish-label {
+  color: var(--color-text);
+}
+
+.price-val {
+  font-family: 'Playfair Display', serif;
+  color: var(--color-primary);
+  font-weight: 700;
 }
 
 .feature-badge,
@@ -81,34 +101,67 @@ body {
   background: var(--hover-bg);
   border: 1px solid var(--border-color);
   color: var(--color-text);
+  border-radius: 99px;
+  font-size: 11.5px;
+  padding: 4px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.feature-badge:hover,
+.service-item:hover {
+  background: rgba(var(--color-primary-rgb), 0.1);
+  border-color: rgba(var(--color-primary-rgb), 0.3);
+  color: var(--color-primary);
 }
 
 .room-price-section {
   border-top: 1px solid var(--border-color);
+  padding-top: 14px;
+  margin-top: 14px;
 }
+
+/* ============================= */
+/* ACCIONES Y MENÚ               */
+/* ============================= */
 
 .room-actions,
 .header-menu,
 .header-dropdown-menu {
   background: var(--color-card);
   border: 1px solid var(--border-color);
+  border-radius: 14px;
+  box-shadow: var(--glass-shadow);
 }
 
 .edit-btn,
 .delete-btn {
   background: transparent !important;
+  border-radius: 9px;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
-.edit-btn:hover,
+.edit-btn:hover {
+  background: rgba(var(--color-primary-rgb), 0.1) !important;
+  color: var(--color-primary) !important;
+}
+
 .delete-btn:hover {
-  background: var(--hover-bg) !important;
+  background: rgba(var(--color-danger-rgb), 0.1) !important;
+  color: var(--color-danger) !important;
 }
 
-/* Bootstrap overrides */
+/* ============================= */
+/* BOOTSTRAP OVERRIDES           */
+/* ============================= */
+
 .card {
   background-color: var(--color-card) !important;
   color: var(--color-text) !important;
   border-color: var(--border-color) !important;
+  border-radius: 18px !important;
 }
 
 .card-body {
@@ -121,6 +174,11 @@ body {
   background-color: var(--bg-card) !important;
   color: var(--color-text) !important;
   border-color: var(--border-color) !important;
+  border-radius: 12px !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 13.5px !important;
+  padding: 10px 14px !important;
+  transition: box-shadow 0.22s ease, border-color 0.22s ease !important;
 }
 
 .form-control::placeholder {
@@ -132,11 +190,18 @@ body {
   background-color: var(--bg-card) !important;
   color: var(--color-text) !important;
   border-color: var(--color-primary) !important;
-  box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15) !important;
+  box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.18) !important;
+  outline: none !important;
+}
+
+.form-select option {
+  background: var(--color-card);
+  color: var(--color-text);
 }
 
 .alert-light {
   background-color: var(--color-card) !important;
   color: var(--color-text) !important;
   border-color: var(--border-color) !important;
+  border-radius: 14px !important;
 }

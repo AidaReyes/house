@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { toggleTheme } from "../../../utils/theme.js";
 import {
   FaHouse,
   FaShieldHalved,
@@ -14,7 +13,6 @@ import {
   FaFileContract,
   FaUsers,
   FaUserTie,
-  FaMoon,
   FaGear,
   FaRightFromBracket,
 } from "react-icons/fa6";
@@ -73,7 +71,7 @@ const Header = () => {
     <header className="header">
       <div className="header-left">
         <NavLink to="/dashboard" className="header-logo" onClick={closeAllMenus}>
-          <img src="/logo.png" alt="Logo" />
+          <img src="../../../../public/logo_nodark.png" alt="Logo" />
         </NavLink>
       </div>
 
@@ -90,8 +88,9 @@ const Header = () => {
         <div className="header-dropdown">
           <button
             type="button"
-            className={`header-link header-dropdown-toggle ${isPropertiesActive || showPropertiesMenu ? "active" : ""
-              }`}
+            className={`header-link header-dropdown-toggle ${
+              isPropertiesActive || showPropertiesMenu ? "active" : ""
+            }`}
             onClick={togglePropertiesMenu}
           >
             <FaBuilding />
@@ -111,6 +110,7 @@ const Header = () => {
                   <span>Propiedades en revisión</span>
                 </NavLink>
               </Can>
+
               <Can permiso="ROOM_LIST">
                 <NavLink
                   to="/CuartosPublicados"
@@ -173,8 +173,9 @@ const Header = () => {
           <div className="header-dropdown">
             <button
               type="button"
-              className={`header-link header-dropdown-toggle ${isAccessActive || showAccessMenu ? "active" : ""
-                }`}
+              className={`header-link header-dropdown-toggle ${
+                isAccessActive || showAccessMenu ? "active" : ""
+              }`}
               onClick={toggleAccessMenu}
             >
               <FaShieldHalved />
@@ -212,10 +213,6 @@ const Header = () => {
       </nav>
 
       <div className="header-right">
-        <button type="button" className="header-theme-btn" onClick={toggleTheme}>
-          <FaMoon />
-        </button>
-
         <div
           className="header-profile"
           onClick={() => setShowUserMenu((prev) => !prev)}

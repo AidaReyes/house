@@ -402,10 +402,6 @@ export default function RoomsPage() {
                         Detalles
                       </button>
 
-                      <button className="btn btn-outline-primary btn-sm">
-                        Información
-                      </button>
-
                       <button
                         className="btn btn-success btn-sm"
                         onClick={() => handleSolicitarRenta(room)}

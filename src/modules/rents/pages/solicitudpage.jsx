@@ -5,6 +5,7 @@ import Can from "../../../components/can";
 import RentFormModal from "../components/RentFormModal";
 import TableWrapper from "../components/TableWrapper";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "./solicitudpage.css";
 
 const SolicitudPage = () => {
 
