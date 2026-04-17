@@ -7,6 +7,13 @@ import { useSearch } from "../../product/hooks/useSearch";
 import "./userPage.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+// 🔥 NUEVO: etiquetas de roles
+const roleLabels = {
+  ADMIN: "Administrador",
+  USER: "Usuario",
+  LESSOR: "Arrendador",
+};
+
 export default function UsersPage() {
   const { users, loading, createUser, updateUser, deleteUser } = useUsers();
 
@@ -134,7 +141,7 @@ export default function UsersPage() {
                 <option value="">Todos los roles</option>
                 {rolesDisponibles.map((rol) => (
                   <option key={rol} value={rol}>
-                    {rol}
+                    {roleLabels[rol] || rol}
                   </option>
                 ))}
               </select>
@@ -201,7 +208,13 @@ export default function UsersPage() {
                           {u.estado ? "Sí" : "No"}
                         </span>
                       </td>
-                      <td>{u.roles?.nombre || "Sin rol"}</td>
+
+                      {/* 🔥 CAMBIO AQUÍ */}
+                      <td>
+                        {roleLabels[u.roles?.nombre] ||
+                          u.roles?.nombre ||
+                          "Sin rol"}
+                      </td>
 
                       <Can permisos={["USER_UPDATE", "USER_DELETE"]}>
                         <td>
