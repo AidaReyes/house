@@ -33,7 +33,6 @@ const PaymentFormModal = ({ isOpen, onClose, room, onSaved }) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-
       reader.onload = () => resolve(reader.result);
       reader.onerror = (error) => reject(error);
     });
@@ -54,7 +53,6 @@ const PaymentFormModal = ({ isOpen, onClose, room, onSaved }) => {
       return;
     }
 
-    // límite opcional de 2MB
     if (file.size > 2 * 1024 * 1024) {
       Swal.fire({
         icon: "warning",
@@ -68,12 +66,7 @@ const PaymentFormModal = ({ isOpen, onClose, room, onSaved }) => {
 
     try {
       const base64 = await convertirABase64(file);
-
-      setNuevoPago((prev) => ({
-        ...prev,
-        comprobante: base64,
-      }));
-
+      setNuevoPago((prev) => ({ ...prev, comprobante: base64 }));
       setPreviewComprobante(base64);
     } catch (error) {
       console.error("Error convirtiendo imagen:", error);
@@ -120,7 +113,7 @@ const PaymentFormModal = ({ isOpen, onClose, room, onSaved }) => {
         monto: Number(nuevoPago.monto),
         periodoPago: nuevoPago.periodoPago,
         notas: nuevoPago.notas,
-        comprobante: nuevoPago.comprobante, // base64
+        comprobante: nuevoPago.comprobante,
       };
 
       const res = await pagoService.create(payload);
@@ -132,7 +125,6 @@ const PaymentFormModal = ({ isOpen, onClose, room, onSaved }) => {
           notas: "",
           comprobante: "",
         });
-
         setPreviewComprobante("");
         onClose();
         onSaved?.();
@@ -173,12 +165,12 @@ const PaymentFormModal = ({ isOpen, onClose, room, onSaved }) => {
         className="inner-payment-modal"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Header */}
         <div className="inner-payment-header">
           <div>
-            <h3>Registrar pago</h3>
             <p>{room?.titulo || "Cuarto seleccionado"}</p>
+            <h3>Registrar pago</h3>
           </div>
-
           <button
             className="inner-payment-close"
             onClick={onClose}
@@ -188,6 +180,7 @@ const PaymentFormModal = ({ isOpen, onClose, room, onSaved }) => {
           </button>
         </div>
 
+        {/* Body */}
         <div className="inner-payment-body">
           <div className="payment-fields-grid">
             <div className="payment-field">
@@ -198,7 +191,7 @@ const PaymentFormModal = ({ isOpen, onClose, room, onSaved }) => {
                 onChange={(e) =>
                   setNuevoPago({ ...nuevoPago, monto: e.target.value })
                 }
-                placeholder="Monto del pago"
+                placeholder="0.00"
               />
             </div>
 
@@ -208,10 +201,7 @@ const PaymentFormModal = ({ isOpen, onClose, room, onSaved }) => {
                 type="month"
                 value={nuevoPago.periodoPago}
                 onChange={(e) =>
-                  setNuevoPago({
-                    ...nuevoPago,
-                    periodoPago: e.target.value,
-                  })
+                  setNuevoPago({ ...nuevoPago, periodoPago: e.target.value })
                 }
               />
             </div>
@@ -224,19 +214,29 @@ const PaymentFormModal = ({ isOpen, onClose, room, onSaved }) => {
               onChange={(e) =>
                 setNuevoPago({ ...nuevoPago, notas: e.target.value })
               }
-              placeholder="Notas del pago"
+              placeholder="Observaciones del pago..."
             />
           </div>
 
+          {/* Upload comprobante */}
           <div className="payment-field">
             <label>Comprobante (imagen)</label>
+            <label className="payment-upload-area" htmlFor="comprobante-input">
+              <div className="payment-upload-icon">🧾</div>
+              <p>
+                Arrastra una imagen o <span>selecciona archivo</span>
+              </p>
+              <small>PNG, JPG — máximo 2 MB</small>
+            </label>
             <input
+              id="comprobante-input"
               type="file"
               accept="image/*"
               onChange={handleComprobanteChange}
             />
           </div>
 
+          {/* Preview */}
           {previewComprobante && (
             <div className="payment-preview-box">
               <span className="proof-label">Vista previa</span>
@@ -249,6 +249,7 @@ const PaymentFormModal = ({ isOpen, onClose, room, onSaved }) => {
           )}
         </div>
 
+        {/* Footer */}
         <div className="inner-payment-footer">
           <button
             className="payment-cancel-btn"
@@ -257,7 +258,6 @@ const PaymentFormModal = ({ isOpen, onClose, room, onSaved }) => {
           >
             Cancelar
           </button>
-
           <button
             className="payment-save-btn"
             onClick={handleCrearPago}
