@@ -20,6 +20,6 @@
   color: var(--color-text);
 }
 
-.swal2-container {
+.swal2 {
   z-index: 99999 !important;
 }

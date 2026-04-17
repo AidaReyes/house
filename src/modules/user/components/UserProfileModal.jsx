@@ -3,6 +3,7 @@ import './components.css';
 import { useAuth } from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import './profile.css';
 
 const UserProfileModal = ({ isOpen, onClose }) => {
   const { user, updateProfile, logout, deleteAccount } = useAuth();
@@ -103,12 +104,12 @@ const UserProfileModal = ({ isOpen, onClose }) => {
 
   return (
     <div
-      className="profile-overlay"
+      className="modal-overlay"
       onMouseDown={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div className="profile-container">
+      <div className="modal-content">
 
-        {/* 🔥 HEADER */}
+        {/* HEADER */}
         <div className="profile-header">
           <div className="profile-avatar">
             {user?.nombre?.charAt(0) || 'U'}
@@ -121,15 +122,7 @@ const UserProfileModal = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        {/* 🔥 STATS */}
-        <div className="profile-stats">
-          <div className="stat-card">Solicitudes</div>
-          <div className="stat-card">Rentas</div>
-          <div className="stat-card">Pagos</div>
-          <div className="stat-card">Comentarios</div>
-        </div>
-
-        {/* 🔥 FORM */}
+        {/* FORM */}
         <form className="profile-form" onSubmit={handleSubmit}>
           <h3>Información Personal</h3>
 
@@ -162,7 +155,7 @@ const UserProfileModal = ({ isOpen, onClose }) => {
           </button>
         </form>
 
-        {/* 🔥 ACTIONS */}
+        {/* ACTIONS */}
         <div className="profile-actions">
           <button onClick={handleLogout}>Cerrar sesión</button>
           <button onClick={handleDelete} className="danger">

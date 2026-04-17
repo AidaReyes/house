@@ -1,78 +1,186 @@
-.profile-container {
-  display: grid;
-  grid-template-columns: 250px 1fr;
-  min-height: 100vh;
-  background: #f5f5f5;
+/* ================= MODAL ================= */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
 }
 
-.profile-sidebar {
-  background: #fff;
-  padding: 20px;
-  border-right: 1px solid #ddd;
+.modal-content {
+  width: 80%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: linear-gradient(180deg, #1a1a1a 0%, #111111 100%);
+  border-radius: 24px;
+  padding: 24px;
+
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
-.profile-sidebar img {
-  width: 80px;
+/* ================= HEADER ================= */
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+/* ================= AVATAR ================= */
+.profile-avatar {
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  margin-bottom: 10px;
+
+  background: linear-gradient(135deg, #ff7a18, #ff5100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 24px;
+  font-weight: 800;
+  color: white;
+
+  box-shadow: 0 6px 18px rgba(255, 122, 24, 0.4);
 }
 
-.profile-sidebar button {
-  display: block;
-  width: 100%;
-  margin: 5px 0;
-  padding: 10px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  text-align: left;
+.profile-info h2 {
+  margin: 0;
+  color: white;
 }
 
-.profile-sidebar button:hover {
-  background: #eee;
+.profile-info p {
+  margin: 2px 0;
+  color: #aaa;
+  font-size: 13px;
 }
 
-.profile-content {
-  padding: 30px;
+.profile-info span {
+  font-size: 12px;
+  color: #ff7a18;
 }
 
+/* ================= FORM ================= */
 .profile-form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 16px;
+}
+
+.profile-form .grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
 .profile-form input,
 .profile-form textarea {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid #333;
+  background: #1f1f1f;
+  color: white;
+  outline: none;
+  font-size: 14px;
+  transition: 0.25s ease;
+  width: 100%;
+  box-sizing: border-box;
 }
 
+.profile-form input:focus,
+.profile-form textarea:focus {
+  border-color: #ff7a18;
+  box-shadow: 0 0 0 4px rgba(255, 122, 24, 0.12);
+}
+
+.profile-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* ================= BOTÓN PRINCIPAL ================= */
 .profile-form button {
-  padding: 12px;
-  background: black;
+  padding: 14px;
+  background: linear-gradient(135deg, #ff7a18, #ff5100);
   color: white;
   border: none;
+  border-radius: 14px;
   cursor: pointer;
+  font-weight: 800;
+  transition: all 0.25s ease;
+  margin-top: 10px;
 }
 
-.profile-tabs {
+.profile-form button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+  box-shadow: 0 8px 20px rgba(255, 122, 24, 0.3);
+}
+
+.profile-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ================= BOTONES DE ACCIONES ================= */
+.profile-actions {
   display: flex;
+  flex-direction: column; /* evita que se salgan */
   gap: 10px;
-  margin: 20px 0;
+  margin-top: 20px;
+  width: 100%;
 }
 
-.profile-tabs button {
-  padding: 10px;
+.profile-actions button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
   border: none;
-  border-radius: 8px;
+  font-weight: 700;
   cursor: pointer;
+  transition: all 0.25s ease;
 }
 
-.profile-content .card {
-  background: #f1f1f1;
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 8px;
+/* cerrar sesión */
+.profile-actions button:first-child {
+  background: #2a2a2a;
+  color: white;
+}
+
+.profile-actions button:first-child:hover {
+  background: #3a3a3a;
+  transform: translateY(-2px);
+}
+
+/* eliminar cuenta */
+.profile-actions .danger {
+  background: linear-gradient(135deg, #ff3b3b, #c70000);
+  color: white;
+}
+
+.profile-actions .danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 0, 0, 0.3);
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 600px) {
+  .modal-content {
+    width: 95%;
+    padding: 16px;
+  }
+
+  .profile-form .grid {
+    grid-template-columns: 1fr;
+  }
 }

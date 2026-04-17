@@ -268,7 +268,7 @@
     flex-direction: column;
   }
 }
-<<<<<<< HEAD
+
 
 @media (max-width: 520px) {
   .user-modal {
@@ -288,7 +288,7 @@
   .user-modal .btn-cancel {
     width: 100%;
   }
-=======
+
  
 
 
@@ -384,5 +384,6 @@ button {
 button.danger {
   background: red;
   color: white;
->>>>>>> 0a2bd5110c0d7ae45888118987ad6f6117b48d5a
+}
+
 }
