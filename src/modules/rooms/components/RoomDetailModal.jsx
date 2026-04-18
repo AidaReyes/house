@@ -28,7 +28,7 @@ import { pagoService } from "../../pagos/components/service/pago.service";
 import PaymentFormModal from "./PaymentFormModal";
 import { rentService } from "../../rents/service/rents.service";
 import Swal from "sweetalert2";
-import { Filter } from "bad-words";const filter = new Filter();
+import { Filter } from "bad-words"; const filter = new Filter();
 // Agregar palabras en español
 filter.addWords(
   "pendejo",
@@ -70,7 +70,7 @@ filter.addWords(
   "nmms"
 );
 
-const RoomDetailModal = ({ isOpen, onClose, room, user,view   }) => {
+const RoomDetailModal = ({ isOpen, onClose, room, user, view }) => {
   const [activeTab, setActiveTab] = useState("galeria");
   const [activeImgIndex, setActiveImgIndex] = useState(0);
 
@@ -144,29 +144,28 @@ const RoomDetailModal = ({ isOpen, onClose, room, user,view   }) => {
       setComments([]);
     }
   };
+const loadPagos = async () => {
+  try {
+    setLoadingPagos(true);
+    const resp = await pagoService.getAll();
+    const lista = Array.isArray(resp) ? resp : resp?.data || [];
 
-  const loadPagos = async () => {
-    if (!rentaAprobada?._id) return;
+    const pagosFiltrados = lista.filter((p) => {
+      if (!p.renta) return false;
 
-    try {
-      setLoadingPagos(true);
-      const resp = await pagoService.getAll();
-      const lista = Array.isArray(resp) ? resp : resp?.data || [];
+      const cuartoId = typeof p.renta === "object" ? p.renta._id : p.renta;
 
-      const pagosDeLaRenta = lista.filter((p) => {
-        const rentaId = typeof p.renta === "object" ? p.renta?._id : p.renta;
-        return String(rentaId) === String(rentaAprobada._id);
-      });
+      return String(cuartoId).trim() === String(room._id).trim();
+    });
 
-      setPagos(pagosDeLaRenta);
-    } catch (error) {
-      console.error("Error cargando pagos:", error);
-      setPagos([]);
-    } finally {
-      setLoadingPagos(false);
-    }
-  };
-
+    setPagos(pagosFiltrados);
+  } catch (error) {
+    console.error("Error cargando pagos:", error);
+    setPagos([]);
+  } finally {
+    setLoadingPagos(false);
+  }
+};
   const handleDelete = async (id) => {
     try {
       const ok = await deleteComment(id);
@@ -207,83 +206,83 @@ const RoomDetailModal = ({ isOpen, onClose, room, user,view   }) => {
       ? [{ key: "pagos", label: "Pagos", icon: <MdAttachMoney /> }]
       : []),
   ];
-const isOwnerComment = (comment) => {
-  return (
-    comment.userId?._id === user?._id ||
-    comment.userId?.id === user?.id
-  );
-};
+  const isOwnerComment = (comment) => {
+    return (
+      comment.userId?._id === user?._id ||
+      comment.userId?.id === user?.id
+    );
+  };
 
-const isArrendador = user?.rol === "arrendador";
-const canEditComment = (comment) => {
-  //  En mis propiedades NADIE edita
-  if (view === "mis-propiedades") return false;
+  const isArrendador = user?.rol === "arrendador";
+  const canEditComment = (comment) => {
+    //  En mis propiedades NADIE edita
+    if (view === "mis-propiedades") return false;
 
-  //  En publicados solo el dueño del comentario
-  if (view === "publicados") {
-    return isOwnerComment(comment) && !isArrendador;
-  }
-
-  return false;
-};
-const canDeleteComment = (comment) => {
-  // Arrendador puede borrar todo
-  if (isArrendador) return true;
-
-  // Usuario normal solo sus comentarios
-  return isOwnerComment(comment);
-};
-const handleCreate = async () => {
-  if (!newComment.trim()) return;
-
-  // 🔥 VALIDACIÓN CON LIBRERÍA
-  if (filter.isProfane(newComment)) {
-    Swal.fire({
-      icon: "error",
-      title: "Comentario no permitido",
-      text: "Tu comentario contiene palabras inapropiadas",
-      confirmButtonText: "Entendido",
-    });
-    return;
-  }
-
-  try {
-    if (editingId) {
-      const res = await updateComment(editingId, {
-        texto: newComment,
-        calificacion: rating,
-      });
-
-      if (res?.status === "success") {
-        setEditingId(null);
-        setNewComment("");
-        setRating(0);
-        loadComments();
-      }
-    } else {
-      const comment = {
-        roomId: room._id,
-        texto: newComment,
-        calificacion: rating,
-      };
-
-      const res = await createComment(comment);
-
-      if (res?.status === "success") {
-        setNewComment("");
-        setRating(0);
-        setEditingId(null);
-        loadComments();
-      }
+    //  En publicados solo el dueño del comentario
+    if (view === "publicados") {
+      return isOwnerComment(comment) && !isArrendador;
     }
-  } catch (error) {
-    console.error("Error guardando comentario:", error);
-  }
-};
+
+    return false;
+  };
+  const canDeleteComment = (comment) => {
+    // Arrendador puede borrar todo
+    if (isArrendador) return true;
+
+    // Usuario normal solo sus comentarios
+    return isOwnerComment(comment);
+  };
+  const handleCreate = async () => {
+    if (!newComment.trim()) return;
+
+    // 🔥 VALIDACIÓN CON LIBRERÍA
+    if (filter.isProfane(newComment)) {
+      Swal.fire({
+        icon: "error",
+        title: "Comentario no permitido",
+        text: "Tu comentario contiene palabras inapropiadas",
+        confirmButtonText: "Entendido",
+      });
+      return;
+    }
+
+    try {
+      if (editingId) {
+        const res = await updateComment(editingId, {
+          texto: newComment,
+          calificacion: rating,
+        });
+
+        if (res?.status === "success") {
+          setEditingId(null);
+          setNewComment("");
+          setRating(0);
+          loadComments();
+        }
+      } else {
+        const comment = {
+          roomId: room._id,
+          texto: newComment,
+          calificacion: rating,
+        };
+
+        const res = await createComment(comment);
+
+        if (res?.status === "success") {
+          setNewComment("");
+          setRating(0);
+          setEditingId(null);
+          loadComments();
+        }
+      }
+    } catch (error) {
+      console.error("Error guardando comentario:", error);
+    }
+  };
 
   return (
-    <div className="modal-overlay" 
-    onClick={onClose}>
+    <div className="modal-overlay"
+      onClick={onClose}>
       <div
         className="modal-content-container"
         onClick={(e) => e.stopPropagation()}
@@ -478,19 +477,19 @@ const handleCreate = async () => {
                         ))}
                       </div>
 
-<div className="action-buttons">
-  {canDeleteComment(c) && (
-    <button className="del" onClick={() => handleDelete(c._id)}>
-      <MdDelete /> Eliminar
-    </button>
-  )}
+                      <div className="action-buttons">
+                        {canDeleteComment(c) && (
+                          <button className="del" onClick={() => handleDelete(c._id)}>
+                            <MdDelete /> Eliminar
+                          </button>
+                        )}
 
-  {canEditComment(c) && (
-    <button className="edit" onClick={() => handleEdit(c)}>
-      <MdEdit /> Editar
-    </button>
-  )}
-</div>
+                        {canEditComment(c) && (
+                          <button className="edit" onClick={() => handleEdit(c)}>
+                            <MdEdit /> Editar
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -505,7 +504,7 @@ const handleCreate = async () => {
                   <div className="card-header-icon">
                     <MdAttachMoney /> Pagos de tu renta
                   </div>
-
+<p>Total registros: {pagos.length}</p>
                   <div className="total-label">
                     Total{" "}
                     <span className="green-text">
@@ -536,50 +535,43 @@ const handleCreate = async () => {
                   ) : pagos.length === 0 ? (
                     <p>No hay pagos registrados para esta renta.</p>
                   ) : (
-                    <div className="scheduled-list">
-                      {pagos.map((item) => (
-                        <div key={item._id} className="scheduled-item active-item">
-                          <div className="sched-left">
-                            <div className="sched-title-row">
-                              <strong>{item.periodoPago}</strong>
-                              <span className="mini-status-pill">
-                                {item.estado || "pendiente"}
-                              </span>
+                  <div className="scheduled-list">
+                    {pagos.map((item) => (
+                      <div key={item._id} className="scheduled-item active-item">
+                        <div className="sched-left">
+                          <div className="sched-title-row">
+                            <strong>{item.periodoPago}</strong>
+                            <span className="mini-status-pill">
+                              {item.estado || "pendiente"}
+                            </span>
+                          </div>
+
+                          <span className="sched-date">
+                            {item.createdAt
+                              ? new Date(item.createdAt).toLocaleDateString()
+                              : "Sin fecha"}
+                          </span>
+
+                          {item.comprobante && (
+                            <div className="payment-proof-box">
+                              <span className="proof-label">Comprobante</span>
+                              <img
+                                src={item.comprobante}
+                                alt="Comprobante de pago"
+                                className="payment-proof-img"
+                              />
                             </div>
-
-                            <span className="sched-date">
-                              {item.createdAt
-                                ? new Date(item.createdAt).toLocaleDateString()
-                                : "Sin fecha"}
-                            </span>
-
-                            {item.comprobante && (
-                              <div className="payment-proof-box">
-                                <span className="proof-label">Comprobante</span>
-                                <img
-                                  src={item.comprobante}
-                                  alt="Comprobante de pago"
-                                  className="payment-proof-img"
-                                />
-                              </div>
-                            )}
-                          </div>
-
-                          <div className="sched-right">
-                            <span className="sched-price">
-                              ${Number(item.monto || 0).toLocaleString()}
-                            </span>
-
-                            <button
-                              className="hola-boton-eliminar"
-                              onClick={() => handleDeletePago(item._id)}
-                            >
-                              Eliminar
-                            </button>
-                          </div>
+                          )}
                         </div>
-                      ))}
-                    </div>
+
+                        <div className="sched-right">
+                          <span className="sched-price">
+                            ${Number(item.monto || 0).toLocaleString()}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                   )}
                 </div>
               </div>

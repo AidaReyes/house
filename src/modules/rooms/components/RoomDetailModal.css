@@ -717,3 +717,12 @@ button{
   overflow-y: auto;        /* solo el body hace scroll */
   flex: 1;                 /* ocupa el espacio disponible entre header y footer */
 }
+
+.payment-proof-img {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+  margin-top: 8px;
+}
